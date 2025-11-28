@@ -1,0 +1,90 @@
+/* Header styles - identique aux autres pages */
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 60px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+    margin: 0;
+
+}
+
+
+.Header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1001;
+}
+
+.Header-left a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+}
+
+.titre-site {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 0.5px;
+}
+
+nav#nav-menu {
+    display: flex;
+    align-items: center; /* centre verticalement par rapport au logo */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px; /* espace entre les items */
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.nav-links li {
+    margin: 0;
+}
+
+.nav-links a {
+    display: inline-block;
+    color: #222;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 150ms ease, transform 120ms ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+    background-color: rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+/* État actif (optionnel) */
+.nav-links a.active {
+    color: #e76f00;
+    background-color: rgba(231,111,0,0.08);
+}
+    
+/* Responsive : réduis l'espacement et répartis sur petits écrans */

@@ -1,37 +1,57 @@
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Tapis du monde</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="Styles/global.css">
-    </head>
-    <body>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tapis du monde</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../Styles/global.css">
+</head>
+
+   <body>
         <header>
-            <h1>Bienvenue sur Tapis du monde</h1>
+            <div class="Header-left">
+                <a href="Accueil.html">
+                    <img src="" alt="Logo" class="logo" />
+                </a>
+                <a class="texte-cliquable" href="../index.html">
+                    <span class="titre-site">TapisMarket</span>
+                </a>
+
+                <!-- nav déplacée dans le groupe gauche pour être collée au titre -->
+                <nav id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="Accueil.html" class="active">Accueil</a></li>
+                        <li><a href="Catalogue.html">Catalogue</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- droite : bouton connexion -->
+            <div class="Header-right">
+                <a href="Connexion.html" class="btn-connexion">Connexion</a>
+            </div>
         </header>
-        <nav>
-            <ul>
-                <li><a href="Accueil.html">Accueil</a></li>
-                <li><a href="Catalogue.html">Catalogue</a></li>
-                <li><a href="Contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <main>
-            <section>
-                <h2>Notre mission</h2>
-                <p>Chez Tapis du monde, nous nous engageons à vous offrir une sélection unique de tapis artisanaux provenant des quatre coins du globe. Chaque tapis raconte une histoire et apporte une touche d'authenticité à votre intérieur.</p>
-            </section>
-            <section>
-                <h2>Nouveautés</h2>
-                <p>Découvrez nos dernières collections de tapis, soigneusement sélectionnées pour leur qualité et leur design exceptionnel.</p>
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2024 Tapis du monde. Tous droits réservés.</p>
-        </footer>
-    </body>
+    <main>
+        <section>
+            <h2>Notre mission</h2>
+            <p>Chez Tapis du monde, nous nous engageons à vous offrir une sélection unique de tapis artisanaux provenant
+                des quatre coins du globe. Chaque tapis raconte une histoire et apporte une touche d'authenticité à
+                votre intérieur.</p>
+        </section>
+        <section>
+            <h2>Nouveautés</h2>
+            <p>Découvrez nos dernières collections de tapis, soigneusement sélectionnées pour leur qualité et leur
+                design exceptionnel.</p>
+        </section>
+    </main>
+
+
+    <footer>
+        <p>&copy; 2024 Tapis du monde. Tous droits réservés.</p>
+    </footer>
+</body>
+
 </html>
