@@ -9,7 +9,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 60px;
+    padding: 10px 60px;
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -81,10 +81,6 @@ nav#nav-menu {
     outline: none;
 }
 
-/* État actif (optionnel) */
-.nav-links a.active {
-    color: #e76f00;
-    background-color: rgba(231,111,0,0.08);
-}
+
     
 /* Responsive : réduis l'espacement et répartis sur petits écrans */
