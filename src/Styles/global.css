@@ -11,6 +11,11 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    font-family: "Onest", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 main {
@@ -29,6 +34,11 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+a {
+    text-decoration: none;
+    color: #9c5c06;
 }
 
 .logo {
@@ -403,6 +413,95 @@ header {
     padding: 16px 32px 24px;
     color: #98a3b5;
     font-size: 14px;
+}
+
+/*Partie connexion.html */
+.form {
+    max-width: 320px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin: 5% auto 0;
+}
+
+.title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #c97707;
+}
+
+.message {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #1a202c;
+}
+
+.label {
+    color: #9c5c06;
+    margin-bottom: 4px;
+}
+
+.label-radio {
+    color: #000000;
+}
+
+.texte-inscription {
+    color: rgb(0, 0, 0);
+    margin-bottom: 20px;
+}
+
+.texte-connexion {
+    color: rgb(0, 0, 0);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.input {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 1rem;
+    color: #4a5568;
+    outline: none;
+    border: 1px solid rgba(14, 14, 14, 0.205);
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.input:focus {
+    box-shadow: 0 0 0 2px #cbd5e0;
+}
+
+.submit {
+    font-weight: Bold;
+    background-color: #1a202c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.submit:hover {
+    background-color: #c97707;
+    box-shadow: 0 0 20px #9c5c06;
+    transform: scale(1.03);
+}
+
+.submit:active {
+    background-color: #9c5c06;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
 /* Responsive footer */

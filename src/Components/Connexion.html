@@ -7,49 +7,51 @@
     <title>Tapis du monde</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../Styles/connexion.css">
+    <link rel="stylesheet" href="../Styles/global.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <div class="Header-left">
-            <a href="Accueil.html">
-                <img src="" alt="Logo" class="logo" />
-            </a>
-            <a class="texte-cliquable" href="../index.html">
-                <span class="titre-site">TapisMarket</span>
-            </a>
-        </div>
+<header>
+    <div class="Header-left">
+        <a href="Accueil.html">
+            <img src="../images/Logo.png" alt="Logo" class="logo"/>
+        </a>
+        <a class="texte-cliquable" href="Accueil.html">
+            <span class="titre-site">TapisMarket</span>
+        </a>
         <nav id="nav-menu">
             <ul class="nav-links">
-                <li><a href="Accueil.html">Accueil</a></li>
-                <li><a href="Accueil.html">Catalogue</a></li>
-                <li><a href="Accueil.html">À propos</a></li>
-                <li><a href="Accueil.html">Contact</a></li>
+                <li><a href="Accueil.html" class="active">Accueil</a></li>
+                <li><a href="Catalogue.html">Catalogue</a></li>
             </ul>
         </nav>
-    </header>
-    <main>
-        <form class="form">
-            <span class="title">Connexion</span>
-            <span class="message">Vous êtes de retour !</span>
+    </div>
+</header>
+<main>
+    <form class="form">
+        <span class="title">Connexion</span>
+        <span class="message">Vous êtes de retour !</span>
 
-            <label for="email" class="label">Email</label>
-            <input type="email" id="email" name="email" class="input" required>
+        <label for="email" class="label">Email</label>
+        <input type="email" id="email" name="email" class="input" required>
 
-            <label for="password" class="label">Mot de passe</label>
-            <input type="password" id="password" name="password" class="input" required>
+        <label for="password" class="label">Mot de passe</label>
+        <input type="password" id="password" name="password" class="input" required>
 
-            <span class="texte-inscription">Vous n'êtes pas encore inscrit ? <a
-                    href="Inscription.html">Cliquez-ici</a></span>
+        <span class="texte-inscription">Vous n'êtes pas encore inscrit ? <a
+                href="Inscription.html">Cliquez-ici</a></span>
 
-            <button type="submit" class="submit">Se connecter</button>
-        </form>
+        <button type="submit" class="submit">Se connecter</button>
+    </form>
 
-    </main>
-    <footer>
+</main>
+<footer>
 
-    </footer>
+</footer>
 </body>
 
 </html>
