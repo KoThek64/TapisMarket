@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Mon Panier - TapisMarket</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="../Styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <a href="Accueil.html" class="logo-container">
+            <img src="../images/Logo.png" alt="Logo" class="logo-img" />
+            <span>TapisMarket</span>
+        </a>
+    </div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="Accueil.html">Accueil</a></li>
+            <li><a href="Catalogue.html">Catalogue</a></li>
+            <li><a href="Profil.html">Mon Compte</a></li>
+        </ul>
+    </nav>
+    <div class="header-actions">
+        <a href="Panier.html" class="btn-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width:24px" alt="Panier"/>
+            <span class="badge-count">2</span>
+        </a>
+        <a href="Connexion.html" class="btn-primary">Connexion</a>
+    </div>
+</header>
+
+<main>
+    <div class="section-container" style="padding-bottom: 20px;">
+        <h2 style="font-size:2rem;">Votre Panier (2)</h2>
+    </div>
+
+    <div class="section-container" style="padding-top:0;">
+        <div class="cart-layout">
+            <div class="cart-items">
+                <div class="cart-item">
+                    <img src="https://images.unsplash.com/photo-1596238699292-628d0111104e?q=80&w=200" alt="Tapis" class="cart-img">
+                    <div style="flex:1;">
+                        <h3 style="font-size:1.1rem; font-weight:700;">Tapis Persan Royal</h3>
+                        <p style="color:#666; font-size: 0.9rem;">200x300cm</p>
+                        <a href="#" style="color:#cc0000; font-size:0.85rem; text-decoration:underline;">Supprimer</a>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 700; font-size:1.1rem;">1 299€</div>
+                        <select style="margin-top:5px; padding: 4px; border-radius:4px;"><option>1</option><option>2</option></select>
+                    </div>
+                </div>
+
+                <div class="cart-item">
+                    <img src="https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=200" alt="Tapis" class="cart-img">
+                    <div style="flex:1;">
+                        <h3 style="font-size:1.1rem; font-weight:700;">Géométrique Moderne</h3>
+                        <p style="color:#666; font-size: 0.9rem;">160x230cm</p>
+                        <a href="#" style="color:#cc0000; font-size:0.85rem; text-decoration:underline;">Supprimer</a>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 700; font-size:1.1rem;">649€</div>
+                        <select style="margin-top:5px; padding: 4px; border-radius:4px;"><option>1</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3 style="margin-bottom: 20px; font-size:1.3rem;">Récapitulatif</h3>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>Sous-total</span>
+                    <span>1 948€</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>Livraison</span>
+                    <span style="color:green;">Gratuite</span>
+                </div>
+                <div style="border-top:1px solid #eee; margin:15px 0;"></div>
+                <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.2rem; margin-bottom:20px;">
+                    <span>Total</span>
+                    <span>1 948€</span>
+                </div>
+                <button class="btn-primary" style="width: 100%;">Passer la commande</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #888;">🔒 Paiement 100% sécurisé</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer-dark">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>À propos</h3>
+                <p>Votre marketplace de confiance pour découvrir et acheter des tapis d’exception. Qualité et
+                    authenticité garanties.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Liens</h3>
+                <ul class="footer-links">
+                    <li><a href="Catalogue.html">Catalogue</a></li>
+                    <li><a href="Connexion.html">Espace Vendeur</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Légal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">CGV</a></li>
+                    <li><a href="#">Confidentialité</a></li>
+                    <li><a href="#">Mentions légales</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>📍 123 Avenue des Tapis, Paris</li>
+                    <li>✉️ contact@tapismarket.fr</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 TapisMarket. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

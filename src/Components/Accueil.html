@@ -1,181 +1,168 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8">
-    <title>TapisMarket</title>
+    <title>TapisMarket - Accueil</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="../Styles/global.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <header>
-        <div class="Header-left">
-           
-
-            <a href="Accueil.html">
-                <img src="../images/Logo.png" alt="Logo" class="logo" />
+        <div class="header-left">
+            <a href="Accueil.html" class="logo-container">
+                <img src="../images/Logo.png" alt="Logo" class="logo-img" />
+                <span>TapisMarket</span>
             </a>
-            <a class="texte-cliquable" href="Accueil.html">
-                <span class="titre-site">TapisMarket</span>
-            </a>
-            <nav id="nav-menu">
-                <ul class="nav-links">
-                    <li><a href="Accueil.html" class="active">Accueil</a></li>
-                    <li><a href="Catalogue.html">Catalogue</a></li>
-                </ul>
-            </nav>
         </div>
-        <div class="Header-right">
-            <a href="Panier.html" class="cart-link" aria-label="Panier">
-                <img src="../images/panier.png" alt="Panier" class="cart-img" />
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="Accueil.html">Accueil</a></li>
+                <li><a href="Catalogue.html">Catalogue</a></li>
+                <li><a href="Profil.html">Mon Compte</a></li>
+                <li class="mobile-only"><a href="Connexion.html">Connexion / Inscription</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <a href="Panier.html" class="btn-icon" aria-label="Panier">
+                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width:24px" alt="Panier" />
+                <span class="badge-count">2</span>
             </a>
-            <a href="Connexion.html" class="btn-connexion dark">Connexion</a>
+
+            <a href="Connexion.html" class="btn-primary">
+                <span>Connexion</span>
+            </a>
         </div>
     </header>
 
     <main>
         <section class="hero">
-            <div class="hero-inner">
-                <p class="hero-eyebrow">Découvrez des Tapis d'Exception</p>
-                <h1 class="hero-title">Parcourez notre collection de tapis artisanaux provenant de commerçants du monde entier</h1>
-                <a href="Catalogue.html" class="cta-primary">Explorer le Catalogue →</a>
+            <div class="hero-content">
+                <span class="hero-tag">Nouvelle Collection 2025</span>
+                <h1>L'Art du Tapis,<br>tissé pour votre intérieur.</h1>
+                <p>Découvrez des pièces uniques, faites à la main par des artisans du monde entier. Authenticité et
+                    élégance garanties.</p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="Catalogue.html" class="btn-primary" style="padding: 15px 30px;">Explorer le Catalogue</a>
+                    <a href="#featured"
+                        style="padding: 15px 30px; border: 1px solid var(--border); border-radius: var(--radius); background: white; font-weight: 600;">En
+                        savoir plus</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="featured" class="section-container">
+            <div class="section-header">
+                <div class="section-title">
+                    <h2>Tapis en Vedette</h2>
+                    <p style="color:var(--text-muted)">Les coups de cœur de nos designers</p>
+                </div>
+                <a href="Catalogue.html"
+                    style="font-weight:600; color:var(--accent); display:flex; align-items:center; gap:5px;">Voir tout
+                    <span>→</span></a>
+            </div>
+
+            <div class="product-grid">
+                <article class="card">
+                    <div class="card-image-wrapper">
+                        <img src="../images/vedette1.png" alt="Tapis"
+                            class="card-image">
+                    </div>
+                    <div class="card-details">
+                        <div>
+                            <div class="card-meta">
+                                <span class="tag">Persan</span>
+                                <span class="tag">Laine</span>
+                            </div>
+                            <h3 class="card-title">Royal Ispahan</h3>
+                            <p class="card-subtitle">Iran, noué main</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="price">1 299€</span>
+                            <button class="btn-circle" title="Ajouter au panier">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-image-wrapper">
+                        <img src="../images/vedette2.png" alt="Tapis"
+                            class="card-image">
+                    </div>
+                    <div class="card-details">
+                        <div>
+                            <div class="card-meta">
+                                <span class="tag">Moderne</span>
+                                <span class="tag">Géométrique</span>
+                            </div>
+                            <h3 class="card-title">Bauhaus Design</h3>
+                            <p class="card-subtitle">Laine & Coton</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="price">649€</span>
+                            <button class="btn-circle" title="Ajouter au panier">+</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-image-wrapper">
+                        <img src="../images/vedette3.png" alt="Tapis"
+                            class="card-image">
+                    </div>
+                    <div class="card-details">
+                        <div>
+                            <div class="card-meta">
+                                <span class="tag">Berbère</span>
+                                <span class="tag">Vintage</span>
+                            </div>
+                            <h3 class="card-title">Atlas Nomade</h3>
+                            <p class="card-subtitle">Maroc, haute laine</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="price">899€</span>
+                            <button class="btn-circle" title="Ajouter au panier">+</button>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
     </main>
 
-    <section class="featured-section">
-            <div class="featured-header">
-                <div>
-                    <h2 class="featured-title">Tapis en Vedette</h2>
-                    <p class="featured-subtitle">Découvrez notre sélection de tapis d’exception</p>
-                </div>
-                <a href="Catalogue.html" class="featured-viewall">Voir Tout →</a>
-            </div>
-
-            <div class="featured-grid">
-                <article class="carpet-card">
-                    <div class="card-img-wrap">
-                        <img src="../images/vedette1.png" alt="Tapis Persan Authentique" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Tapis Persan Authentique</h3>
-                        <p class="card-origin">Artisans d'Orient</p>
-                        <div class="card-meta">
-                            <span class="tag">Persan</span>
-                            <span class="size">200x300cm</span>
-                        </div>
-                        <div class="card-bottom">
-                            <span class="price">1299€</span>
-                            <button class="card-add-btn" aria-label="Ajouter au panier">🛒</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="carpet-card">
-                    <div class="card-img-wrap">
-                        <img src="../images/vedette2.png" alt="Tapis Moderne Géométrique" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Tapis Moderne Géométrique</h3>
-                        <p class="card-origin">Design Contemporain</p>
-                        <div class="card-meta">
-                            <span class="tag">Moderne</span>
-                            <span class="size">160x230cm</span>
-                        </div>
-                        <div class="card-bottom">
-                            <span class="price">649€</span>
-                            <button class="card-add-btn" aria-label="Ajouter au panier">🛒</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="carpet-card">
-                    <div class="card-img-wrap">
-                        <img src="../images/vedette3.png" alt="Tapis Oriental Classique" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Tapis Oriental Classique</h3>
-                        <p class="card-origin">Trésors d'Asie</p>
-                        <div class="card-meta">
-                            <span class="tag">Oriental</span>
-                            <span class="size">180x270cm</span>
-                        </div>
-                        <div class="card-bottom">
-                            <span class="price">899€</span>
-                            <button class="card-add-btn" aria-label="Ajouter au panier">🛒</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="carpet-card">
-                    <div class="card-img-wrap">
-                        <img src="../images/vedette4.png" alt="Tapis en Laine Naturelle" class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Tapis en Laine Naturelle</h3>
-                        <p class="card-origin">La Laine Naturelle</p>
-                        <div class="card-meta">
-                            <span class="tag">Contemporain</span>
-                            <span class="size">150x200cm</span>
-                        </div>
-                        <div class="card-bottom">
-                            <span class="price">649€</span>
-                            <button class="card-add-btn" aria-label="Ajouter au panier">🛒</button>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
     <footer class="footer-dark">
         <div class="footer-container">
             <div class="footer-col">
-                <h3>À propos de TapisMarket</h3>
-                <p>
-                    Votre marketplace de confiance pour découvrir et acheter des tapis d’exception.
-                    Nous connectons des commerçants passionnés avec des clients à la recherche de qualité.
-                </p>
+                <h3>À propos</h3>
+                <p>Votre marketplace de confiance pour découvrir et acheter des tapis d’exception. Qualité et
+                    authenticité garanties.</p>
             </div>
-
             <div class="footer-col">
-                <h3>Liens rapides</h3>
+                <h3>Liens</h3>
                 <ul class="footer-links">
                     <li><a href="Catalogue.html">Catalogue</a></li>
-                    <li><a href="Connexion.html">Devenir commerçant</a></li>
-                    <li><a href="#">Comment ça marche</a></li>
+                    <li><a href="Connexion.html">Espace Vendeur</a></li>
                     <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Guide d’entretien</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
-                <h3>Informations légales</h3>
+                <h3>Légal</h3>
                 <ul class="footer-links">
                     <li><a href="#">CGV</a></li>
-                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">Confidentialité</a></li>
                     <li><a href="#">Mentions légales</a></li>
-                    <li><a href="#">Politique de retour</a></li>
-                    <li><a href="#">Gestion des cookies</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
-                <h3>Contactez-nous</h3>
-                <ul class="footer-contact">
-                    <li>📍 123 Avenue des Tapis, 75001 Paris</li>
-                    <li>☎️ +33 1 23 45 67 89</li>
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>📍 123 Avenue des Tapis, Paris</li>
                     <li>✉️ contact@tapismarket.fr</li>
                 </ul>
-                <div class="footer-social">
-                    <a href="#" aria-label="Facebook">f</a>
-                    <a href="#" aria-label="Instagram">◦</a>
-                    <a href="#" aria-label="Twitter">X</a>
-                    <a href="#" aria-label="LinkedIn">in</a>
-                </div>
             </div>
         </div>
         <div class="footer-bottom">
@@ -183,4 +170,5 @@
         </div>
     </footer>
 </body>
+
 </html>
