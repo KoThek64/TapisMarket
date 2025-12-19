@@ -1,9 +1,13 @@
 services:
   web:
     container_name: php
+    userns: keep-id
+    user: www-data
     build:
       context: app_php
       target: builder
+    volumes:
+      - ..:/var/www/html:Z
     ports:
       - '8080:80'
       - '8081:81'

@@ -43,6 +43,7 @@ echo ----------------------------
 echo "Mise à jour du php.ini en dev"
 echo ----------------------------
 cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+
 echo ----------------------------
 echo "Installation des extensions PHP :"
 echo ----------------------------
@@ -70,6 +71,7 @@ apt install -y -q php${PHP_VERSION_MINEUR}-gd
 sed -i 's/;extension=gd/extension=gd/g' /usr/local/etc/php/php.ini
 #recopie des .so
 cp /usr/lib/php/20240924/*.so /usr/local/lib/php/extensions/no-debug-non-zts-20240924
+
 echo ----------------------------
 echo "Suppression des virtuals hosts"
 echo ----------------------------
@@ -80,5 +82,3 @@ a2enmod rewrite
 EOF
 
 CMD ["apache2-foreground"]
-
-
