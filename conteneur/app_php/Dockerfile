@@ -2,9 +2,9 @@
 ARG PHP_VERSION=8.4
 FROM --platform=$BUILDPLATFORM docker.io/library/php:${PHP_VERSION}-apache as builder
 
-ADD data/ci.conf data/default.conf /etc/apache2/sites-available
-ADD data/ports.conf /etc/apache2
+ADD data/apache2.conf data/ports.conf /etc/apache2
 
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 RUN <<EOF
 export DEBIAN_FRONTEND=noninteractive

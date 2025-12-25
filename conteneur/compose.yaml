@@ -7,10 +7,9 @@ services:
       context: app_php
       target: builder
     volumes:
-      - ../app:/var/www/html:Z
+      - ../src:/var/www/html:Z
     ports:
       - '8080:8080'
-      - '8081:8081'
   mysql:
     container_name: mysql8
     image: docker.io/mysql:8.0
