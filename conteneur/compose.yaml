@@ -11,7 +11,7 @@ services:
     ports:
       - '8080:8080'
   mysql:
-    container_name: mysql8
+    container_name: mysql
     image: docker.io/mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -21,15 +21,18 @@ services:
       MYSQL_PASSWORD: pass
     ports:
       - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql:Z
   phpmyadmin:
-      image: docker.io/phpmyadmin/phpmyadmin:latest
+      image: docker.io/phpmyadmin/phpmyadmin:5.2.1
+      platform: linux/amd64
       container_name: phpmyadmin
       environment:
-        PMA_ARBITRARY: 1
         PMA_HOST: mysql
         PMA_USER: user
         PMA_PASSWORD: pass
         UPLOAD_LIMIT: 20M
       ports:
         - 8082:80
-
+      depends_on:
+        - mysql
