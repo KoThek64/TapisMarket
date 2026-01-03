@@ -26,12 +26,8 @@ Vasy j'ai la flemme de mettre toutes les commandes, va voir https://podman.io/do
 
 **lancer le projet**
 
-- Aller dans `container`
-- Lancer `podman compose up` 
-    - (si il vous parle de docker ou d'un **userns** ... lancer `podman-compose up`)
-- Installer les dépendances : `podman-compose exec web composer install`
-- Lancer les migrations : `podman-compose exec web php spark migrate`
-- Relancer le serveur
+- lancer `./setup` 
+- puis `podman-compose up` dans container
 
 ## précision de dev
 

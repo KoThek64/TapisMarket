@@ -10,6 +10,8 @@ services:
       - ../src:/var/www/html:Z
     ports:
       - '8080:8080'
+    depends_on:
+        - mysql
   mysql:
     container_name: mysql
     image: docker.io/mysql:8.0
