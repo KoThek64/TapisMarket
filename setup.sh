@@ -1,6 +1,6 @@
 
-cd conteneur
 chmod -R 777 src
+cd conteneur
 
 echo "----------------------------------"
 echo "|     Building podman images     |"
