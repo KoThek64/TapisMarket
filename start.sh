@@ -2,6 +2,8 @@
 chmod -R 777 src
 cd conteneur
 
+podman-compose down
+
 echo "----------------------------------"
 echo "|     Building podman images     |"
 echo "----------------------------------"
