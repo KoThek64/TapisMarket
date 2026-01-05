@@ -9,25 +9,27 @@
         <div>
             <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-200 mb-6">Liens Rapides</h4>
             <ul class="space-y-3 text-sm text-slate-300">
-                <li><a href="#" class="hover:text-white transition-colors">Catalogue Complet</a></li>
-                <li><a href="#" class="hover:text-white transition-colors">Tapis sur Mesure</a></li>
-                <li><a href="#" class="hover:text-white transition-colors">Promotions</a></li>
+                <li><a href="<?= base_url('/catalog') ?>" class="hover:text-white transition-colors">Catalogue Complet</a></li>
+                <li><a href="<?= base_url('/catalog') ?>" class="hover:text-white transition-colors">Tapis sur Mesure</a></li>
+                <li><a href="<?= base_url('/') ?>" class="hover:text-white transition-colors">Promotions</a></li>
             </ul>
         </div>
         <div>
             <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-slate-200 mb-6">Service Client</h4>
             <ul class="space-y-3 text-sm text-slate-300">
-                <li><a href="#" class="hover:text-white transition-colors">Livraison & Retours</a></li>
-                <li><a href="#" class="hover:text-white transition-colors">Contactez-nous</a></li>
-                <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="<?= base_url('/delivery-returns') ?>" class="hover:text-white transition-colors">Livraison & Retours</a></li>
+                
+                <!-- redirects to a contact page, we don't really know what it is. -->
+                <li><a href="<?= base_url('/') ?>" class="hover:text-white transition-colors">Contactez-nous</a></li>
+                <li><a href="<?= base_url('/faq') ?>" class="hover:text-white transition-colors">FAQ</a></li>
             </ul>
         </div>
     </div>
     <div class="max-w-[1600px] mx-auto px-[5%] border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-400 uppercase tracking-widest">
         <p>© 2025 TapisMarket. Tous droits réservés.</p>
         <div class="flex gap-6 mt-4 md:mt-0">
-            <a href="#" class="hover:text-white">Mentions Légales</a>
-            <a href="#" class="hover:text-white">Confidentialité</a>
+            <a href="<?= base_url('/legal-notice') ?>" class="hover:text-white">Mentions Légales</a>
+            <a href="<?= base_url('/confidentiality') ?>" class="hover:text-white">Confidentialité</a>
         </div>
     </div>
 </footer>

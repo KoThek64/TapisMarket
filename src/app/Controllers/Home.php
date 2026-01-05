@@ -14,4 +14,24 @@ class Home extends BaseController
         
         return view('home', $data);
     }
+
+    public function legalNotice()
+    {
+        return view('FooterViews/legalNotice');
+    }
+
+    public function confidentiality()
+    {
+        return view('FooterViews/confidentiality');
+    }
+
+    public function deliveryReturns()
+    {
+        return view('FooterViews/deliveryReturns');
+    }
+
+    public function FAQ()
+    {
+        return view('FooterViews/faq');
+    }
 }
