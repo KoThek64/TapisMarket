@@ -1,5 +1,6 @@
 
 cd conteneur
+chmod -R 777 src
 
 echo "----------------------------------"
 echo "|     Building podman images     |"
@@ -8,7 +9,7 @@ podman-compose build --no-cache
 podman-compose up > /dev/null &
 PODMAN=$!
 
-sleep 4
+sleep 10
 
 echo "----------------------------------"
 echo "|     Installing depencencies    |"
