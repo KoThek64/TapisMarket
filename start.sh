@@ -16,6 +16,9 @@ if [ ! -f ../src/vendor ]; then
 
 fi
 
+# wait for db to start
+sleep 10
+
 echo "----------------------------------"
 echo "|     Database creation          |"
 echo "----------------------------------"
