@@ -22,4 +22,6 @@ echo "----------------------------------"
 podman-compose exec web php spark migrate
 podman-compose exec web php spark db:seed JeuDeDonnees
 
+chmod -R 777 ../src
 
+podman-compose logs -f
