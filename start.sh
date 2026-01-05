@@ -7,7 +7,7 @@ echo "|     Building podman images     |"
 echo "----------------------------------"
 podman-compose up -d
 
-if [ ! -f src/vendor ]; then
+if [ ! -f ../src/vendor ]; then
 
     echo "----------------------------------"
     echo "|     Installing depencencies    |"
