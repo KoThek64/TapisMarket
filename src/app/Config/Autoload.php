@@ -75,7 +75,9 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $files = [];
+    public $files = [
+        APPPATH . '../vendor/symfony/polyfill-mbstring/bootstrap.php',
+    ];
 
     /**
      * -------------------------------------------------------------------
@@ -88,5 +90,5 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = [];
+    public $helpers = ['url', 'form', 'number', 'text'];
 }

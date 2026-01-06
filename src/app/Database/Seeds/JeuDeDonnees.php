@@ -3,135 +3,196 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
-use CodeIgniter\I18n\Time;
 
 class JeuDeDonnees extends Seeder
 {
     public function run()
     {
+        helper('url');
+
         $this->db->disableForeignKeyChecks();
-        $tables = ['avis', 'ligne_commande', 'commande', 'ligne_panier', 'panier', 'photo_produit', 'produit', 'categorie', 'adresse', 'vendeur', 'client', 'administrateur', 'utilisateur'];
+        $tables = ['reviews', 'order_items', 'orders', 'cart_items', 'carts', 'product_photos', 'products', 'categories', 'addresses', 'sellers', 'customers', 'administrators', 'users'];
         foreach ($tables as $table) {
-            $this->db->table($table)->truncate();
+            if ($this->db->tableExists($table)) {
+                $this->db->table($table)->truncate();
+            }
         }
         $this->db->enableForeignKeyChecks();
 
-        $idAdmin = $this->creerUtilisateur('admin@tapis.com', 'Boss', 'Admin', 'ADMIN');
-        $this->db->table('administrateur')->insert(['id_utilisateur' => $idAdmin]);
+        
+        $adminIds = [];
+        $adminIds[] = $this->createUser('admin@tapis.com', 'System', 'Admin', 'ADMIN');
+        $adminIds[] = $this->createUser('staff@tapis.com', 'Moderator', 'Marc', 'ADMIN');
+        foreach ($adminIds as $id) {
+            $this->db->table('administrators')->insert(['user_id' => $id]);
+        }
 
-        $idVendeur1 = $this->creerUtilisateur('vendeur@tapis.com', 'Marchand', 'Pierre', 'VENDEUR');
-        $this->db->table('vendeur')->insert([
-            'id_utilisateur' => $idVendeur1,
-            'nom_boutique'   => 'Tapis d\'Orient',
-            'siret'          => '12345678901234',
-            'statut'         => 'VALIDE',
-            'description_boutique' => 'Expert depuis 1990.',
-            'date_creation'  => date('Y-m-d H:i:s')
-        ]);
-
-        $idVendeur2 = $this->creerUtilisateur('nouveau@vendeur.com', 'Dubois', 'Jean', 'VENDEUR');
-        $this->db->table('vendeur')->insert([
-            'id_utilisateur' => $idVendeur2,
-            'nom_boutique'   => 'Boutique Louche',
-            'siret'          => '98765432109876',
-            'statut'         => 'EN_ATTENTE_VALIDATION',
-            'date_creation'  => date('Y-m-d H:i:s')
-        ]);
-
-        $idClient = $this->creerUtilisateur('alice@mail.com', 'Merveille', 'Alice', 'CLIENT');
-        $this->db->table('client')->insert([
-            'id_utilisateur' => $idClient,
-            'telephone'      => '0612345678'
-        ]);
-
-        $cats = [
-            ['nom' => 'Salon Moderne', 'alias' => 'salon-moderne'],
-            ['nom' => 'Chambre Enfant', 'alias' => 'chambre-enfant'],
-            ['nom' => 'Extérieur', 'alias' => 'exterieur'],
+        
+        $sellerIds = [];
+        $shops = [
+            ['name' => 'Oriental Rugs', 'desc' => 'Silk and wool specialist.'],
+            ['name' => 'Berber Crafts', 'desc' => 'Direct import from Morocco.'],
+            ['name' => 'Modern Rugs Co', 'desc' => 'Contemporary designs.'],
+            ['name' => 'Luxury & Tradition', 'desc' => 'Rare collection rugs.'],
+            ['name' => 'Eco-Rugs', 'desc' => 'Recycled and natural materials.'],
         ];
+
+        foreach ($shops as $idx => $b) {
+            $vid = $this->createUser("seller$idx@mail.com", "Name$idx", "Surname$idx", "SELLER");
+            $sellerIds[] = $vid;
+            $sellerStatus = (rand(1, 10) > 3) ? 'VALIDATED' : 'PENDING_VALIDATION'; 
+            $this->db->table('sellers')->insert([
+                'user_id'          => $vid,
+                'shop_name'        => $b['name'],
+                'siret'            => '123456789' . str_pad($idx, 5, '0', STR_PAD_LEFT),
+                'status'           => $sellerStatus, 
+                'shop_description' => $b['desc']
+            ]);
+        }
+
+        
+        $clientIds = [];
+        for ($i = 0; $i < 30; $i++) {
+            $cid = $this->createUser("client$i@mail.com", "ClientName$i", "ClientSurname$i", "CUSTOMER");
+            $clientIds[] = $cid;
+            $this->db->table('customers')->insert([
+                'user_id'   => $cid,
+                'phone'     => '06' . str_pad($i, 8, '0', STR_PAD_LEFT)
+            ]);
+        }
+
+        
+        $categories = [
+            ['name' => 'Traditional Persian', 'alias' => 'traditional-persian'],
+            ['name' => 'Berber & Kilim', 'alias' => 'berber-kilim'],
+            ['name' => 'Scandinavian Design', 'alias' => 'scandinavian-design'],
+            ['name' => 'Kids Room', 'alias' => 'kids-room'],
+            ['name' => 'Vintage & Worn', 'alias' => 'vintage-worn'],
+            ['name' => 'Outdoor & Garden', 'alias' => 'outdoor-garden'],
+            ['name' => 'Luxury Silk', 'alias' => 'luxury-silk'],
+            ['name' => 'Shaggy & Fluffy', 'alias' => 'shaggy-fluffy'],
+        ];
+
         $catIds = [];
-        foreach ($cats as $cat) {
-            $this->db->table('categorie')->insert($cat);
+        foreach ($categories as $cat) {
+            $this->db->table('categories')->insert($cat);
             $catIds[] = $this->db->insertID();
         }
 
-        $pIds = [];
-        $pIds[] = $this->creerProduit($idVendeur1, $catIds[0], "Tapis Persan Royal", 450.00, 50, 'APPROUVE');
-        $pIds[] = $this->creerProduit($idVendeur1, $catIds[0], "Tapis Rouge Vintage", 120.00, 2, 'APPROUVE');
-        $this->creerProduit($idVendeur1, $catIds[2], "Tapis Volant Prototype", 9999.00, 1, 'EN_ATTENTE_VALIDATION');
+       
+        $productIds = [];
+        $rug_prefixes = ['Royal', 'Antique', 'Minimalist', 'Boho', 'Abstract', 'Classic', 'Imperial', 'Ethnic'];
+        $rug_suffixes = ['Tapestry', 'Wool Rug', 'Hand-woven', 'Silk Piece', 'Carpet', 'Flatweave'];
 
-        $this->creerCommande($idClient, $pIds[0], 1, 450.00, '-1 month', 'PAYEE');
-        $this->creerCommande($idClient, $pIds[1], 2, 120.00, 'now', 'PAYEE');
+        foreach ($sellerIds as $vid) {
+            for ($p = 0; $p < 8; $p++) {
+                $name = $rug_prefixes[array_rand($rug_prefixes)] . ' ' . $rug_suffixes[array_rand($rug_suffixes)] . ' ' . uniqid();
+                $price = rand(80, 2500);
+                $stock = rand(0, 20);
+                $cat = $catIds[array_rand($catIds)];
+                $status = (rand(0, 10) > 1) ? 'APPROVED' : 'PENDING_VALIDATION';
+                $productIds[] = $this->createProduct($vid, $cat, $name, $price, $stock, $status);
+            }
+        }
 
-        $this->db->table('avis')->insert([
-            'id_client' => $idClient,
-            'id_produit' => $pIds[0],
-            'note' => 5,
-            'commentaire' => 'Super qualité !',
-            'statut_moderation' => 'PUBLIE',
-            'date_publication' => date('Y-m-d H:i:s')
-        ]);
+        
+        foreach ($clientIds as $cid) {
+            $nbOrders = rand(1, 4);
+            for ($c = 0; $c < $nbOrders; $c++) {
+                $pId = $productIds[array_rand($productIds)];
+                $qty = rand(1, 2);
+                $price = rand(150, 600);
+                $days = rand(1, 365);
+                $this->createOrder($cid, $pId, $qty, $price, "-$days days", 'PAID');
+            }
+        }
+
+        
+        $possibleComments = [
+            "Great product, I recommend!",
+            "Delivery a bit long but the rug is magnificent.",
+            "Very disappointed by the color which does not quite match the photo, too bad.",
+            "I ordered this rug for my living room and I am generally satisfied... We'll see how it ages."
+        ];
+
+        $existingReviews = []; 
+
+        for ($a = 0; $a < 60; $a++) {
+            $cid = $clientIds[array_rand($clientIds)];
+            $pid = $productIds[array_rand($productIds)];
+            $key = $cid . '-' . $pid;
+
+            if (in_array($key, $existingReviews)) {
+                continue; 
+            }
+
+            $existingReviews[] = $key;
+
+            $this->db->table('reviews')->insert([
+                'customer_id'       => $cid,
+                'product_id'        => $pid,
+                'rating'            => rand(1, 5),
+                'comment'           => $possibleComments[array_rand($possibleComments)],
+                'moderation_status' => (rand(0, 10) > 2) ? 'PUBLISHED' : 'REFUSED', 
+                'published_at'      => date('Y-m-d H:i:s', strtotime('-' . rand(1, 30) . ' days'))
+            ]);
+        }
     }
 
-
-    private function creerUtilisateur($email, $nom, $prenom, $role) {
-        $this->db->table('utilisateur')->insert([
-            'email' => $email,
-            'mot_de_passe' => password_hash('123456', PASSWORD_DEFAULT),
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'role' => $role,
-            'date_inscription' => date('Y-m-d H:i:s')
+    private function createUser($email, $lastname, $firstname, $role) {
+        $this->db->table('users')->insert([
+            'email'      => $email,
+            'password'   => password_hash('123456', PASSWORD_DEFAULT),
+            'lastname'   => $lastname,
+            'firstname'  => $firstname,
+            'role'       => $role,
+            'created_at' => date('Y-m-d H:i:s', strtotime('-' . rand(1, 12) . ' months'))
         ]);
         return $this->db->insertID();
     }
 
-    private function creerProduit($vendeur, $cat, $titre, $prix, $stock, $statut) {
+    private function createProduct($seller, $cat, $title, $price, $stock, $status) {
         $data = [
-            'id_vendeur' => $vendeur, 
-            'id_categorie' => $cat,
-            'titre' => $titre, 
-            'alias' => url_title($titre, '-', true),
-            'description_courte' => "Petite description pour $titre", 
-            'description_longue' => "Grande description détaillée pour $titre.",
-            'prix' => $prix, 
-            'stock_disponible' => $stock,
-            'dimensions' => '200x300', 
-            'statut_produit' => $statut,
-            'date_creation' => date('Y-m-d H:i:s')
+            'seller_id'         => $seller, 
+            'category_id'       => $cat,
+            'title'             => $title, 
+            'alias'             => url_title($title, '-', true),
+            'short_description' => "A unique piece: $title.", 
+            'long_description'  => "Technical details and history for the rug $title. Superior quality guaranteed.",
+            'price'             => $price, 
+            'stock_available'   => $stock,
+            'dimensions'        => rand(150, 300) . 'x' . rand(200, 400), 
+            'product_status'    => $status,
+            'created_at'        => date('Y-m-d H:i:s', strtotime('-' . rand(1, 100) . ' days'))
         ];
-        $this->db->table('produit')->insert($data);
+        $this->db->table('products')->insert($data);
         $id = $this->db->insertID();
-        $this->db->table('photo_produit')->insert(['id_produit' => $id, 'nom_fichier' => 'default.jpg', 'ordre_affichage' => 1]);
+        $this->db->table('product_photos')->insert(['product_id' => $id, 'file_name' => 'default.jpg', 'display_order' => 1]);
         return $id;
     }
 
-    private function creerCommande($client, $prod, $qte, $prix, $dateStr, $statut) {
-    $dateSQL = date('Y-m-d H:i:s', strtotime($dateStr));
-    
-    $total = $qte * $prix;
-
-    $this->db->table('commande')->insert([
-        'id_client'       => $client, 
-        'reference'       => 'CMD-' . strtoupper(uniqid()),
-        'date_commande'   => $dateSQL, 
-        'statut'          => $statut, 
-        'total_ttc'       => $total, 
-        'frais_port'      => 0,
-        'mode_livraison'  => 'Standard', 
-        'adresse_liv_rue' => 'Rue du Test',
-        'adresse_liv_cp'  => '75000', 
-        'adresse_liv_ville'=> 'Paris', 
-        'adresse_liv_pays' => 'France'
-    ]);
-    
-    $idCmd = $this->db->insertID();
-
-    $this->db->table('ligne_commande')->insert([
-        'id_commande'   => $idCmd, 
-        'id_produit'    => $prod,
-        'quantite'      => $qte, 
-        'prix_unitaire' => $prix
-    ]);
-}
+    private function createOrder($client, $prod, $qty, $price, $dateStr, $status) {
+        $dateSQL = date('Y-m-d H:i:s', strtotime($dateStr));
+        $total = $qty * $price;
+        $this->db->table('orders')->insert([
+            'customer_id'          => $client, 
+            'reference'            => 'CMD-' . strtoupper(bin2hex(random_bytes(4))),
+            'order_date'           => $dateSQL, 
+            'status'               => $status, 
+            'total_ttc'            => $total, 
+            'shipping_fees'        => 15.00,
+            'delivery_method'      => 'Express Carrier', 
+            'delivery_street'      => rand(1, 150) . ' Republic Street',
+            'delivery_postal_code' => str_pad(rand(1000, 95000), 5, '0', STR_PAD_LEFT), 
+            'delivery_city'        => 'Test-City', 
+            'delivery_country'     => 'France'
+        ]);
+        $idCmd = $this->db->insertID();
+        $this->db->table('order_items')->insert([
+            'order_id'      => $idCmd, 
+            'product_id'    => $prod,
+            'quantity'      => $qty, 
+            'unit_price'    => $price
+        ]);
+    }
 }

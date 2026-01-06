@@ -10,193 +10,196 @@ class InitialiseMarketplace extends Migration
     {
         $this->db->disableForeignKeyChecks();
 
-        // UTILISATEUR
+        // USERS
         $this->forge->addField([
-            'id_utilisateur'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'email'             => ['type' => 'VARCHAR', 'constraint' => 255],
-            'mot_de_passe'      => ['type' => 'VARCHAR', 'constraint' => 255],
-            'nom'               => ['type' => 'VARCHAR', 'constraint' => 100],
-            'prenom'            => ['type' => 'VARCHAR', 'constraint' => 100],
-            'date_inscription'  => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
-            'role'              => ['type' => 'ENUM', 'constraint' => ['ADMIN', 'VENDEUR', 'CLIENT'], 'default' => 'CLIENT'],
+            'id'               => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'email'            => ['type' => 'VARCHAR', 'constraint' => 255],
+            'password'         => ['type' => 'VARCHAR', 'constraint' => 255],
+            'lastname'         => ['type' => 'VARCHAR', 'constraint' => 100],
+            'firstname'        => ['type' => 'VARCHAR', 'constraint' => 100],
+            'created_at'       => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'role'             => ['type' => 'ENUM', 'constraint' => ['ADMIN', 'SELLER', 'CUSTOMER'], 'default' => 'CUSTOMER'],
+            'deleted_at'       => ['type' => 'DATETIME', 'null' => true],
         ]);
-        $this->forge->addKey('id_utilisateur', true);
+        $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('email');
-        $this->forge->createTable('utilisateur', true);
+        $this->forge->createTable('users', true);
 
-        // CLIENT
+        // CUSTOMERS
         $this->forge->addField([
-            'id_utilisateur'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'telephone'         => ['type' => 'VARCHAR', 'constraint' => 20, 'null' => true],
-            'date_naissance'    => ['type' => 'DATE', 'null' => true],
+            'user_id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'phone'          => ['type' => 'VARCHAR', 'constraint' => 20, 'null' => true],
+            'birth_date'     => ['type' => 'DATE', 'null' => true],
         ]);
-        $this->forge->addKey('id_utilisateur', true);
-        $this->forge->addForeignKey('id_utilisateur', 'utilisateur', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('client', true);
+        $this->forge->addKey('user_id', true);
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('customers', true);
 
-        // VENDEUR
+        // SELLERS
         $this->forge->addField([
-            'id_utilisateur'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'nom_boutique'        => ['type' => 'VARCHAR', 'constraint' => 100],
-            'description_boutique'=> ['type' => 'TEXT', 'null' => true],
-            'siret'               => ['type' => 'CHAR', 'constraint' => 14],
-            'statut'              => ['type' => 'ENUM', 'constraint' => ['EN_ATTENTE_VALIDATION', 'VALIDE', 'REFUSE', 'SUSPENDU'], 'default' => 'EN_ATTENTE_VALIDATION'],
-            'motif_refus'         => ['type' => 'TEXT', 'null' => true],
-            'date_creation'       => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'user_id'              => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'shop_name'            => ['type' => 'VARCHAR', 'constraint' => 100],
+            'shop_description'     => ['type' => 'TEXT', 'null' => true],
+            'siret'                => ['type' => 'CHAR', 'constraint' => 14],
+            'status'               => ['type' => 'ENUM', 'constraint' => ['PENDING_VALIDATION', 'VALIDATED', 'REFUSED', 'SUSPENDED'], 'default' => 'PENDING_VALIDATION'],
+            'refusal_reason'       => ['type' => 'TEXT', 'null' => true],
+            'created_at'           => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'deleted_at'           => ['type' => 'DATETIME', 'null' => true],
         ]);
-        $this->forge->addKey('id_utilisateur', true);
-        $this->forge->addKey('statut');
+        $this->forge->addKey('user_id', true);
+        $this->forge->addKey('status');
         $this->forge->addUniqueKey('siret');
-        $this->forge->addForeignKey('id_utilisateur', 'utilisateur', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('vendeur', true);
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('sellers', true);
 
-        // ADMINISTRATEUR
+        // ADMINISTRATORS
         $this->forge->addField([
-            'id_utilisateur' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'user_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
         ]);
-        $this->forge->addKey('id_utilisateur', true);
-        $this->forge->addForeignKey('id_utilisateur', 'utilisateur', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('administrateur', true);
+        $this->forge->addKey('user_id', true);
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('administrators', true);
 
-        // ADRESSE
+        // ADDRESSES
         $this->forge->addField([
-            'id_adresse'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_utilisateur'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'numero'            => ['type' => 'VARCHAR', 'constraint' => 10, 'null' => true],
-            'rue'               => ['type' => 'VARCHAR', 'constraint' => 255],
-            'code_postal'       => ['type' => 'VARCHAR', 'constraint' => 10],
-            'ville'             => ['type' => 'VARCHAR', 'constraint' => 100],
-            'pays'              => ['type' => 'VARCHAR', 'constraint' => 100],
-            'telephone_contact' => ['type' => 'VARCHAR', 'constraint' => 20, 'null' => true],
+            'id'                => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'user_id'           => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'number'            => ['type' => 'VARCHAR', 'constraint' => 10, 'null' => true],
+            'street'            => ['type' => 'VARCHAR', 'constraint' => 255],
+            'postal_code'       => ['type' => 'VARCHAR', 'constraint' => 10],
+            'city'              => ['type' => 'VARCHAR', 'constraint' => 100],
+            'country'           => ['type' => 'VARCHAR', 'constraint' => 100],
+            'contact_phone'     => ['type' => 'VARCHAR', 'constraint' => 20, 'null' => true],
         ]);
-        $this->forge->addKey('id_adresse', true);
-        $this->forge->addForeignKey('id_utilisateur', 'utilisateur', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('adresse', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('addresses', true);
 
-        // CATEGORIE
+        // CATEGORIES
         $this->forge->addField([
-            'id_categorie' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'nom'          => ['type' => 'VARCHAR', 'constraint' => 100],
+            'id'           => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'name'         => ['type' => 'VARCHAR', 'constraint' => 100],
             'alias'        => ['type' => 'VARCHAR', 'constraint' => 120],
             'description'  => ['type' => 'TEXT', 'null' => true],
             'image_url'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
         ]);
-        $this->forge->addKey('id_categorie', true);
+        $this->forge->addKey('id', true);
         $this->forge->addKey('alias');
-        $this->forge->createTable('categorie', true);
+        $this->forge->createTable('categories', true);
 
-        // PRODUIT
+        // PRODUCTS
         $this->forge->addField([
-            'id_produit'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_vendeur'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'id_categorie'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'titre'             => ['type' => 'VARCHAR', 'constraint' => 150],
-            'alias'             => ['type' => 'VARCHAR', 'constraint' => 150],
-            'description_courte'=> ['type' => 'VARCHAR', 'constraint' => 255],
-            'description_longue'=> ['type' => 'TEXT'],
-            'prix'             => ['type' => 'DECIMAL', 'constraint' => '10,2', 'unsigned' => true], 
-            'stock_disponible' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'dimensions'        => ['type' => 'VARCHAR', 'constraint' => 50],
-            'matiere'           => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
-            'statut_produit'    => ['type' => 'ENUM', 'constraint' => ['EN_ATTENTE_VALIDATION', 'APPROUVE', 'REFUSE', 'HORS_LIGNE', 'NON_DISPONIBLE'], 'default' => 'EN_ATTENTE_VALIDATION'],
-            'date_creation'     => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
-            'motif_refus'       => ['type' => 'TEXT', 'null' => true],
+            'id'                 => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'seller_id'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'category_id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'title'              => ['type' => 'VARCHAR', 'constraint' => 150],
+            'alias'              => ['type' => 'VARCHAR', 'constraint' => 150],
+            'short_description'  => ['type' => 'VARCHAR', 'constraint' => 255],
+            'long_description'   => ['type' => 'TEXT'],
+            'price'              => ['type' => 'DECIMAL', 'constraint' => '10,2', 'unsigned' => true],
+            'stock_available'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'dimensions'         => ['type' => 'VARCHAR', 'constraint' => 50],
+            'material'           => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
+            'product_status'     => ['type' => 'ENUM', 'constraint' => ['PENDING_VALIDATION', 'APPROVED', 'REFUSED', 'OFFLINE', 'UNAVAILABLE'], 'default' => 'PENDING_VALIDATION'],
+            'created_at'         => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'refusal_reason'     => ['type' => 'TEXT', 'null' => true],
+            'deleted_at'         => ['type' => 'DATETIME', 'null' => true],
         ]);
-        $this->forge->addKey('id_produit', true);
-        $this->forge->addKey(['statut_produit', 'date_creation']);
-        $this->forge->addKey('titre');      
-        $this->forge->addKey('prix');  
+        $this->forge->addKey('id', true);
+        $this->forge->addKey(['product_status', 'created_at']);
+        $this->forge->addKey('title');
+        $this->forge->addKey('price');
         $this->forge->addUniqueKey('alias');
-        $this->forge->addForeignKey('id_vendeur', 'vendeur', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_categorie', 'categorie', 'id_categorie', 'RESTRICT', 'CASCADE'); 
-        $this->forge->createTable('produit', true);
+        $this->forge->addForeignKey('seller_id', 'sellers', 'user_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('category_id', 'categories', 'id', 'RESTRICT', 'CASCADE');
+        $this->forge->createTable('products', true);
 
-        // PHOTO_PRODUIT
+        // PRODUCT_PHOTOS
         $this->forge->addField([
-            'id_photo'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_produit'     => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'nom_fichier'    => ['type' => 'VARCHAR', 'constraint' => 255],
-            'ordre_affichage'=> ['type' => 'INT', 'default' => 0],
+            'id'             => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'product_id'     => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'file_name'      => ['type' => 'VARCHAR', 'constraint' => 255],
+            'display_order'  => ['type' => 'INT', 'default' => 0],
         ]);
-        $this->forge->addKey('id_photo', true);
-        $this->forge->addKey(['id_produit', 'ordre_affichage']);
-        $this->forge->addForeignKey('id_produit', 'produit', 'id_produit', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('photo_produit', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addKey(['product_id', 'display_order']);
+        $this->forge->addForeignKey('product_id', 'products', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('product_photos', true);
 
-        // PANIE
+        // CARTS
         $this->forge->addField([
-            'id_panier'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_client'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'unique' => true],
-            'date_creation'     => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
-            'date_modification' => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')],
+            'id'                => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'customer_id'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'unique' => true],
+            'created_at'        => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'updated_at'        => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')],
             'total'             => ['type' => 'DECIMAL', 'constraint' => '10,2', 'default' => 0.00, 'unsigned' => true],
         ]);
-        $this->forge->addKey('id_panier', true);
-        $this->forge->addForeignKey('id_client', 'client', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('panier', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('customer_id', 'customers', 'user_id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('carts', true);
 
-        // LIGNE_PANIER
+        // CART_ITEMS
         $this->forge->addField([
-            'id_ligne'   => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_panier'  => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'id_produit' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'quantite'   => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'id'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'cart_id'     => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'product_id'  => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'quantity'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
         ]);
-        $this->forge->addKey('id_ligne', true);
-        $this->forge->addUniqueKey(['id_panier', 'id_produit']);
-        $this->forge->addForeignKey('id_panier', 'panier', 'id_panier', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_produit', 'produit', 'id_produit', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('ligne_panier', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addUniqueKey(['cart_id', 'product_id']);
+        $this->forge->addForeignKey('cart_id', 'carts', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('product_id', 'products', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('cart_items', true);
 
-        // COMMANDE
+        // ORDERS
         $this->forge->addField([
-            'id_commande'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_client'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'reference'         => ['type' => 'VARCHAR', 'constraint' => 50, 'unique' => true],
-            'date_commande'     => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
-            'statut'            => ['type' => 'ENUM', 'constraint' => ['EN_COURS_VALIDATION', 'PAYEE', 'EN_PREPARATION', 'EXPEDIEE', 'LIVREE', 'ANNULEE'], 'default' => 'EN_COURS_VALIDATION'],
-            'mode_livraison'    => ['type' => 'VARCHAR', 'constraint' => 100],
-            'adresse_liv_rue'   => ['type' => 'VARCHAR', 'constraint' => 255],
-            'adresse_liv_cp'    => ['type' => 'VARCHAR', 'constraint' => 10],
-            'adresse_liv_ville' => ['type' => 'VARCHAR', 'constraint' => 100],
-            'adresse_liv_pays'  => ['type' => 'VARCHAR', 'constraint' => 100],
-            'total_ttc'         => ['type' => 'DECIMAL', 'constraint' => '10,2','unsigned' => true],
-            'frais_port'        => ['type' => 'DECIMAL', 'constraint' => '10,2','unsigned' => true],
+            'id'                  => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'customer_id'         => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'reference'           => ['type' => 'VARCHAR', 'constraint' => 50, 'unique' => true],
+            'order_date'          => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'status'              => ['type' => 'ENUM', 'constraint' => ['PENDING_VALIDATION', 'PAID', 'PREPARING', 'SHIPPED', 'DELIVERED', 'CANCELLED'], 'default' => 'PENDING_VALIDATION'],
+            'delivery_method'     => ['type' => 'VARCHAR', 'constraint' => 100],
+            'delivery_street'     => ['type' => 'VARCHAR', 'constraint' => 255],
+            'delivery_postal_code'=> ['type' => 'VARCHAR', 'constraint' => 10],
+            'delivery_city'       => ['type' => 'VARCHAR', 'constraint' => 100],
+            'delivery_country'    => ['type' => 'VARCHAR', 'constraint' => 100],
+            'total_ttc'           => ['type' => 'DECIMAL', 'constraint' => '10,2','unsigned' => true],
+            'shipping_fees'       => ['type' => 'DECIMAL', 'constraint' => '10,2','unsigned' => true],
         ]);
-        $this->forge->addKey('id_commande', true);
-        $this->forge->addForeignKey('id_client', 'client', 'id_utilisateur', 'RESTRICT', 'CASCADE');
-        $this->forge->createTable('commande', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('customer_id', 'customers', 'user_id', 'RESTRICT', 'CASCADE');
+        $this->forge->createTable('orders', true);
 
-        // LIGNE_COMMANDE
+        // ORDER_ITEMS
         $this->forge->addField([
-            'id_ligne_commande'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_commande'   => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'id_produit'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'quantite'      => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true], 
-            'prix_unitaire' => ['type' => 'DECIMAL', 'constraint' => '10,2', 'unsigned' => true],
+            'id'                => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'order_id'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'product_id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'quantity'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true], 
+            'unit_price'        => ['type' => 'DECIMAL', 'constraint' => '10,2', 'unsigned' => true],
         ]);
-        $this->forge->addKey('id_ligne_commande', true);
-        $this->forge->addUniqueKey(['id_commande', 'id_produit']);
-        $this->forge->addForeignKey('id_commande', 'commande', 'id_commande', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_produit', 'produit', 'id_produit', 'RESTRICT', 'CASCADE');
-        $this->forge->createTable('ligne_commande', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addUniqueKey(['order_id', 'product_id']);
+        $this->forge->addForeignKey('order_id', 'orders', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('product_id', 'products', 'id', 'RESTRICT', 'CASCADE');
+        $this->forge->createTable('order_items', true);
 
-        // AVIS
+        // REVIEWS
         $this->forge->addField([
-            'id_avis'          => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'id_client'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'id_produit'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'note'             => ['type' => 'TINYINT', 'constraint' => 1, 'unsigned' => true],
-            'commentaire'      => ['type' => 'TEXT', 'null' => true],
-            'date_publication' => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
-            'statut_moderation' => ['type' => 'ENUM', 'constraint' => ['PUBLIE', 'REFUSE'], 'default' => 'PUBLIE'],
+            'id'                => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'customer_id'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'product_id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
+            'rating'            => ['type' => 'TINYINT', 'constraint' => 1, 'unsigned' => true],
+            'comment'           => ['type' => 'TEXT', 'null' => true],
+            'published_at'      => ['type' => 'DATETIME', 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP')],
+            'moderation_status' => ['type' => 'ENUM', 'constraint' => ['PUBLISHED', 'REFUSED'], 'default' => 'PUBLISHED'],
         ]);
-        $this->forge->addKey('id_avis', true);
-        $this->forge->addKey('id_produit');
-        $this->forge->addForeignKey('id_client', 'client', 'id_utilisateur', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_produit', 'produit', 'id_produit', 'CASCADE', 'CASCADE');
-        $this->forge->addUniqueKey(['id_client', 'id_produit']);
-        $this->forge->createTable('avis', true);
+        $this->forge->addKey('id', true);
+        $this->forge->addKey('product_id');
+        $this->forge->addForeignKey('customer_id', 'customers', 'user_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('product_id', 'products', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addUniqueKey(['customer_id', 'product_id']);
+        $this->forge->createTable('reviews', true);
 
         $this->db->enableForeignKeyChecks();
     }
@@ -204,7 +207,7 @@ class InitialiseMarketplace extends Migration
     public function down()
     {
         $this->db->disableForeignKeyChecks();
-        $tables = ['avis', 'ligne_commande', 'commande', 'ligne_panier', 'panier', 'photo_produit', 'produit', 'categorie', 'adresse', 'administrateur', 'vendeur', 'client', 'utilisateur'];
+        $tables = ['reviews', 'order_items', 'orders', 'cart_items', 'carts', 'product_photos', 'products', 'categories', 'addresses', 'administrators', 'sellers', 'customers', 'users'];
         foreach ($tables as $table) {
             $this->forge->dropTable($table, true);
         }

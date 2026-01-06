@@ -25,6 +25,33 @@ defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
  */
 defined('COMPOSER_PATH') || define('COMPOSER_PATH', ROOTPATH . 'vendor/autoload.php');
 
+// Upload Directories
+defined('PATH_PRODUCTS') || define('PATH_PRODUCTS', FCPATH . 'uploads/products/');
+
+// User Roles
+defined('ROLE_ADMIN')   || define('ROLE_ADMIN', 'ADMIN');
+defined('ROLE_SELLER')  || define('ROLE_SELLER', 'SELLER');
+defined('ROLE_CUSTOMER')|| define('ROLE_CUSTOMER', 'CUSTOMER');
+
+// Product Statuses
+defined('STATUS_PENDING')  || define('STATUS_PENDING', 'PENDING_VALIDATION');
+defined('STATUS_APPROVED') || define('STATUS_APPROVED', 'APPROVED');
+defined('STATUS_REFUSED')  || define('STATUS_REFUSED', 'REFUSED');
+
+// Seller Statuses
+defined('SELLER_PENDING') || define('SELLER_PENDING', 'PENDING_VALIDATION');
+defined('SELLER_VALIDATED') || define('SELLER_VALIDATED', 'VALIDATED');
+defined('SELLER_REFUSED') || define('SELLER_REFUSED', 'REFUSED');
+defined('SELLER_SUSPENDED') || define('SELLER_SUSPENDED', 'SUSPENDED');
+
+// Order Statuses
+defined('ORDER_PENDING')   || define('ORDER_PENDING', 'PENDING_VALIDATION');
+defined('ORDER_PREPARING') || define('ORDER_PREPARING', 'PREPARING');
+defined('ORDER_CANCELLED') || define('ORDER_CANCELLED', 'CANCELLED');
+defined('ORDER_PAID')      || define('ORDER_PAID', 'PAID');
+defined('ORDER_SHIPPED')   || define('ORDER_SHIPPED', 'SHIPPED');
+defined('ORDER_DELIVERED') || define('ORDER_DELIVERED', 'DELIVERED');
+
 /*
  |--------------------------------------------------------------------------
  | Timing Constants

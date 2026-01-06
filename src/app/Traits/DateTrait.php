@@ -6,8 +6,8 @@ use CodeIgniter\I18n\Time;
 
 trait DateTrait
 {
-    //fromatter une date
-    public function formaterDate($date, bool $avecHeure = true): string
+    // Format a date
+    protected function formatDate($date, bool $withTime = true): string
     {
         if (empty($date)) return '-';
 
@@ -15,12 +15,12 @@ trait DateTrait
             $date = Time::parse($date);
         }
 
-        $format = $avecHeure ? 'd/m/Y à H:i' : 'd/m/Y';
+        $format = $withTime ? 'd/m/Y at H:i' : 'd/m/Y';
         return $date->format($format);
     }
 
     
-    public function formaterDateRelative($date): string
+    protected function formaterDateRelative($date): string
     {
         if (empty($date)) return '';
 

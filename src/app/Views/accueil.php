@@ -41,11 +41,11 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <span class="hero-tag">Nouvelle Collection 2025</span>
-                <h1>L'Art du Tapis,<br>tissé pour votre intérieur.</h1>
+                <span class="hero-tag">Nouvelle collection 2025</span>
+                <h1>L'Art du Tapis,<br>tissé pour chez vous.</h1>
                 <p>Découvrez des pièces uniques, faites à la main par des artisans du monde entier. Authenticité et élégance garanties.</p>
                 <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <a href="#" class="btn-primary" style="padding: 15px 30px;">Explorer le Catalogue</a>
+                    <a href="#" class="btn-primary" style="padding: 15px 30px;">Explorer le catalogue</a>
                 </div>
             </div>
         </section>
@@ -53,25 +53,25 @@
         <section id="featured" class="section-container">
             <div class="section-header">
                 <div class="section-title">
-                    <h2>Tapis en Vedette</h2>
-                    <p style="color:var(--text-muted)">Les dernières nouveautés de notre base de données</p>
+                    <h2>Nos Coups de Cœur</h2>
+                    <p style="color:var(--text-muted)">Les derniers ajouts de notre catalogue</p>
                 </div>
                 <a href="#" style="font-weight:600; color:var(--accent); display:flex; align-items:center; gap:5px;">
-                    Voir tout <span>→</span>
+                    Tout voir <span>→</span>
                 </a>
             </div>
 
             <div class="product-grid">
-                <?php if (!empty($produits) && is_array($produits)): ?>
-                    <?php foreach ($produits as $produit): ?>
+                <?php if (!empty($products) && is_array($products)): ?>
+                    <?php foreach ($products as $product): ?>
                         <?php 
-                            $id = $produit->id ?? $produit->id_produit ?? null; 
+                            $id = $product->id ?? null; 
                         ?>
                         
                         <article class="card">
-                            <a href="<?= base_url('produit/' . $id) ?>" class="card-image-wrapper">
-                                <img src="<?= base_url('images/' . esc($produit->image)) ?>" 
-                                    alt="<?= esc($produit->titre) ?>" 
+                            <a href="<?= base_url('product/' . $id) ?>" class="card-image-wrapper">
+                                <img src="<?= base_url('images/' . esc($product->image)) ?>" 
+                                    alt="<?= esc($product->title) ?>" 
                                     class="card-image"
                                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';">
                             </a>
@@ -81,17 +81,17 @@
                                     
                                     
                                     <h3 class="card-title">
-                                        <a href="<?= base_url('produit/' . $id) ?>">
-                                            <?= esc($produit->titre) ?>
+                                        <a href="<?= base_url('product/' . $id) ?>">
+                                            <?= esc($product->title) ?>
                                         </a>
                                     </h3>
                                     
-                                    <p class="card-subtitle"><?= esc($produit->description_courte) ?></p>
+                                    <p class="card-subtitle"><?= esc($product->short_description) ?></p>
                                 </div>
                                 
                                 <div class="card-footer">
-                                    <span class="price"><?= $produit->getPrixFormate() ?></span>
-                                    <a href="<?= base_url('produit/' . $id) ?>" class="btn-circle">+</a>
+                                    <span class="price"><?= $product->getFormattedPrice() ?></span>
+                                    <a href="<?= base_url('product/' . $id) ?>" class="btn-circle">+</a>
                                 </div>
                             </div>
                         </article>
@@ -108,7 +108,7 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>À propos</h3>
-                <p>Votre marketplace de confiance pour découvrir et acheter des tapis d’exception.</p>
+                <p>Votre place de marché de confiance pour découvrir et acheter des tapis exceptionnels.</p>
             </div>
             <div class="footer-col">
                 <h3>Liens</h3>

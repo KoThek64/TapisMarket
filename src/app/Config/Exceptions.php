@@ -56,8 +56,17 @@ class Exceptions extends BaseConfig
      *
      * @var list<string>
      */
-    public array $sensitiveDataInTrace = [];
-
+    public array $sensitiveDataInTrace = [
+        'password',
+        'mot_de_passe',    
+        'mot_de_passe_confirm',
+        'token',
+        'key',
+        'siret',           
+        'client_secret',   
+        'api_key',
+        'authorization'
+    ];
     /**
      * --------------------------------------------------------------------------
      * WHETHER TO THROW AN EXCEPTION ON DEPRECATED ERRORS
