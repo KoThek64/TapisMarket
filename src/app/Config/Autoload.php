@@ -75,9 +75,7 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $files = [
-        APPPATH . '../vendor/symfony/polyfill-mbstring/bootstrap.php',
-    ];
+    public $files = [];
 
     /**
      * -------------------------------------------------------------------

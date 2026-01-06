@@ -20,7 +20,7 @@ class Categories extends AdminBaseController
     public function new()
     {
         $data = array_merge($this->adminData, [
-            'title'    => 'New Category',
+            'title'    => 'Nouvelle Catégorie',
             'category' => new Category(),
             'action'   => 'create'
         ]);
@@ -32,7 +32,7 @@ class Categories extends AdminBaseController
         $category = $this->categoryModel->find($id);
 
         if (!$category) {
-            return redirect()->to('admin/categories')->with('error', 'Category not found.');
+            return redirect()->to('admin/categories')->with('error', 'Catégorie introuvable.');
         }
 
         $data = array_merge($this->adminData, [
