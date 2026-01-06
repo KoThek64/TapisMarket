@@ -52,7 +52,7 @@ class ProductModel extends Model
         return $this->select('products.*, sellers.shop_name, product_photos.file_name as image')
                     ->join('sellers', 'sellers.user_id = products.seller_id')
                     ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
-                    ->where('products.product_status', 'PENDING_VALIDATION')
+                    ->where('products.product_status', STATUS_PENDING)
                     ->orderBy('products.created_at', 'ASC')
                     ->paginate($perPage, 'pending');
     }
@@ -70,20 +70,20 @@ class ProductModel extends Model
     // Count pending products
     public function countPendingProducts()
     {
-        return $this->where('product_status', 'PENDING_VALIDATION')->countAllResults();
+        return $this->where('product_status', STATUS_PENDING)->countAllResults();
     }
 
     // Validate a product
     public function validateProduct(int $id)
     {
-        return $this->update($id, ['product_status' => 'APPROVED']);
+        return $this->update($id, ['product_status' => STATUS_APPROVED]);
     }
 
     // Reject a product
     public function rejectProduct(int $id, string $reason)
     {
         return $this->update($id, [
-            'product_status' => 'REFUSED',
+            'product_status' => STATUS_REFUSED,
             'refusal_reason' => $reason
         ]);
     }
@@ -95,7 +95,7 @@ class ProductModel extends Model
                     ->join('categories', 'categories.id = products.category_id')
                     ->join('sellers', 'sellers.user_id = products.seller_id')
                     ->where('products.alias', $alias)
-                    ->where('products.product_status', 'APPROVED')
+                    ->where('products.product_status', STATUS_APPROVED)
                     ->first();
     }
 
@@ -111,7 +111,7 @@ class ProductModel extends Model
 
         return $this->select('products.*, product_photos.file_name as image')
                     ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
-                    ->where('product_status', 'APPROVED')
+                    ->where('product_status', STATUS_APPROVED)
                     ->where('category_id', $categoryId)
                     ->orderBy($sorts[$sort] ?? 'created_at DESC')
                     ->paginate($perPage);
@@ -126,7 +126,7 @@ class ProductModel extends Model
                         ->like('title', $term)
                         ->orLike('short_description', $term)
                     ->groupEnd()
-                    ->where('product_status', 'APPROVED')
+                    ->where('product_status', STATUS_APPROVED)
                     ->paginate($perPage);
     }
 
@@ -174,7 +174,7 @@ class ProductModel extends Model
     {
         return $this->select('products.id, products.title, products.price, products.created_at, sellers.shop_name')
                     ->join('sellers', 'sellers.user_id = products.seller_id')
-                    ->where('products.product_status', 'PENDING_VALIDATION')
+                    ->where('products.product_status', STATUS_PENDING)
                     ->findAll();
     }
 
@@ -182,7 +182,7 @@ class ProductModel extends Model
     {
         return $this->select('products.*, product_photos.file_name as image')
                     ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
-                    ->where('products.product_status', 'APPROVED')
+                    ->where('products.product_status', STATUS_APPROVED)
                     ->orderBy('products.created_at', 'DESC')
                     ->findAll($limit); 
     }
@@ -207,6 +207,6 @@ class ProductModel extends Model
     //Count products pending validation
     public function countProductsPendingValidation()
     {
-        return $this->where('product_status', 'PENDING_VALIDATION')->countAllResults();
+        return $this->where('product_status', STATUS_PENDING)->countAllResults();
     }
 }

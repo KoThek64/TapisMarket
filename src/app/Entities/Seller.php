@@ -19,13 +19,13 @@ class Seller extends Entity
     // Check if seller can perform actions
     public function isActive(): bool
     {
-        return $this->attributes['status'] === 'VALIDATED';
+        return $this->attributes['status'] === SELLER_VALIDATED;
     }
 
     // Check if seller is waiting for admin validation
     public function isPending(): bool
     {
-        return $this->attributes['status'] === 'PENDING_VALIDATION';
+        return $this->attributes['status'] === SELLER_PENDING;
     }
 
     // Returns formatted SIRET (e.g., 123 456 789 00012)

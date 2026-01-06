@@ -29,7 +29,7 @@ class Order extends Entity
     // Check if order is completed
     public function isCompleted(): bool
     {
-        return in_array($this->status, ['DELIVERED', 'CANCELLED']);
+        return in_array($this->status, [ORDER_DELIVERED, ORDER_CANCELLED]);
     }
 
     // Format order date

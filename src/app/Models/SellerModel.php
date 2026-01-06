@@ -29,7 +29,7 @@ class SellerModel extends Model
     protected $validationRules = [
         'shop_name' => 'required|min_length[3]',
         'siret'     => 'required|exact_length[14]|is_unique[sellers.siret,user_id,{user_id}]',
-        'status'    => 'in_list[PENDING_VALIDATION,VALIDATED,REFUSED,SUSPENDED]',
+        'status'    => 'in_list['.SELLER_PENDING.','.SELLER_VALIDATED.','.SELLER_REFUSED.','.SELLER_SUSPENDED.']',
     ];
 
     protected $validationMessages = [
@@ -49,7 +49,7 @@ class SellerModel extends Model
 
     public function countSellersPendingValidation()
     {
-        return $this->where('status', 'PENDING_VALIDATION')->countAllResults();
+        return $this->where('status', SELLER_PENDING)->countAllResults();
     }
 
     // Retrieves pending sellers
@@ -57,7 +57,7 @@ class SellerModel extends Model
     {
         return $this->select('sellers.user_id, sellers.shop_name, sellers.siret, sellers.status, users.created_at as registration_date, users.email')
                     ->join('users', 'users.id = sellers.user_id') 
-                    ->where('status', 'PENDING_VALIDATION')
+                    ->where('status', SELLER_PENDING)
                     ->orderBy('users.created_at', 'ASC')
                     ->paginate($perPage, 'vendors');
     }
@@ -66,7 +66,7 @@ class SellerModel extends Model
     public function validateSeller(int $sellerId)
     {
         return $this->update($sellerId, [
-            'status' => 'VALIDATED',
+            'status' => SELLER_VALIDATED,
             'refusal_reason' => null
         ]);
     }
@@ -75,7 +75,7 @@ class SellerModel extends Model
     public function rejectSeller(int $sellerId, string $reason)
     {
         return $this->update($sellerId, [
-            'status' => 'REFUSED',
+            'status' => SELLER_REFUSED,
             'refusal_reason' => $reason
         ]);
     }

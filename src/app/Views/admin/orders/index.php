@@ -86,10 +86,10 @@
                             <?php 
                                 $color = 'bg-gray-100 text-gray-600 border-gray-200';
                                 switch($order->status) {
-                                    case 'PAID': case 'DELIVERED': $color = 'bg-green-100 text-green-700 border-green-200'; break;
-                                    case 'PREPARING': case 'SHIPPED': $color = 'bg-blue-100 text-blue-700 border-blue-200'; break;
-                                    case 'PENDING_VALIDATION': $color = 'bg-orange-100 text-orange-700 border-orange-200'; break;
-                                    case 'CANCELLED': $color = 'bg-red-100 text-red-700 border-red-200'; break;
+                                    case ORDER_PAID: case ORDER_DELIVERED: $color = 'bg-green-100 text-green-700 border-green-200'; break;
+                                    case ORDER_PREPARING: case ORDER_SHIPPED: $color = 'bg-blue-100 text-blue-700 border-blue-200'; break;
+                                    case ORDER_PENDING: $color = 'bg-orange-100 text-orange-700 border-orange-200'; break;
+                                    case ORDER_CANCELLED: $color = 'bg-red-100 text-red-700 border-red-200'; break;
                                 }
                                 $statusText = $statusList[$order->status] ?? $order->status;
                             ?>

@@ -32,7 +32,7 @@ class Product extends Entity
     public function isAvailable(): bool
     {
         return (
-            $this->attributes['product_status'] === 'APPROVED' && 
+            $this->attributes['product_status'] === STATUS_APPROVED && 
             $this->attributes['stock_available'] > 0
         );
     }

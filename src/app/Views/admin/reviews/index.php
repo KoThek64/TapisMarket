@@ -80,7 +80,7 @@
                                     <p class="font-normal not-italic leading-relaxed relative z-10"><?= esc($a->comment) ?></p>
                                 </div>
                             </div>
-                            <?php if($a->moderation_status === 'REFUSED'): ?>
+                            <?php if($a->moderation_status === REVIEW_REFUSED): ?>
                                 <span class="inline-block mt-2 text-[10px] font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded border border-red-200">Masqué</span>
                             <?php endif; ?>
                         </td>
@@ -92,13 +92,13 @@
 
                         <td class="px-8 py-5 text-right">
                             <div class="flex justify-end gap-2">
-                                <?php if($a->moderation_status === 'PUBLISHED'): ?>
-                                    <a href="<?= site_url('admin/reviews/status/' . $a->id . '/REFUSED') ?>" 
+                                <?php if($a->moderation_status === REVIEW_PUBLISHED): ?>
+                                    <a href="<?= site_url('admin/reviews/status/' . $a->id . '/' . REVIEW_REFUSED) ?>" 
                                        class="text-[10px] font-bold uppercase px-3 py-1.5 bg-white border border-border text-red-600 rounded hover:bg-red-50 hover:border-red-200 transition">
                                        Rejeter
                                     </a>
                                 <?php else: ?>
-                                    <a href="<?= site_url('admin/reviews/status/' . $a->id . '/PUBLISHED') ?>" 
+                                    <a href="<?= site_url('admin/reviews/status/' . $a->id . '/' . REVIEW_PUBLISHED) ?>" 
                                        class="text-[10px] font-bold uppercase px-3 py-1.5 bg-white border border-border text-green-600 rounded hover:bg-green-50 hover:border-green-200 transition">
                                        Rétablir
                                     </a>

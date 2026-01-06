@@ -21,7 +21,7 @@ class OrderModel extends Model
 
     protected $validationRules = [
         'total_ttc' => 'required|decimal|greater_than[0]',
-        'status'    => 'in_list[PENDING_VALIDATION,PAID,PREPARING,SHIPPED,DELIVERED,CANCELLED]',
+        'status'    => 'in_list['.ORDER_PENDING.','.ORDER_PAID.','.ORDER_PREPARING.','.ORDER_SHIPPED.','.ORDER_DELIVERED.','.ORDER_CANCELLED.']',
         'reference' => 'is_unique[orders.reference]', 
     ];
 
@@ -53,12 +53,12 @@ class OrderModel extends Model
     public function getOrderStatuses(): array
     {
         return [
-            'PENDING_VALIDATION' => 'En attente de validation',
-            'PAID'               => 'Payée',
-            'PREPARING'          => 'En préparation',
-            'SHIPPED'            => 'Expédiée',
-            'DELIVERED'          => 'Livrée',
-            'CANCELLED'          => 'Annulée',
+            ORDER_PENDING   => 'En attente de validation',
+            ORDER_PAID      => 'Payée',
+            ORDER_PREPARING => 'En préparation',
+            ORDER_SHIPPED   => 'Expédiée',
+            ORDER_DELIVERED => 'Livrée',
+            ORDER_CANCELLED => 'Annulée',
         ];
     }
 
@@ -98,20 +98,20 @@ class OrderModel extends Model
     // For quick stats
     public function getPendingOrders()
     {
-        return $this->where('status', 'PENDING_VALIDATION')->countAllResults();
+        return $this->where('status', ORDER_PENDING)->countAllResults();
     }
 
     // Count valid orders (not cancelled)
     public function countValidOrders()
     {
-        return $this->where('status !=', 'CANCELLED')->countAllResults();
+        return $this->where('status !=', ORDER_CANCELLED)->countAllResults();
     }
 
     // Get total sales amount
     public function getTotalSales()
     {
         $result = $this->selectSum('total_ttc')
-                       ->where('status !=', 'CANCELLED')
+                       ->where('status !=', ORDER_CANCELLED)
                        ->get()
                        ->getRow();
         return (float) ($result->total_ttc ?? 0.0);

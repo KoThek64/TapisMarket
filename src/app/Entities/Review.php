@@ -44,7 +44,7 @@ class Review extends Entity
     // Checks if the review is published, useful for admin
     public function isPublished(): bool
     {
-        return $this->attributes['moderation_status'] === 'PUBLISHED';
+        return $this->attributes['moderation_status'] === REVIEW_PUBLISHED;
     }
 
 }

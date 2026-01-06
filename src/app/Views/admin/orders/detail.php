@@ -39,9 +39,9 @@
             <div class="flex items-center gap-4">
                 <?php 
                     $colorClass = match($order->status) {
-                        'PAID', 'DELIVERED' => 'bg-green-100 text-green-800 border-green-200',
-                        'PREPARING', 'SHIPPED' => 'bg-blue-100 text-blue-800 border-blue-200',
-                        'CANCELLED' => 'bg-red-100 text-red-800 border-red-200',
+                        ORDER_PAID, ORDER_DELIVERED => 'bg-green-100 text-green-800 border-green-200',
+                        ORDER_PREPARING, ORDER_SHIPPED => 'bg-blue-100 text-blue-800 border-blue-200',
+                        ORDER_CANCELLED => 'bg-red-100 text-red-800 border-red-200',
                         default => 'bg-orange-100 text-orange-800 border-orange-200'
                     };
                 ?>

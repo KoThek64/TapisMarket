@@ -118,11 +118,11 @@
                             </span>
                         </td>
                         <td class="px-8 py-4">
-                            <?php if($prod->status === 'PUBLISHED'): ?>
+                            <?php if($prod->product_status === STATUS_APPROVED): ?>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800 border border-green-200 uppercase tracking-wide">
                                     Publié
                                 </span>
-                            <?php elseif($prod->status === 'REJECTED'): ?>
+                            <?php elseif($prod->product_status === STATUS_REFUSED): ?>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-200 uppercase tracking-wide">
                                     Rejeté
                                 </span>

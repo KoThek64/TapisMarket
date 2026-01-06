@@ -52,6 +52,10 @@ defined('ORDER_PAID')      || define('ORDER_PAID', 'PAID');
 defined('ORDER_SHIPPED')   || define('ORDER_SHIPPED', 'SHIPPED');
 defined('ORDER_DELIVERED') || define('ORDER_DELIVERED', 'DELIVERED');
 
+// Review Statuses
+defined('REVIEW_PUBLISHED') || define('REVIEW_PUBLISHED', 'PUBLISHED');
+defined('REVIEW_REFUSED')   || define('REVIEW_REFUSED', 'REFUSED');
+
 /*
  |--------------------------------------------------------------------------
  | Timing Constants
