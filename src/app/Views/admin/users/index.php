@@ -10,18 +10,18 @@
 
 <?= $this->section('content') ?>
 
-    <?php if (!empty($pendingVendors)): ?>
+    <?php if (!empty($pendingSellers)): ?>
     <div class="bg-white rounded-2xl shadow-md border-2 border-orange-100 overflow-hidden relative mb-8">
         <div class="bg-orange-50/50 px-8 py-4 border-b border-orange-100 flex items-center gap-3">
             <div class="relative flex h-3 w-3">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
             </div>
-            <h3 class="font-serif font-bold text-lg text-orange-800">Candidatures Vendeur (<?= $pendingVendorsCount ?>)</h3>
+            <h3 class="font-serif font-bold text-lg text-orange-800">Candidatures Vendeur (<?= $pendingSellersCount ?>)</h3>
         </div>
         
         <div class="p-8 grid gap-6">
-            <?php foreach ($pendingVendors as $vendor): ?>
+            <?php foreach ($pendingSellers as $seller): ?>
             <div class="flex flex-col xl:flex-row items-start gap-6 p-4 border border-border rounded-xl hover:shadow-lg transition-all bg-white group">
                 <div class="w-24 h-24 flex-shrink-0 bg-purple-50 rounded-lg overflow-hidden border border-purple-100 flex items-center justify-center text-purple-300 group-hover:text-purple-500 group-hover:border-purple-300 transition-all">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,24 +30,24 @@
                 </div>
 
                 <div class="flex-1 w-full pt-1">
-                    <h4 class="font-serif text-xl font-bold text-primary group-hover:text-accent transition-colors"><?= esc($vendor->shop_name) ?></h4>
+                    <h4 class="font-serif text-xl font-bold text-primary group-hover:text-accent transition-colors"><?= esc($seller->shop_name) ?></h4>
                     <div class="flex flex-wrap gap-4 mt-2 text-sm text-muted">
                         <span class="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded border border-gray-100"> 
                             <span class="text-xs font-bold uppercase tracking-wider">SIRET :</span>
-                            <span class="font-mono text-primary"><?= esc($vendor->siret) ?></span>
+                            <span class="font-mono text-primary"><?= esc($seller->siret) ?></span>
                         </span>
                         <span class="flex items-center gap-1"> 
                             <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            <?= esc($vendor->email) ?>
+                            <?= esc($seller->email) ?>
                         </span>
-                        <span class="flex items-center gap-1 text-xs">Inscrit le <?= date('d/m/Y', strtotime($vendor->created_at)) ?></span>
+                        <span class="flex items-center gap-1 text-xs">Inscrit le <?= date('d/m/Y', strtotime($seller->created_at)) ?></span>
                     </div>
                     <p class="text-sm text-gray-500 mt-3 italic border-l-2 border-gray-200 pl-3">"Candidature en attente de validation manuelle."</p>
                 </div>
 
                 <div class="flex flex-col sm:flex-row items-center gap-2 w-full xl:w-auto mt-2 xl:mt-0">
-                    <a href="<?= site_url('admin/users/approveSeller/' . $vendor->user_id) ?>" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition w-full sm:w-auto text-center text-sm" >Approve</a>
-                    <form action="<?= site_url('admin/users/refuseSeller/' . $vendor->user_id) ?>" method="post" class="flex gap-2 w-full sm:w-auto">
+                    <a href="<?= site_url('admin/users/approveSeller/' . $seller->user_id) ?>" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition w-full sm:w-auto text-center text-sm" >Approve</a>
+                    <form action="<?= site_url('admin/users/refuseSeller/' . $seller->user_id) ?>" method="post" class="flex gap-2 w-full sm:w-auto">
                         <?= csrf_field() ?>
                         <input type="text" name="reason" class="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none min-w-[150px]" placeholder="Reason (optional)...">
                         <button type="submit" class="bg-white text-red-600 border border-red-200 hover:bg-red-50 px-4 py-2 rounded-lg font-bold transition text-sm">Reject</button>
@@ -57,7 +57,7 @@
             <?php endforeach; ?>
         </div>
         <div class="p-6 border-t border-border flex justify-center bg-gray-50/30">
-            <?= $pagerVendors->links('vendors', 'tailwind') ?>
+            <?= $pagerSellers->links('vendors', 'tailwind') ?>
         </div>
     </div>
     <?php endif; ?>

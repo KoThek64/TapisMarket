@@ -56,6 +56,9 @@ defined('ORDER_DELIVERED') || define('ORDER_DELIVERED', 'DELIVERED');
 defined('REVIEW_PUBLISHED') || define('REVIEW_PUBLISHED', 'PUBLISHED');
 defined('REVIEW_REFUSED')   || define('REVIEW_REFUSED', 'REFUSED');
 
+// Default Images
+defined('DEFAULT_PRODUCT_IMAGE') || define('DEFAULT_PRODUCT_IMAGE', 'https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400');
+
 /*
  |--------------------------------------------------------------------------
  | Timing Constants

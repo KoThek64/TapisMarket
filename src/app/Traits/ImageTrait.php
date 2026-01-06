@@ -8,7 +8,7 @@ trait ImageTrait
     public function getImageUrl(?string $filename, ?string $placeholderUrl = null): string
     {
         if ($placeholderUrl === null) {
-            $placeholderUrl = 'https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';
+            $placeholderUrl = DEFAULT_PRODUCT_IMAGE;
         }
 
         if (empty($filename)) {

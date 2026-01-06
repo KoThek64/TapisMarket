@@ -21,7 +21,7 @@ class Reviews extends AdminBaseController
 
     public function changeStatus($id, $newStatus)
     {
-        if (!in_array($newStatus, ['PUBLISHED', 'REFUSED'])) {
+        if (!in_array($newStatus, [REVIEW_PUBLISHED, REVIEW_REFUSED])) {
             return redirect()->back()->with('error', 'Statut invalide.');
         }
 

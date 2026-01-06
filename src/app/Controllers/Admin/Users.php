@@ -10,12 +10,12 @@ class Users extends AdminBaseController
 
         $data = array_merge($this->adminData, [
             'title'               => 'Gestion des Utilisateurs',
-            'pendingVendors'      => $this->sellerModel->getSellersPendingValidation(5), 
+            'pendingSellers'      => $this->sellerModel->getSellersPendingValidation(5), 
             'allUsers'            => $this->userModel->getAllUsersPaginated(10, $roleFilter),
-            'pagerVendors'        => $this->sellerModel->pager, 
+            'pagerSellers'        => $this->sellerModel->pager, 
             'pagerUsers'          => $this->userModel->pager,
             'currentRole'         => $roleFilter,
-            'pendingVendorsCount' => $this->sellerModel->countSellersPendingValidation()
+            'pendingSellersCount' => $this->sellerModel->countSellersPendingValidation()
         ]);
 
         return view('admin/users/index', $data);
