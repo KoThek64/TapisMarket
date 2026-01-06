@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\ProduitModel;
+use App\Models\ProductModel;
 
 class Home extends BaseController
 {
     public function index()
     {
-        $produitModel = new ProduitModel();
+        $productModel = new ProductModel();
 
-        $data['produits'] = $produitModel->getProduitsAvecImage(6); 
+        $data['products'] = $productModel->getAllWithImage(6); 
         
         return view('accueil', $data);
     }

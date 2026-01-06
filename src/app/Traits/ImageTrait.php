@@ -4,21 +4,27 @@ namespace App\Traits;
 
 trait ImageTrait
 {
-    //gere l'image d'un produit
-    public function getUrlImage(?string $nomFichier, string $placeholderUrl = null): string
+    // Manage product image
+    public function getImageUrl(?string $filename, ?string $placeholderUrl = null): string
     {
         if ($placeholderUrl === null) {
-            $placeholderUrl = 'https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';
+            $placeholderUrl = DEFAULT_PRODUCT_IMAGE;
         }
 
-        if (empty($nomFichier)) {
+        if (empty($filename)) {
             return $placeholderUrl;
         }
 
-        if (strpos($nomFichier, 'http') === 0) {
-            return $nomFichier;
+        if (strpos($filename, 'http') === 0) {
+            return $filename;
         }
+        
+        return base_url('images/' . $filename);
+    }
 
-        return base_url('images/' . $nomFichier);
+    // Alias for getImageUrl to match Entity usage
+    public function getUrlImage(?string $filename, ?string $placeholderUrl = null): string
+    {
+        return $this->getImageUrl($filename, $placeholderUrl);
     }
 }

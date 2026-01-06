@@ -2,7 +2,6 @@ services:
   web:
     container_name: php
     userns: keep-id
-    user: "${UID}:${GID}"
     build:
       context: app_php
       target: builder
