@@ -24,7 +24,22 @@ class Categories extends AdminBaseController
             'category' => new Category(),
             'action'   => 'create'
         ]);
+        
         return view('admin/categories/form', $data);
+    }
+
+    public function create()
+    {
+        $data = [
+            'name'        => $this->request->getPost('name'),
+            'description' => $this->request->getPost('description'),
+        ];
+
+        if ($this->categoryModel->save($data)) {
+            return redirect()->to('admin/categories')->with('success', 'Catégorie créée avec succès.');
+        } else {
+            return redirect()->back()->withInput()->with('errors', $this->categoryModel->errors());
+        }
     }
 
     public function edit($id)
@@ -40,24 +55,20 @@ class Categories extends AdminBaseController
             'category' => $category,
             'action'   => 'edit'
         ]);
+
         return view('admin/categories/form', $data);
     }
 
-    public function save()
+    public function update($id)
     {
-        $id = $this->request->getPost('category_id');
         $data = [
+            'id'          => $id,
             'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
 
-        if (!empty($id)) {
-            $data['id'] = $id;
-        }
-
         if ($this->categoryModel->save($data)) {
-            $message = empty($id) ? 'Catégorie créée avec succès.' : 'Catégorie mise à jour.';
-            return redirect()->to('admin/categories')->with('success', $message);
+            return redirect()->to('admin/categories')->with('success', 'Catégorie mise à jour.');
         } else {
             return redirect()->back()->withInput()->with('errors', $this->categoryModel->errors());
         }

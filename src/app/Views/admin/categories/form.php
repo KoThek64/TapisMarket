@@ -36,9 +36,8 @@
                 </div>
             <?php endif; ?>
 
-            <form action="<?= site_url('admin/categories/save') ?>" method="post" class="space-y-6">
+            <form action="<?= site_url('admin/categories/' . $category->id) ?>" method="patch" class="space-y-6">
                 <?= csrf_field() ?>
-                <input type="hidden" name="category_id" value="<?= old('category_id', $category->id) ?>">
 
                 <div>
                     <label class="block text-sm font-bold text-primary mb-2 tracking-tight">Nom de la catégorie</label>
