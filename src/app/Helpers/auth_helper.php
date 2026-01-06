@@ -39,9 +39,15 @@ function user_data(): ?object
 
 function login_user(int $id, UserRole $role)
 {
+    session()->regenerate();
     session()->set([
         'user_id'      => $id,
         'role'         => $role->value, // IMPORTANT: on stocke la string 'admin'
         'is_logged_in' => true
     ]);
+}
+
+function logout_user()
+{
+    session()->destroy();
 }
