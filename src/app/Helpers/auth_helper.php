@@ -29,7 +29,7 @@ function user_data(): ?object
 
     $model = match($role) {
         UserRole::ADMIN   => new AdministrateurModel(),
-        UserRole::VENDEUR => new VendeurModel(),
+        UserRole::SELLER => new VendeurModel(),
         UserRole::CLIENT  => new ClientModel(),
     };
 
