@@ -48,7 +48,7 @@ $routes->group('auth', function ($routes) {
 });
 
 //Admin
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {
     
     $routes->get('/', 'Dashboard::index');
 
