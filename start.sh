@@ -5,6 +5,7 @@ cd conteneur
 echo "----------------------------------"
 echo "|     Building podman images     |"
 echo "----------------------------------"
+podman-compose down
 podman-compose up -d
 
 if [ ! -d ../src/vendor ]; then
@@ -23,7 +24,7 @@ echo "----------------------------------"
 echo "|     Database creation          |"
 echo "----------------------------------"
 podman-compose exec web php spark migrate
-podman-compose exec web php spark db:seed JeuDeDonnees
+podman-compose exec web php spark db:seed DataSeeder
 
 chmod -R 777 ../src
 

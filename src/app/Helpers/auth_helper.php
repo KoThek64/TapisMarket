@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\AdministrateurModel;
-use App\Models\VendeurModel;
-use App\Models\ClientModel;
+use App\Models\AdministratorModel;
+use App\Models\CustomerModel;
+use App\Models\SellerModel;
 use App\Enums\UserRole;
 
 function user_role(): ?UserRole
@@ -28,9 +28,9 @@ function user_data(): ?object
     if (!$role || !$id) return null;
 
     $model = match($role) {
-        UserRole::ADMIN   => new AdministrateurModel(),
-        UserRole::SELLER => new VendeurModel(),
-        UserRole::CLIENT  => new ClientModel(),
+        UserRole::ADMIN   => new AdministratorModel(),
+        UserRole::SELLER => new SellerModel(),
+        UserRole::CLIENT  => new CustomerModel(),
     };
 
     $data = $model->find($id);
