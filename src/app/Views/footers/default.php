@@ -1,5 +1,5 @@
 <footer class="bg-slate-900 text-white pt-20 pb-10 mt-20">
-    <div class="max-w-[1600px] mx-auto px-[5%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+    <div class="max-w-5xl mx-auto px-[5%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 mb-16">
         <div class="col-span-1 md:col-span-2 lg:col-span-1">
             <h3 class="font-serif text-2xl font-bold mb-6 text-white">TapisMarket</h3>
             <p class="text-slate-300 text-sm max-w-sm leading-relaxed">
@@ -25,7 +25,7 @@
             </ul>
         </div>
     </div>
-    <div class="max-w-[1600px] mx-auto px-[5%] border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-400 uppercase tracking-widest">
+    <div class="max-w-5xl mx-auto px-[5%] border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-400 uppercase tracking-widest">
         <p>© 2025 TapisMarket. Tous droits réservés.</p>
         <div class="flex gap-6 mt-4 md:mt-0">
             <a href="<?= base_url('/legal-notice') ?>" class="hover:text-white">Mentions Légales</a>
