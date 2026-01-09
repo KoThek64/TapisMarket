@@ -194,4 +194,17 @@ class OrderModel extends Model
                     ->orderBy('order_date', 'DESC')
                     ->paginate($perPage);
     }
+    
+    // Get item count for a specific order
+    public function getItemCount(int $orderId): int
+    {
+        $orderItemModel = new OrderItemModel();
+        
+        $result = $orderItemModel->select('SUM(quantity)')
+                                 ->where('order_id', $orderId)
+                                 ->get()
+                                 ->getRow();
+                                 
+        return (int) ($result->quantity ?? 0);
+    }
 }
