@@ -22,7 +22,7 @@ class Orders extends AdminBaseController
         return view('admin/orders/index', $data);
     }
 
-    public function detail($id)
+    public function show($id)
     {
         $order = $this->orderModel->getOrderWithIdentity($id);
 
