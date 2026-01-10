@@ -38,6 +38,15 @@ class SellerModel extends Model
         ]
     ];
 
+    // Retrieves the complete profile of a seller with user info
+    public function getByEmail(string $email)
+    {
+        return $this->select('sellers.*, users.email, users.password, users.lastname, users.firstname, users.created_at')
+                    ->join('users', 'users.id = sellers.user_id')
+                    ->where('status', SELLER_VALIDATED)
+                    ->where('users.email', $email)
+                    ->first();
+    }
 
     // Retrieves the complete profile of a seller with user info
     public function getFullProfile(int $userId)

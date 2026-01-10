@@ -17,7 +17,7 @@ class AuthFilter implements FilterInterface
         $role = user_role();
 
         if ($role === null) {
-            return redirect()->to('/login')->with('error', 'Vous devez être connecté.');
+            return redirect()->to('/auth/login')->with('error', 'Vous devez être connecté.');
         }
 
         if (!empty($arguments)) {

@@ -25,6 +25,15 @@ class AdministratorModel extends Model
         ]
     ];
 
+    // Retrieves the complete profile of an admin with user info
+    public function getByEmail(string $email)
+    {
+        return $this->select('administrators.*, users.lastname, users.firstname, users.email, users.password, users.created_at')
+                    ->join('users', 'users.id = administrators.user_id')
+                    ->where('email', $email)
+                    ->first();
+    }
+
     // Get full admin profile by ID
     public function getAdminProfile(int $id)
     {
