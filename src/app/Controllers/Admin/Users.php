@@ -9,12 +9,13 @@ class Users extends AdminBaseController
         $roleFilter = $this->request->getGet('role');
 
         $data = array_merge($this->adminData, [
-            'title'               => 'Gestion des Utilisateurs',
-            'pendingSellers'      => $this->sellerModel->getSellersPendingValidation(5), 
-            'allUsers'            => $this->userModel->getAllUsersPaginated(10, $roleFilter),
-            'pagerSellers'        => $this->sellerModel->pager, 
-            'pagerUsers'          => $this->userModel->pager,
-            'currentRole'         => $roleFilter,
+            'title' => 'Gestion des Utilisateurs',
+            'subtitle' => 'Gestion des comptes clients et vendeurs',
+            'pendingSellers' => $this->sellerModel->getSellersPendingValidation(5),
+            'allUsers' => $this->userModel->getAllUsersPaginated(10, $roleFilter),
+            'pagerSellers' => $this->sellerModel->pager,
+            'pagerUsers' => $this->userModel->pager,
+            'currentRole' => $roleFilter,
             'pendingSellersCount' => $this->sellerModel->countSellersPendingValidation()
         ]);
 
@@ -30,10 +31,10 @@ class Users extends AdminBaseController
             return redirect()->to('admin/users')->with('error', 'Erreur lors de la validation.');
         }
     }
- 
+
     public function refuseSeller($id)
     {
-        $reason = trim((string)$this->request->getVar('reason'));
+        $reason = trim((string) $this->request->getVar('reason'));
 
         if (empty($reason)) {
             $reason = "Dossier incomplet ou non conforme.";
@@ -50,7 +51,7 @@ class Users extends AdminBaseController
     public function delete($id)
     {
         $user = $this->userModel->find($id);
-        
+
         if (!$user) {
             return redirect()->back()->with('error', 'Utilisateur introuvable.');
         }
@@ -60,7 +61,7 @@ class Users extends AdminBaseController
                 $this->sellerModel->delete($id);
             }
             $this->userModel->delete($id);
-            
+
             return redirect()->back()->with('success', 'Utilisateur supprimé.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Impossible de supprimer.');

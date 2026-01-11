@@ -44,16 +44,16 @@
                 },
             },
         }
-    </script>
+    </script>   
 </head>
 
 <body class="bg-cream text-primary font-sans antialiased h-screen flex overflow-hidden">
 
-    <?= view('partials/client/sidebar') ?>
+    <?= $this->renderSection('sidebar') ?>
 
     <main class="flex-1 flex flex-col h-screen overflow-hidden bg-cream relative">
         
-        <?= $this->include("headers/" . ($header ?? "client")) ?>
+        <?= $this->include("headers/" . ($header ?? "with_sidebar")) ?>
 
         <div class="flex-1 overflow-y-auto p-8 lg:p-12 space-y-8">
             
@@ -63,6 +63,8 @@
 
         </div>
     </main>
+
+    <?= view("partials/delete_modal") ?>
 </body>
 
 </html>

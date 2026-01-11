@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/client') ?>
+<?= $this->extend('layouts/client_section') ?>
 
 <?= $this->section('header_content') ?>
 <div class="flex items-center gap-2">

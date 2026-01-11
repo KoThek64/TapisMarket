@@ -1,11 +1,8 @@
-<?= $this->extend('admin/layout/base') ?>
+<?= $this->extend('layouts/admin_section') ?>
 
-<?= $this->section('header') ?>
-    <?= view('admin/partials/header', [
-        'title'    => 'Avis Clients',
-        'subtitle' => 'Modération des commentaires publiés',
-        'action'   => '<a href="' . site_url('admin') . '" class="text-xs font-bold text-muted hover:text-primary transition uppercase border border-border px-4 py-2 rounded-full bg-white shadow-sm flex items-center gap-2"><span>← Retour</span></a>'
-    ]) ?>
+<?= $this->section('header_content') ?>
+<a href="<?= site_url('/') ?>"
+    class="text-xs font-bold text-muted hover:text-primary transition uppercase tracking-wide mr-4">Retour au site</a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -126,5 +123,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('modals') ?>
-    <?= view('admin/partials/delete_modal') ?>
+    <?= view('partials/delete_modal') ?>
 <?= $this->endSection() ?>

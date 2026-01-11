@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/client') ?>
+<?= $this->extend('layouts/client_section') ?>
 
 <?= $this->section('header_content') ?>
     <a href="<?= site_url('/') ?>" class="px-4 py-2 border border-border rounded-xl hover:bg-white transition text-sm font-bold flex items-center gap-2 bg-gray-50/50 text-gray-700">

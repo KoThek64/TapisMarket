@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/client') ?>
+<?= $this->extend('layouts/client_section') ?>
 
 <?php
 // Status badges logic

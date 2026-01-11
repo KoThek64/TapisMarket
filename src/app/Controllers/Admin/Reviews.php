@@ -10,6 +10,7 @@ class Reviews extends AdminBaseController
 
         $data = array_merge($this->adminData, [
             'title'         => 'Gestion des Avis',
+            'subtitle' => 'Modération des commentaires publiés',
             'reviews'       => $this->reviewModel->getReviewsByFilter($filter, 10),
             'pager'         => $this->reviewModel->pager,
             'currentFilter' => $filter,

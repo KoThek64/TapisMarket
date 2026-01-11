@@ -18,7 +18,8 @@ class Dashboard extends AdminBaseController
         $latestOrders = $this->orderModel->asObject('stdClass')->getRecentOrders(5);
 
         $data = array_merge($this->adminData, [
-            'title'                => 'Dashboard',
+            'title' => 'Vue d\'ensemble',
+            'subtitle' => 'Bienvenue dans votre espace d\'administration',
             'usersCount'           => $this->userModel->countAllUsers(),
             'ordersCount'          => $this->orderModel->countValidOrders(),
             'totalSales'           => $this->orderModel->getTotalSales(),

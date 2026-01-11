@@ -12,6 +12,7 @@ class Orders extends AdminBaseController
 
         $data = array_merge($this->adminData, [
             'title' => 'Gestion des Commandes',
+            'subtitle' => 'Vue d\'ensemble des transactions',
             'orders' => $this->orderModel->getAllOrdersWithClient(10, $statusFilter),
             'pager' => $this->orderModel->pager,
             'globalAmount' => $this->orderModel->getGlobalTotalAmount(),

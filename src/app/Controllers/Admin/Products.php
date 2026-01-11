@@ -7,10 +7,11 @@ class Products extends AdminBaseController
     public function index()
     {
         $data = array_merge($this->adminData, [
-            'title'                => 'Modération des Produits',
-            'pendingProducts'      => $this->productModel->getPendingProductsPaginated(5),
-            'allProducts'          => $this->productModel->getAllProductsPaginated(10),
-            'pager'                => $this->productModel->pager,
+            'title' => 'Modération des Produits',
+            'subtitle' => 'Validation et Conformité du catalogue',
+            'pendingProducts' => $this->productModel->getPendingProductsPaginated(5),
+            'allProducts' => $this->productModel->getAllProductsPaginated(10),
+            'pager' => $this->productModel->pager,
             'pendingProductsCount' => $this->productModel->countPendingProducts()
         ]);
 
@@ -28,7 +29,7 @@ class Products extends AdminBaseController
 
     public function reject($id)
     {
-        $reason = trim((string)$this->request->getVar('reason'));
+        $reason = trim((string) $this->request->getVar('reason'));
 
         if (!$this->productModel->find($id)) {
             return redirect()->back()->with('error', 'Produit introuvable.');

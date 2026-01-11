@@ -9,9 +9,10 @@ class Categories extends AdminBaseController
     public function index()
     {
         $data = array_merge($this->adminData, [
-            'title'      => 'Gestion des catégories',
+            'title' => 'Gestion des catégories',
+            'subtitle' => 'Organisation du catalogue',
             'categories' => $this->categoryModel->getAllCategoriesPaginated(10),
-            'pager'      => $this->categoryModel->pager,
+            'pager' => $this->categoryModel->pager,
         ]);
 
         return view('admin/categories/index', $data);
@@ -20,18 +21,18 @@ class Categories extends AdminBaseController
     public function new()
     {
         $data = array_merge($this->adminData, [
-            'title'    => 'Nouvelle Catégorie',
+            'title' => 'Nouvelle Catégorie',
             'category' => new Category(),
-            'action'   => 'create'
+            'action' => 'create'
         ]);
-        
+
         return view('admin/categories/form', $data);
     }
 
     public function create()
     {
         $data = [
-            'name'        => $this->request->getPost('name'),
+            'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
 
@@ -51,9 +52,9 @@ class Categories extends AdminBaseController
         }
 
         $data = array_merge($this->adminData, [
-            'title'    => 'Éditer la catégorie : ' . $category->name,
+            'title' => 'Éditer la catégorie : ' . $category->name,
             'category' => $category,
-            'action'   => 'edit'
+            'action' => 'edit'
         ]);
 
         return view('admin/categories/form', $data);
@@ -62,8 +63,8 @@ class Categories extends AdminBaseController
     public function update($id)
     {
         $data = [
-            'id'          => $id,
-            'name'        => $this->request->getPost('name'),
+            'id' => $id,
+            'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
 

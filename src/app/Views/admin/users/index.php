@@ -1,11 +1,8 @@
-<?= $this->extend('admin/layout/base') ?>
+<?= $this->extend('layouts/admin_section') ?>
 
-<?= $this->section('header') ?>
-    <?= view('admin/partials/header', [
-        'title'    => 'Utilisateurs',
-        'subtitle' => 'Gestion des comptes clients et vendeurs',
-        'action'   => '<a href="'. site_url('/') .'" class="text-xs font-bold text-muted hover:text-primary transition uppercase tracking-wide mr-4">Retour au site</a>'
-    ]) ?>
+<?= $this->section('header_content') ?>
+<a href="<?= site_url('/') ?>"
+    class="text-xs font-bold text-muted hover:text-primary transition uppercase tracking-wide mr-4">Retour au site</a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -113,6 +110,6 @@
         </div>
     </div>
 
-    <?= view('admin/partials/delete_modal') ?>
+    <?= view('partials/delete_modal') ?>
 
 <?= $this->endSection() ?>
