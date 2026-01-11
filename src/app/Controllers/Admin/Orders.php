@@ -11,11 +11,11 @@ class Orders extends AdminBaseController
         $statusFilter = $this->request->getGet('status');
 
         $data = array_merge($this->adminData, [
-            'title'         => 'Gestion des Commandes',
-            'orders'        => $this->orderModel->getAllOrdersWithClient(10, $statusFilter),
-            'pager'         => $this->orderModel->pager,
-            'globalAmount'  => $this->orderModel->getGlobalTotalAmount(),
-            'statusList'    => $this->orderModel->getOrderStatuses(),
+            'title' => 'Gestion des Commandes',
+            'orders' => $this->orderModel->getAllOrdersWithClient(10, $statusFilter),
+            'pager' => $this->orderModel->pager,
+            'globalAmount' => $this->orderModel->getGlobalTotalAmount(),
+            'statusList' => $this->orderModel->getOrderStatuses(),
             'currentStatus' => $statusFilter,
         ]);
 

@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>TapisMarket - <?= esc($title ?? "Bienvenu") ?></title>
+    <title>TapisMarket - <?= esc($title ?? "Espace Client") ?></title>
 
-    <link rel="stylesheet" href="<?= base_url('Styles/style.css') ?>">
     <link
-        href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -46,20 +45,24 @@
             },
         }
     </script>
-    <?= $this->renderSection('head') ?>
 </head>
 
-<body>
+<body class="bg-cream text-primary font-sans antialiased h-screen flex overflow-hidden">
 
-    <?= $this->include("headers/" . ($header ?? "default")) ?>
+    <?= view('partials/client/sidebar') ?>
 
-    <main>
-        <?= $this->include("partials/alert_handler") ?>
-        <?= $this->renderSection('content') ?>
+    <main class="flex-1 flex flex-col h-screen overflow-hidden bg-cream relative">
+        
+        <?= $this->include("headers/" . ($header ?? "client")) ?>
+
+        <div class="flex-1 overflow-y-auto p-8 lg:p-12 space-y-8">
+            
+            <?= $this->include("partials/alert_handler") ?>
+            <?= $this->renderSection('content') ?>
+            <?= $this->include("footers/" . ($footer ?? "client")) ?>
+
+        </div>
     </main>
-
-    <?= $this->include("footers/" . ($footer ?? "default")) ?>
-
 </body>
 
 </html>

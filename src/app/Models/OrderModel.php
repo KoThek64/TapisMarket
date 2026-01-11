@@ -25,7 +25,19 @@ class OrderModel extends Model
         'reference' => 'is_unique[orders.reference]', 
     ];
 
+    // Client: Get orders for logged user
+    public function getUserOrders(int $userId, int $perPage = 10)
+    {
+        return $this->where('customer_id', $userId)
+                    ->orderBy('order_date', 'DESC')
+                    ->paginate($perPage);
+    }
 
+    // Client: Count orders
+    public function countUserOrders(int $userId)
+    {
+        return $this->where('customer_id', $userId)->countAllResults();
+    }
 
     // Get all orders with client info for admin
     public function getAllOrdersWithClient(int $perPage = 15, ?string $status = null)
@@ -126,4 +138,12 @@ class OrderModel extends Model
                     ->orderBy('order_date', 'DESC')
                     ->findAll($limit);
     }
+
+    public function getPaginatedOrdersForClient(int $clientId, int $perPage = 10): array
+    {
+        return $this->where('customer_id', $clientId)
+                    ->orderBy('order_date', 'DESC')
+                    ->paginate($perPage);
+    }
+
 }

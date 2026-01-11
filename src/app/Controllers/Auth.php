@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CustomerModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -14,7 +15,7 @@ use App\Models\AdministratorModel;
 
 class Auth extends BaseController
 {
-    protected $userModel;
+    protected $customerModel;
     protected $sellerModel;
     protected $administratorModel;
 
@@ -22,7 +23,7 @@ class Auth extends BaseController
     {
         parent::initController($request, $response, $logger);
 
-        $this->userModel          = new UserModel();
+        $this->customerModel      = new CustomerModel();
         $this->sellerModel        = new SellerModel();
         $this->administratorModel = new AdministratorModel();
     }
@@ -30,7 +31,7 @@ class Auth extends BaseController
     public function login()
     {
         return view('auth/login', [
-            'disable_error_alert' => true
+            'custom_error_alert' => true
         ]);
     }
 
@@ -51,7 +52,7 @@ class Auth extends BaseController
         $user = null;
         switch ($role) {
             case UserRole::CLIENT:
-                $user = $this->userModel->getByEmail($email);
+                $user = $this->customerModel->getByEmail($email);
                 break;
             case UserRole::SELLER:
                 $user = $this->sellerModel->getByEmail($email);
@@ -64,8 +65,7 @@ class Auth extends BaseController
         if ($user && password_verify($password, $user->password)) {
             
             // create session
-            $id = $role == UserRole::CLIENT ? $user->id : $user->user_id;
-            login_user($id, $role);
+            login_user($user->user_id, $role);
             set_success("Connexion réussie. Bienvenue " . ($user->firstname ?? ''));
             
             return redirect()->to('/');

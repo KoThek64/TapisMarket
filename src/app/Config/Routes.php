@@ -72,19 +72,21 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => 'auth:client'], function ($routes) {
 
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->group('profile', function($routes) {
         $routes->get('/', 'Profile::index');
         $routes->post('update', 'Profile::update');
     });
 
-    $routes->resource('addresses');
+    $routes->resource('addresses', ['expect' => ['show']]);
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
     
     $routes->group('reviews', function($routes) {
-        $routes->get('create/(:num)', 'Reviews::create/$1');
-        $routes->post('save', 'Reviews::store');
+        $routes->get('/', 'Reviews::index');
+        $routes->get('(:num)/edit', 'Reviews::edit/$1');
+        $routes->post('update', 'Reviews::update');
     });
 });
 

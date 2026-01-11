@@ -8,8 +8,8 @@
     <nav>
         <ul class="nav-links">
             <li><a href="<?= base_url('/') ?>" class="active">Accueil</a></li>
-            <li><a href="#">Catalogue</a></li>
-            <li><a href="#">Mon Compte</a></li>
+            <li><a href="<?= site_url("#") ?>">Catalogue</a></li>
+            <li><a href="<?= site_url("/client/dashboard") ?>">Mon Compte</a></li>
         </ul>
     </nav>
 
