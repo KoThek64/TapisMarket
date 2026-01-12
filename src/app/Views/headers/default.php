@@ -49,15 +49,17 @@ $activeClass = "font-medium text-accent-light border-b-2 border-accent-light";
     <div class="flex items-center gap-6">
             <a href="<?= base_url('/cart') ?>" class="relative" aria-label="Panier">
                 <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" class="w-6" alt="Panier" />
-                <span class="absolute -top-2 -right-2 bg-accent text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">0</span>
             </a>
             
-            <?= view('partials/black_button', [
-                'url' => base_url('/auth/login'),
-                'label' => 'Connexion',
-                'padding' => 'px-5 py-2.5',
-                'customClass' => 'rounded text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md'
-            ]) ?>
+            <?php if (user_id()): ?>
+                <a href="<?= base_url('/auth/logout') ?>" class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
+                    <span>Déconnexion</span>
+                </a>
+            <?php else: ?>
+                <a href="<?= base_url('/auth/login') ?>" class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
+                    <span>Connexion</span>
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 </header>

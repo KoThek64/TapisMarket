@@ -88,5 +88,6 @@ class Auth extends BaseController
     public function logout()
     {
         logout_user();
+        return redirect()->to('/auth/login')->with('success', 'Vous avez été déconnecté.');
     }
 }

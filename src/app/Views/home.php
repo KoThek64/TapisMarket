@@ -22,10 +22,12 @@
         </p>
         
         <div class="flex gap-4 justify-center flex-wrap">
-            <a href="<?= base_url('catalog') ?>" class="group bg-primary text-white px-8 py-4 rounded font-bold uppercase tracking-widest hover:bg-accent transition-all duration-300 shadow-lg hover:shadow-accent/25 flex items-center gap-2">
-                Explorer le catalogue
-                <span class="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
+            <?= view('partials/black_button', [
+                'url' => base_url('catalog'),
+                'label' => 'Explorer le catalogue',
+                'customClass' => 'shadow-lg hover:shadow-accent/25 flex items-center gap-2 px-8 py-4',
+                'padding' => '' // Custom padding handled in class
+            ]) ?>
         </div>
     </div>
 </section>
