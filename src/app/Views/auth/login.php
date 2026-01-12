@@ -40,7 +40,7 @@
                 <select name="role" id="role" 
                     class="w-full px-4 py-3 rounded-xl border border-border-custom bg-white focus:ring-2 focus:ring-accent outline-none transition-all font-sans cursor-pointer">
                     <option value="client">Client particulier</option>
-                    <option value="vendeur">Vendeur professionnel</option>
+                    <option value="seller">Vendeur professionnel</option>
                     <option value="admin">Administrateur</option>
                 </select>
             </div>

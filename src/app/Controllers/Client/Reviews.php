@@ -76,7 +76,6 @@ class Reviews extends ClientBaseController
 
         $productId = $this->request->getPost('product_id');
 
-        // CORRECTION ICI AUSSI
         if (!$this->orderItemModel->hasUserPurchasedProduct($userId, $productId)) {
             return redirect()->back()->with('error', 'Action non autorisée. Vous n\'avez pas commandé ce produit.');
         }

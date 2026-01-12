@@ -47,21 +47,22 @@ $routes->group('auth', function ($routes) {
     $routes->get('logout', 'Auth::logout');
 });
 
-//Admin
+// Admin
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {
-    
+
     $routes->get('/', 'Dashboard::index');
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
 
-    $routes->resource('categories', ['expect' => ['show']]);
+    $routes->resource('categories');
 
     $routes->resource('products', ['only' => ['index', 'delete']]);
+
     $routes->get('products/approve/(:num)', 'Products::approve/$1');
     $routes->match(['GET', 'POST'], 'products/reject/(:num)', 'Products::reject/$1');
-    
+
     $routes->resource('users', ['only' => ['index', 'delete']]);
-    $routes->get('users/approve/(:num)', 'Users::approveSeller/$1'); 
+    $routes->get('users/approve/(:num)', 'Users::approveSeller/$1');
     $routes->match(['GET', 'POST'], 'users/reject/(:num)', 'Users::rejectSeller/$1');
 
     $routes->resource('reviews', ['only' => ['index', 'delete']]);
@@ -74,33 +75,41 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
     $routes->get('/', 'Dashboard::index');
     $routes->get('dashboard', 'Dashboard::index');
 
-    $routes->group('profile', function($routes) {
+    $routes->group('profile', function ($routes) {
         $routes->get('/', 'Profile::index');
         $routes->post('update', 'Profile::update');
     });
 
-    $routes->resource('addresses', ['expect' => ['show']]);
+    $routes->resource('addresses');
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
-    
-    $routes->group('reviews', function($routes) {
+
+    $routes->group('reviews', function ($routes) {
         $routes->get('/', 'Reviews::index');
         $routes->get('(:num)/edit', 'Reviews::edit/$1');
         $routes->post('update', 'Reviews::update');
     });
 });
 
+
 // Seller
 $routes->group('seller', ['namespace' => 'App\Controllers\Seller', 'filter' => 'auth:seller'], function ($routes) {
-    
+
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->resource('products');
+    $routes->group('products/(:num)', function ($routes) {
+        $routes->resource('photos', ['only' => ['create', 'update', 'delete']]);
+    });
 
+    $routes->post('orders/update-status/(:num)', 'Orders::updateStatus/$1');
     $routes->post('orders/ship/(:num)', 'Orders::ship/$1');
     $routes->resource('orders', ['only' => ['index', 'show']]);
-    
-    $routes->group('shop', function($routes) {
+
+    $routes->resource('reviews', ['only' => ['index']]);
+
+    $routes->group('shop', function ($routes) {
         $routes->get('/', 'Shop::index');
         $routes->get('edit', 'Shop::edit');
         $routes->post('update', 'Shop::update');

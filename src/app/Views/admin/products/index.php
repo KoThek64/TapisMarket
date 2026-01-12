@@ -24,7 +24,7 @@
                 <div class="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-border relative group-hover:border-accent transition-colors cursor-pointer"
                      onclick='openModal(<?= json_encode($prod, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                     <?php if(!empty($prod->image)): ?>
-                        <img src="<?= base_url('uploads/products/' . $prod->image) ?>" class="w-full h-full object-cover">
+                        <img src="<?= $prod->getImageUrl($prod->image) ?>" class="w-full h-full object-cover">
                     <?php else: ?>
                         <div class="w-full h-full flex items-center justify-center text-gray-300"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
                     <?php endif; ?>
@@ -96,7 +96,7 @@
                             <div class="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden border border-border cursor-pointer" 
                                  onclick='openModal(<?= json_encode($prod, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                 <?php if(!empty($prod->image)): ?>
-                                    <img src="<?= base_url('uploads/products/' . $prod->image) ?>" class="w-full h-full object-cover">
+                                    <img src="<?= $prod->getImageUrl($prod->image) ?>" class="w-full h-full object-cover">
                                 <?php else: ?>
                                     <div class="w-full h-full flex items-center justify-center text-gray-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
                                 <?php endif; ?>
@@ -134,7 +134,7 @@
                         </td>
                         <td class="px-8 py-4 text-center">
                             <a href="javascript:void(0)" 
-                               onclick="openDeleteModal('<?= site_url('admin/products/delete/' . $prod->id) ?>')"
+                               onclick="openDeleteModal('<?= site_url('admin/products/' . $prod->id) ?>')"
                                class="text-red-400 hover:text-red-600 font-bold transition p-2 hover:bg-red-50 rounded-lg inline-block">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </a>
@@ -153,131 +153,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('modals') ?>
-    <div id="productModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center">
-                
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-2xl border border-white/20">
-                    
-                    <div class="bg-gray-50 px-6 py-4 border-b border-border flex justify-between items-center">
-                        <h3 class="font-serif text-xl font-bold text-primary">Product Details</h3>
-                        <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition rounded-full p-1 hover:bg-red-50">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                    </div>
-
-                    <div class="px-6 py-6">
-                        <div class="flex flex-col md:flex-row gap-8">
-                            
-                            <div class="w-full md:w-1/2">
-                                <div class="aspect-square bg-gray-100 rounded-xl overflow-hidden border border-border flex items-center justify-center shadow-inner relative group">
-                                    <img id="modal-img" src="" alt="Product" class="w-full h-full object-cover hidden transition-transform duration-500 group-hover:scale-105">
-                                    <div id="modal-no-img" class="flex flex-col items-center gap-2 text-gray-400 hidden">
-                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                        <span class="text-xs uppercase tracking-widest font-bold">No Image</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="w-full md:w-1/2 flex flex-col justify-between">
-                                <div class="space-y-5">
-                                    <div>
-                                        <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-1">Product</p>
-                                        <h4 id="modal-titre" class="font-serif text-2xl font-bold text-primary leading-tight"></h4>
-                                    </div>
-
-                                    <div class="flex items-end justify-between border-b border-border pb-4">
-                                        <div>
-                                            <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-1">Price</p>
-                                            <p id="modal-prix" class="text-3xl font-bold text-accent font-serif tracking-tighter"></p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-1">Stock</p>
-                                            <p id="modal-stock" class="text-lg font-bold text-primary font-mono"></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-1">Seller</p>
-                                            <p id="modal-vendeur" class="text-sm font-bold text-gray-700"></p>
-                                        </div>
-                                        <div>
-                                            <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-1">Category</p>
-                                            <p id="modal-categorie" class="text-sm font-bold text-gray-700"></p>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <p class="text-[10px] font-bold text-muted uppercase tracking-widest mb-2">Description</p>
-                                        <div class="bg-gray-50 p-3 rounded-lg border border-border">
-                                            <p id="modal-desc" class="text-xs text-gray-600 leading-relaxed italic max-h-32 overflow-y-auto custom-scrollbar"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-gray-50 px-6 py-4 border-t border-border flex justify-end">
-                        <button onclick="closeModal()" class="text-xs font-bold uppercase tracking-widest text-muted hover:text-primary transition px-4 py-2">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <?= view('partials/delete_modal') ?>
-<?= $this->endSection() ?>
-
-<?= $this->section('scripts') ?>
-<script>
-    const modal = document.getElementById('productModal');
-    const modalImg = document.getElementById('modal-img');
-    const modalNoImg = document.getElementById('modal-no-img');
-
-    function openModal(prod) {
-        document.getElementById('modal-titre').textContent = prod.title || prod.titre;
-        
-        const prixRaw = prod.price || prod.prix;
-        document.getElementById('modal-prix').textContent = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(prixRaw);
-        
-        document.getElementById('modal-stock').textContent = prod.stock || prod.stock_available || prod.stock_disponible;
-        document.getElementById('modal-vendeur').textContent = prod.shop_name || prod.nom_boutique;
-        document.getElementById('modal-categorie').textContent = prod.category_name || prod.nom_categorie || 'Uncategorized';
-        
-        const desc = prod.description || prod.long_description || prod.short_description || prod.description_courte || 'No description available.';
-        document.getElementById('modal-desc').textContent = desc;
-
-        // Image Handling
-        const imageFile = prod.image; 
-        if (imageFile) {
-            modalImg.src = '<?= base_url('uploads/products/') ?>' + '/' + imageFile;
-            modalImg.classList.remove('hidden');
-            modalNoImg.classList.add('hidden');
-        } else {
-            modalImg.classList.add('hidden');
-            modalNoImg.classList.remove('hidden');
-        }
-
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function closeModal() {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    }
-    
-    // Close with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") closeModal();
-    });
-</script>
-<?= $this->endSection() ?>
-
-<?= $this->section('modals') ?>
+    <?= view('partials/product_modal') ?>
     <?= view('partials/delete_modal') ?>
 <?= $this->endSection() ?>

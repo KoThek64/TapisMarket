@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Controllers\Admin;
+use Exception;
 
 class Users extends AdminBaseController
 {
+    // Affichage de la liste des utilisateurs
     public function index()
     {
         $roleFilter = $this->request->getGet('role');
@@ -16,12 +18,12 @@ class Users extends AdminBaseController
             'pagerSellers' => $this->sellerModel->pager,
             'pagerUsers' => $this->userModel->pager,
             'currentRole' => $roleFilter,
-            'pendingSellersCount' => $this->sellerModel->countSellersPendingValidation()
         ]);
 
         return view('admin/users/index', $data);
     }
 
+    // Approuver un compte vendeur
     public function approveSeller($id)
     {
         try {
@@ -32,6 +34,7 @@ class Users extends AdminBaseController
         }
     }
 
+    // Rejeter un compte vendeur avec une raison
     public function refuseSeller($id)
     {
         $reason = trim((string) $this->request->getVar('reason'));
@@ -43,11 +46,12 @@ class Users extends AdminBaseController
         try {
             $this->sellerModel->rejectSeller($id, $reason);
             return redirect()->back()->with('warning', 'Compte refusé (Motif : ' . $reason . ')');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'Erreur : ' . $e->getMessage());
         }
     }
 
+    // Suppression d'un utilisateur
     public function delete($id)
     {
         $user = $this->userModel->find($id);
@@ -63,7 +67,7 @@ class Users extends AdminBaseController
             $this->userModel->delete($id);
 
             return redirect()->back()->with('success', 'Utilisateur supprimé.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'Impossible de supprimer.');
         }
     }

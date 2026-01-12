@@ -6,6 +6,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Orders extends AdminBaseController
 {
+    // Affichage de la liste des commandes
     public function index()
     {
         $statusFilter = $this->request->getGet('status');
@@ -23,6 +24,7 @@ class Orders extends AdminBaseController
         return view('admin/orders/index', $data);
     }
 
+    // Affichage du détail d'une commande
     public function show($id)
     {
         $order = $this->orderModel->getOrderWithIdentity($id);
