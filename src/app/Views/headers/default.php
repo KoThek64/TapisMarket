@@ -1,26 +1,63 @@
-<header>
-    <div class="header-left">
-        <a href="<?= base_url('/') ?>" class="logo-container">
-            <span>TapisMarket</span>
-        </a>
-    </div>
+<?php
+$uri = uri_string();
+$isHome = ($uri == '' || $uri == '/');
+$isCatalog = (strpos($uri, 'catalog') !== false || strpos($uri, 'product') !== false);
+$isAccount = (strpos($uri, 'dashboard') !== false || strpos($uri, 'auth') !== false || strpos($uri, 'client') !== false || strpos($uri, 'seller') !== false || strpos($uri, 'admin') !== false);
 
-    <nav>
-        <ul class="nav-links">
-            <li><a href="<?= base_url('/') ?>" class="active">Accueil</a></li>
-            <li><a href="<?= site_url("#") ?>">Catalogue</a></li>
-            <li><a href="<?= site_url("/client/dashboard") ?>">Mon Compte</a></li>
-        </ul>
-    </nav>
+$linkClass = "font-medium hover:text-accent transition-colors border-b-2 border-transparent";
+$activeClass = "font-medium text-accent-light border-b-2 border-accent-light";
+?>
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-[1600px] mx-auto px-[5%] py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="<?= base_url('/') ?>" class="font-serif text-2xl font-bold text-primary">
+                TapisMarket
+            </a>
+        </div>
 
-    <div class="header-actions">
-        <a href="cart" class="btn-icon" aria-label="Panier">
-            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width:24px" alt="Panier" />
-            <span class="badge-count">0</span>
-        </a>
+        <nav class="hidden md:block">
+            <ul class="flex gap-8 list-none">
+                <li>
+                    <a href="<?= base_url('/') ?>" class="<?= $isHome ? $activeClass : $linkClass ?>">
+                        Accueil
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('catalog') ?>" class="<?= $isCatalog ? $activeClass : $linkClass ?>">
+                        Catalogue
+                    </a>
+                </li>
+                <?php
+                use \App\Enums\UserRole;
+                $dashboardUrl = base_url('/auth/login');
+                if ($role = user_role()) {
+                    $dashboardUrl = match($role) {
+                        UserRole::CLIENT => base_url('/client'),
+                        UserRole::SELLER => base_url('/seller'),
+                        UserRole::ADMIN  => base_url('/admin'),
+                    };
+                }
+                ?>
+                <li>
+                    <a href="<?= $dashboardUrl ?>" class="<?= $isAccount ? $activeClass : $linkClass ?>">
+                        Mon Compte
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-        <a href="/auth/login" class="btn-primary">
-            <span>Connexion</span>
-        </a>
+    <div class="flex items-center gap-6">
+            <a href="<?= base_url('/cart') ?>" class="relative" aria-label="Panier">
+                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" class="w-6" alt="Panier" />
+                <span class="absolute -top-2 -right-2 bg-accent text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">0</span>
+            </a>
+            
+            <?= view('partials/black_button', [
+                'url' => base_url('/auth/login'),
+                'label' => 'Connexion',
+                'padding' => 'px-5 py-2.5',
+                'customClass' => 'rounded text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md'
+            ]) ?>
+        </div>
     </div>
 </header>

@@ -49,4 +49,12 @@ class ProductPhotoModel extends Model
     {
         return $this->where('product_id', $productId)->delete();
     }
+
+    // Get all photos for a product sorted by display order
+    public function getPhotosByProduct(int $productId)
+    {
+        return $this->where('product_id', $productId)
+                    ->orderBy('display_order', 'ASC')
+                    ->findAll();
+    }
 }

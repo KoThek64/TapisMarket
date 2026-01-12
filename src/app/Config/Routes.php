@@ -26,7 +26,7 @@ $routes->get('/', 'Home::index');
 
 // Catalog (Public)
 $routes->get('catalog', 'Catalog::index');
-$routes->get('product/(:num)', 'Catalog::detail/$1');
+$routes->get('product/(:segment)', 'Catalog::detail/$1');
 $routes->get('search', 'Catalog::search');
 
 // Cart (Public)
@@ -54,6 +54,7 @@ $routes->group('auth', function ($routes) {
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {
     
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
 
@@ -97,6 +98,7 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
 $routes->group('seller', ['namespace' => 'App\Controllers\Seller', 'filter' => 'auth:seller'], function ($routes) {
     
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->resource('products');
 
