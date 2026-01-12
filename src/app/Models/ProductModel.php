@@ -45,6 +45,12 @@ class ProductModel extends Model
         'category_id'      => 'required|integer',
     ];
 
+    // Méthode pour vérifier si le stock est suffisant
+    public function hasSufficientStock(int $productId, int $quantity): bool
+    {
+        $product = $this->find($productId);
+        return $product && $product->stock_available >= $quantity;
+    }
 
     // Get pending products
     public function getPendingProductsPaginated(int $perPage = 5)

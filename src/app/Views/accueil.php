@@ -32,21 +32,18 @@
                 $id = $product->id ?? null;
                 ?>
 
-                <article class="card">
-                    <a href="<?= base_url('product/' . $id) ?>" class="card-image-wrapper">
-                        <img src="<?= base_url('images/' . esc($product->image)) ?>" alt="<?= esc($product->title) ?>"
+                <article class="card" onclick="location.href='<?= base_url('product/' . $id) ?>'" style="cursor: pointer;">
+                    <div class="card-image-wrapper">
+                        <img src="<?= base_url('images/' . esc($product->image)) ?>"
+                            alt="<?= esc($product->title) ?>"
                             class="card-image"
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';">
-                    </a>
+                    </div>
 
                     <div class="card-details">
                         <div>
-
-
                             <h3 class="card-title">
-                                <a href="<?= base_url('product/' . $id) ?>">
-                                    <?= esc($product->title) ?>
-                                </a>
+                                <?= esc($product->title) ?>
                             </h3>
 
                             <p class="card-subtitle"><?= esc($product->short_description) ?></p>
@@ -54,7 +51,19 @@
 
                         <div class="card-footer">
                             <span class="price"><?= $product->getFormattedPrice() ?></span>
-                            <a href="<?= base_url('product/' . $id) ?>" class="btn-circle">+</a>
+
+                            <?php if ($product->stock_available > 0): ?>
+                                <form action="<?= base_url('cart/add') ?>" method="post" onclick="event.stopPropagation();">
+                                    <?= csrf_field() ?>
+                                    <input type="hidden" name="product_id" value="<?= $id ?>">
+                                    <button type="submit" class="btn-circle" style="border:none; cursor:pointer; font-family:inherit;" aria-label="Ajouter au panier">+</button>
+                                </form>
+                            <?php else: ?>
+                                <div style="display:flex; align-items:center; gap:5px;">
+                                    <span style="font-size:0.8rem; color:red; font-weight:600;">Épuisé</span>
+                                    <button type="button" class="btn-circle" style="border:none; background-color:#e0e0e0; color:#999; cursor:not-allowed;" disabled>+</button>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </article>

@@ -38,6 +38,9 @@ $routes->group('cart', function ($routes) {
     $routes->get('clear', 'Cart::clear');
 });
 
+$routes->get('checkout', 'Checkout::index');
+$routes->post('checkout/process', 'Checkout::process');
+
 // Auth
 $routes->group('auth', function ($routes) {
     $routes->get('login', 'Auth::login');

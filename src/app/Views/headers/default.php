@@ -14,7 +14,7 @@
     </nav>
 
     <div class="header-actions">
-        <a href="#" class="btn-icon" aria-label="Panier">
+        <a href="cart" class="btn-icon" aria-label="Panier">
             <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width:24px" alt="Panier" />
             <span class="badge-count">0</span>
         </a>

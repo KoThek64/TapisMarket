@@ -44,7 +44,7 @@ class CartModel extends Model
     public function getCartItems($cartId)
     {
         return $this->db->table('cart_items')
-                        ->select('cart_items.*, products.price, products.title, products.alias, product_photos.file_name as image')
+                        ->select('cart_items.*, products.price, products.title, products.alias, products.stock_available, product_photos.file_name as image')
                         ->join('products', 'products.id = cart_items.product_id')
                         ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
                         ->where('cart_items.cart_id', $cartId)
