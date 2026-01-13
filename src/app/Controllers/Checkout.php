@@ -15,7 +15,7 @@ class Checkout extends BaseController
     public function __construct()
     {
         $this->db = \Config\Database::connect();
-        helper('auth'); // Ensure helper is loaded
+        helper('auth');
         $this->userId = user_id();
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();
@@ -29,12 +29,10 @@ class Checkout extends BaseController
 
         $cartData = $this->getCartData($this->userId);
 
-        // Sécurité : Si pas de panier, redirection
         if (!$cartData) {
             return redirect()->to('pages/catalogue');
         }
 
-        // Si le panier est vide
         if (empty($cartData['items'])) {
             return redirect()->to('cart');
         }
@@ -44,7 +42,6 @@ class Checkout extends BaseController
 
     public function process()
     {
-        // On récupère à nouveau les données pour valider l'état du panier
         $cartData = $this->getCartData($this->userId);
 
         if (!$cartData) {
