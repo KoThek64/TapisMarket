@@ -35,7 +35,7 @@ class Users extends AdminBaseController
     }
 
     // Rejeter un compte vendeur avec une raison
-    public function refuseSeller($id)
+    public function rejectSeller($id)
     {
         $reason = trim((string) $this->request->getVar('reason'));
 

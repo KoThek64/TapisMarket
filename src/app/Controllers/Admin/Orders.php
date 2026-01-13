@@ -35,6 +35,7 @@ class Orders extends AdminBaseController
 
         $data = array_merge($this->adminData, [
             'title' => 'Order Detail ' . $order->reference,
+            'subtitle' => 'Détails de la transaction',
             'order' => $order,
         ]);
 

@@ -86,6 +86,8 @@ class OrderModel extends Model
         return $orderId;
     }
 
+    
+
     // Get all orders with client info for admin
     public function getAllOrdersWithClient(int $perPage = 15, ?string $status = null)
     {
@@ -137,7 +139,7 @@ class OrderModel extends Model
     }
 
     // Complete details for invoice or detail page
-    public function getOrderWithIdentity(int $orderId)
+    public function getOrderWithIdentity($orderId)
     {
         return $this->select('orders.*, users.lastname, users.firstname, users.email, customers.phone')
                     ->join('customers', 'customers.user_id = orders.customer_id')
