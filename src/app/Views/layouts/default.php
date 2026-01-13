@@ -42,11 +42,11 @@
     <?= $this->renderSection('head') ?>
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen bg-cream text-primary font-sans antialiased">
 
     <?= $this->include("headers/" . ($header ?? "default")) ?>
 
-    <main>
+    <main class="flex-grow w-full">
         <?= $this->include("partials/alert_handler") ?>
         <?= $this->renderSection('content') ?>
     </main>

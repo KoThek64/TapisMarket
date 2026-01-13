@@ -2,12 +2,12 @@
 
 <?= $this->section('content') ?>
 
-<div class="max-w-[1200px] mx-auto px-6">
+<div class="max-w-[1600px] mx-auto px-[5%] py-12">
             
             <?php if (!empty($items)): ?>
                 
-                <div class="mb-10">                    
-                    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div class="mb-10">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <h2 class="font-serif text-3xl md:text-4xl text-gray-900">Votre Panier (<?= count($items) ?>)</h2>
                         
                         <a href="<?= base_url('cart/clear') ?>" onclick="return confirm('Êtes-vous sûr de vouloir vider tout votre panier ?')" class="text-xs font-bold text-red-500 hover:text-red-700 uppercase tracking-widest flex items-center gap-1.5 transition-colors group py-2">
@@ -21,7 +21,7 @@
 
                 <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
                     
-                    <div class="lg:col-span-7">
+                    <div class="lg:col-span-8">
                         <div class="space-y-6">
                             <?php foreach ($items as $item): ?>
                                 <article class="group relative flex gap-6 p-6 bg-white border border-gray-100 rounded-2xl transition-all duration-300 hover:shadow-lg hover:border-accent/20">
@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-10 lg:mt-0 lg:col-span-5">
+                    <div class="mt-10 lg:mt-0 lg:col-span-4">
                         <div class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 sticky top-28">
                             <h3 class="font-serif text-2xl text-gray-900 mb-8">Récapitulatif</h3>
                             

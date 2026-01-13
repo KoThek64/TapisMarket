@@ -15,13 +15,18 @@ class Checkout extends BaseController
     public function __construct()
     {
         $this->db = \Config\Database::connect();
-        $this->userId = $this->getUserId();
+        helper('auth'); // Ensure helper is loaded
+        $this->userId = user_id();
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();
     }
 
     public function index()
     {
+        if (!$this->userId) {
+            return redirect()->to('auth/login')->with('error', 'Veuillez vous connecter pour valider votre commande.');
+        }
+
         $cartData = $this->getCartData($this->userId);
 
         // Sécurité : Si pas de panier, redirection
@@ -97,15 +102,6 @@ class Checkout extends BaseController
         }
 
         return view('pages/order_success');
-    }
-
-    /**
-     * Récupère l'ID utilisateur (logique temporaire basée sur le premier client)
-     */
-    private function getUserId()
-    {
-        $customer = $this->db->table('customers')->select('user_id')->limit(1)->get()->getRow();
-        return $customer ? $customer->user_id : 1;
     }
 
     /**

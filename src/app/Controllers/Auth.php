@@ -66,6 +66,10 @@ class Auth extends BaseController
             
             // create session
             login_user($user->user_id, $role);
+            
+            // Merge guest cart
+            $this->mergeGuestCart($user->user_id);
+
             set_success("Connexion réussie. Bienvenue " . ($user->firstname ?? ''));
             
             return redirect()->to('/');
@@ -89,5 +93,41 @@ class Auth extends BaseController
     {
         logout_user();
         return redirect()->to('/auth/login')->with('success', 'Vous avez été déconnecté.');
+    }
+
+    private function mergeGuestCart(int $userId)
+    {
+        $session = session();
+        $guestCart = $session->get('guest_cart');
+
+        if (!empty($guestCart)) {
+            $cartModel = new \App\Models\CartModel();
+            $cartItemModel = new \App\Models\CartItemModel();
+            $productModel = new \App\Models\ProductModel();
+
+            $cart = $cartModel->getActiveCart($userId);
+
+            foreach ($guestCart as $productId => $quantity) {
+                // Check if item exists in user cart
+                $existingItem = $cartItemModel->where('cart_id', $cart->id)
+                                              ->where('product_id', $productId)
+                                              ->first();
+                                              
+                $currentQty = $existingItem ? $existingItem->quantity : 0;
+                $newTotalQty = $currentQty + $quantity;
+
+                // Validate merged stock
+                if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
+                    if ($existingItem) {
+                         $cartItemModel->updateQuantity($cart->id, $productId, $newTotalQty);
+                    } else {
+                         $cartItemModel->addItem($cart->id, $productId, $quantity);
+                    }
+                } 
+            }
+            
+            $cartModel->updateTotal($cart->id);
+            $session->remove('guest_cart');
+        }
     }
 }

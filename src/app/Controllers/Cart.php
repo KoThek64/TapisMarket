@@ -23,59 +23,102 @@ class Cart extends BaseController
 
     private function getCartUserId() 
     {
-        // Si utilisateur connecté, on utilise son ID
-        if ($this->userId) {
-            return $this->userId;
-        }
-        
-        // Sinon, gestion panier invité (Guest)
-        // TODO: Implémenter logique session guest si nécessaire
-        // Pour l'instant, on redirige vers login ou on bloque
-        return null;
+        // Deprecated: logic handled inline
+        return $this->userId;
     }
 
     public function index()
     {
-        $userId = $this->getCartUserId();
-        if (!$userId) {
-            // Optionnel : Rediriger vers login si le panier requiert une connexion
-             return redirect()->to('auth/login')->with('error', 'Vous devez être connecté pour voir votre panier.');
+        if ($this->userId) {
+            // Récupération du panier actif pour utilisateur connecté
+            $cart = $this->cartModel->getActiveCart($this->userId);
+
+            // Recalcul du total pour assurer la cohérence des données
+            $this->cartModel->updateTotal($cart->id);
+            $cart = $this->cartModel->find($cart->id);
+            $items = $this->cartModel->getCartItems($cart->id);
+            $totalItems = $this->cartItemModel->getTotalItemsCount($cart->id);
+        } else {
+            // Gestion du panier invité via Session
+            $guestCart = session()->get('guest_cart') ?? [];
+            $items = [];
+            $total = 0;
+            $totalItems = 0;
+
+            if (!empty($guestCart)) {
+                $ids = array_keys($guestCart);
+                
+                // On récupère les infos produits
+                $dbItems = $this->cartModel->builder('products')
+                    ->select('products.id as product_id, products.price, products.title, products.alias, products.stock_available, products.short_description, categories.name as category_name, product_photos.file_name as image')
+                    ->join('categories', 'categories.id = products.category_id', 'left')
+                    ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
+                    ->whereIn('products.id', $ids)
+                    ->get()
+                    ->getResultArray();
+
+                foreach ($dbItems as $row) {
+                    $pid = $row['product_id'];
+                    $qty = $guestCart[$pid];
+                    
+                    $row['quantity'] = $qty;
+                    // Hydrate CartItem entity
+                    $itemEntity = new \App\Entities\CartItem($row);
+                    $items[] = $itemEntity;
+
+                    $total += $row['price'] * $qty;
+                    $totalItems += $qty;
+                }
+            }
+
+            // Fake Cart entity
+            $cart = new \App\Entities\Cart();
+            $cart->total = $total;
+            $cart->id = 0; 
         }
-
-        // Récupération du panier actif
-        $cart = $this->cartModel->getActiveCart($userId);
-
-        // Recalcul du total pour assurer la cohérence des données
-        $this->cartModel->updateTotal($cart->id);
-        $cart = $this->cartModel->find($cart->id);
 
         return view('pages/cart', [
             'cart'       => $cart,
-            'items'      => $this->cartModel->getCartItems($cart->id),
-            'totalItems' => $this->cartItemModel->getTotalItemsCount($cart->id)
+            'items'      => $items,
+            'totalItems' => $totalItems
         ]);
     }
 
     public function update()
     {
-        $userId = $this->getCartUserId();
-        if (!$userId) return redirect()->to('auth/login');
-
-        $cart = $this->cartModel->getActiveCart($userId);
         $productId = $this->request->getPost('product_id');
         $quantity = (int) $this->request->getPost('quantity');
+        
+        if (!$productId) return redirect()->back();
 
-        if ($productId && $quantity > 0) {
+        // Si qté <= 0 on considère que c'est suppression
+        if ($quantity <= 0) {
+            return $this->remove($productId);
+        }
+
+        $productModel = new ProductModel();
+
+        if ($this->userId) {
+            $cart = $this->cartModel->getActiveCart($this->userId);
+            
             // Vérification du stock via le modèle
-            $productModel = new ProductModel();
-
             if ($productModel->hasSufficientStock($productId, $quantity)) {
                 $this->cartItemModel->updateQuantity($cart->id, $productId, $quantity);
                 $this->cartModel->updateTotal($cart->id);
             } else {
-
                 set_error("Stock insuffisant pour ce produit.");
                 return redirect()->back()->withInput();
+            }
+        } else {
+            // Guest Update
+            if ($productModel->hasSufficientStock($productId, $quantity)) {
+                $session = session();
+                $cart = $session->get('guest_cart') ?? [];
+                $cart[$productId] = $quantity;
+                $session->set('guest_cart', $cart);
+            } else {
+                 set_error("Stock insuffisant pour ce produit.");
+                 return redirect()->back()->withInput();
             }
         }
 
@@ -84,32 +127,34 @@ class Cart extends BaseController
 
     public function remove($productId)
     {
-        $userId = $this->getCartUserId();
-        if (!$userId) return redirect()->to('auth/login');
-
-        $cart = $this->cartModel->getActiveCart($userId);
-        
-        $this->cartItemModel->removeItem($cart->id, $productId);
-        $this->cartModel->updateTotal($cart->id);
+        if ($this->userId) {
+            $cart = $this->cartModel->getActiveCart($this->userId);
+            
+            $this->cartItemModel->removeItem($cart->id, $productId);
+            $this->cartModel->updateTotal($cart->id);
+        } else {
+            $session = session();
+            $cart = $session->get('guest_cart') ?? [];
+            if (isset($cart[$productId])) {
+                unset($cart[$productId]);
+                $session->set('guest_cart', $cart);
+            }
+        }
 
         return redirect()->to('cart');
     }
 
     public function add()
     {
-        $userId = $this->getCartUserId();
-        if (!$userId) {
-            session()->setFlashdata('error', 'Veuillez vous connecter pour ajouter des articles au panier.');
-            return redirect()->to('auth/login');
-        }
-
-        $cart = $this->cartModel->getActiveCart($userId);
         $productId = $this->request->getPost('product_id');
         $quantity = (int) ($this->request->getPost('quantity') ?? 1);
 
-        if ($productId) {
-            // Vérification du stock cumulé
-            $productModel = model('App\Models\ProductModel');
+        if (!$productId) return redirect()->back();
+
+        $productModel = new ProductModel();
+
+        if ($this->userId) {
+            $cart = $this->cartModel->getActiveCart($this->userId);
             
             // On regarde combien on en a déjà dans le panier
             $existingItem = $this->cartItemModel->where('cart_id', $cart->id)
@@ -130,6 +175,21 @@ class Cart extends BaseController
                 set_error("Stock insuffisant (Max disponible dépassé).");
                 return redirect()->back()->withInput();
             }
+        } else {
+            // Guest Add
+            $session = session();
+            $cart = $session->get('guest_cart') ?? [];
+            
+            $currentQty = $cart[$productId] ?? 0;
+            $newTotalQty = $currentQty + $quantity;
+            
+             if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
+                 $cart[$productId] = $newTotalQty;
+                 $session->set('guest_cart', $cart);
+             } else {
+                set_error("Stock insuffisant (Max disponible dépassé).");
+                return redirect()->back()->withInput();
+             }
         }
 
         return redirect()->to('cart');
@@ -137,11 +197,12 @@ class Cart extends BaseController
 
     public function clear()
     {
-        $userId = $this->getCartUserId();
-        if (!$userId) return redirect()->to('auth/login');
-
-        $cart = $this->cartModel->getActiveCart($userId);
-        $this->cartModel->emptyCart($cart->id);
+        if ($this->userId) {
+            $cart = $this->cartModel->getActiveCart($this->userId);
+            $this->cartModel->emptyCart($cart->id);
+        } else {
+            session()->remove('guest_cart');
+        }
         
         return redirect()->to('cart');
     }
