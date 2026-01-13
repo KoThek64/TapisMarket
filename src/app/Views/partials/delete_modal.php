@@ -1,4 +1,4 @@
-<div id="deleteModal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="deleteModal" class="fixed inset-0 z-[999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     
     <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="closeDeleteModal()"></div>
 
@@ -25,9 +25,13 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-100">
-                    <a id="confirmDeleteBtn" href="#" class="inline-flex w-full justify-center rounded-xl bg-red-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto transition">
-                        Supprimer
-                    </a>
+                    <form id="deleteForm" action="" method="post" class="inline-flex w-full justify-center sm:ml-3 sm:w-auto">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="w-full justify-center rounded-xl bg-red-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-red-500 transition">
+                            Supprimer
+                        </button>
+                    </form>
                     <button type="button" onclick="closeDeleteModal()" class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-primary shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition">
                         Annuler
                     </button>
@@ -39,7 +43,7 @@
 
 <script>
     function openDeleteModal(url) {
-        document.getElementById('confirmDeleteBtn').href = url;
+        document.getElementById('deleteForm').action = url;
         document.getElementById('deleteModal').classList.remove('hidden');
     }
 

@@ -1,26 +1,65 @@
-<header>
-    <div class="header-left">
-        <a href="<?= base_url('/') ?>" class="logo-container">
-            <span>TapisMarket</span>
-        </a>
-    </div>
+<?php
+$uri = uri_string();
+$isHome = ($uri == '' || $uri == '/');
+$isCatalog = (strpos($uri, 'catalog') !== false || strpos($uri, 'product') !== false);
+$isAccount = (strpos($uri, 'dashboard') !== false || strpos($uri, 'auth') !== false || strpos($uri, 'client') !== false || strpos($uri, 'seller') !== false || strpos($uri, 'admin') !== false);
 
-    <nav>
-        <ul class="nav-links">
-            <li><a href="<?= base_url('/') ?>" class="active">Accueil</a></li>
-            <li><a href="#">Catalogue</a></li>
-            <li><a href="#">Mon Compte</a></li>
-        </ul>
-    </nav>
+$linkClass = "font-medium hover:text-accent transition-colors border-b-2 border-transparent";
+$activeClass = "font-medium text-accent-light border-b-2 border-accent-light";
+?>
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-[1600px] mx-auto px-[5%] py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="<?= base_url('/') ?>" class="font-serif text-2xl font-bold text-primary">
+                TapisMarket
+            </a>
+        </div>
 
-    <div class="header-actions">
-        <a href="#" class="btn-icon" aria-label="Panier">
-            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" style="width:24px" alt="Panier" />
-            <span class="badge-count">0</span>
-        </a>
+        <nav class="hidden md:block">
+            <ul class="flex gap-8 list-none">
+                <li>
+                    <a href="<?= base_url('/') ?>" class="<?= $isHome ? $activeClass : $linkClass ?>">
+                        Accueil
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('catalog') ?>" class="<?= $isCatalog ? $activeClass : $linkClass ?>">
+                        Catalogue
+                    </a>
+                </li>
+                <?php
+                use \App\Enums\UserRole;
+                $dashboardUrl = base_url('/auth/login');
+                if ($role = user_role()) {
+                    $dashboardUrl = match($role) {
+                        UserRole::CLIENT => base_url('/client'),
+                        UserRole::SELLER => base_url('/seller'),
+                        UserRole::ADMIN  => base_url('/admin'),
+                    };
+                }
+                ?>
+                <li>
+                    <a href="<?= $dashboardUrl ?>" class="<?= $isAccount ? $activeClass : $linkClass ?>">
+                        Mon Compte
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-        <a href="/auth/login" class="btn-primary">
-            <span>Connexion</span>
-        </a>
+    <div class="flex items-center gap-6">
+            <a href="<?= base_url('/cart') ?>" class="relative" aria-label="Panier">
+                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" class="w-6" alt="Panier" />
+            </a>
+            
+            <?php if (user_id()): ?>
+                <a href="<?= base_url('/auth/logout') ?>" class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
+                    <span>Déconnexion</span>
+                </a>
+            <?php else: ?>
+                <a href="<?= base_url('/auth/login') ?>" class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
+                    <span>Connexion</span>
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
 </header>

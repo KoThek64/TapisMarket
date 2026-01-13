@@ -24,9 +24,17 @@ class CartItem extends Entity
     public function getSubtotal(): float
     {
         $price = $this->attributes['price'] ?? 0.00;
-        $qty   = $this->attributes['quantity'] ?? 0;
+        $qty   = $this->quantity ?? 0;
 
         return $price * $qty;
+    }
+
+    // Calculate subtotal
+    public function getPrice(): float
+    {
+        $price = $this->attributes['price'] ?? 0.00;
+
+        return $price;
     }
     
     // Formatted display

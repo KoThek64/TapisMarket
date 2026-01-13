@@ -23,7 +23,7 @@ class AuthFilter implements FilterInterface
         if (!empty($arguments)) {
             // On vérifie si le rôle de l'utilisateur est dans la liste des arguments autorisés
             if (!in_array($role->value, $arguments)) {
-                return redirect()->to('/')->with('error', 'Accès non autorisé.');
+                return redirect()->to('/auth/login')->with('error', 'Accès non autorisé.');
             }
         }
     }

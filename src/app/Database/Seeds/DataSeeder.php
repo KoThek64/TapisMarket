@@ -83,6 +83,8 @@ class DataSeeder extends Seeder
         $productIds = [];
         $rug_prefixes = ['Royal', 'Antique', 'Minimalist', 'Boho', 'Abstract', 'Classic', 'Imperial', 'Ethnic'];
         $rug_suffixes = ['Tapestry', 'Wool Rug', 'Hand-woven', 'Silk Piece', 'Carpet', 'Flatweave'];
+        $materials = ['Cotton', 'Wool', 'Polyester', 'Polypropylene', 'Jean', 'Jute', 'Wool and cotton', 'Polypropylene and polyester', 'Viscose'];
+
 
         foreach ($sellerIds as $vid) {
             for ($p = 0; $p < 8; $p++) {
@@ -91,7 +93,8 @@ class DataSeeder extends Seeder
                 $stock = rand(0, 20);
                 $cat = $catIds[array_rand($catIds)];
                 $status = (rand(0, 10) > 1) ? 'APPROVED' : 'PENDING_VALIDATION';
-                $productIds[] = $this->createProduct($vid, $cat, $name, $price, $stock, $status);
+                $mat = $materials[array_rand($materials)];
+                $productIds[] = $this->createProduct($vid, $cat, $name, $price, $stock, $status, $mat);
             }
         }
 
@@ -151,7 +154,7 @@ class DataSeeder extends Seeder
         return $this->db->insertID();
     }
 
-    private function createProduct($seller, $cat, $title, $price, $stock, $status) {
+    private function createProduct($seller, $cat, $title, $price, $stock, $status, $mat) {
         $data = [
             'seller_id'         => $seller, 
             'category_id'       => $cat,
@@ -162,6 +165,7 @@ class DataSeeder extends Seeder
             'price'             => $price, 
             'stock_available'   => $stock,
             'dimensions'        => rand(150, 300) . 'x' . rand(200, 400), 
+            'material'          => $mat,
             'product_status'    => $status,
             'created_at'        => date('Y-m-d H:i:s', strtotime('-' . rand(1, 100) . ' days'))
         ];

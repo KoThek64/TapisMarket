@@ -12,6 +12,6 @@ class Home extends BaseController
 
         $data['products'] = $productModel->getAllWithImage(6); 
         
-        return view('accueil', $data);
+        return view('home', $data);
     }
 }

@@ -3,35 +3,40 @@
 namespace App\Controllers\Admin;
 
 use App\Entities\Category;
+use Exception;
 
 class Categories extends AdminBaseController
 {
+    // Affichage de la liste des catégories
     public function index()
     {
         $data = array_merge($this->adminData, [
-            'title'      => 'Gestion des catégories',
+            'title' => 'Gestion des catégories',
+            'subtitle' => 'Organisation du catalogue',
             'categories' => $this->categoryModel->getAllCategoriesPaginated(10),
-            'pager'      => $this->categoryModel->pager,
+            'pager' => $this->categoryModel->pager,
         ]);
 
         return view('admin/categories/index', $data);
     }
 
+    // Formulaire de création d'une nouvelle catégorie
     public function new()
     {
         $data = array_merge($this->adminData, [
-            'title'    => 'Nouvelle Catégorie',
+            'title' => 'Nouvelle Catégorie',
             'category' => new Category(),
-            'action'   => 'create'
+            'action' => 'create'
         ]);
-        
+
         return view('admin/categories/form', $data);
     }
 
+    // Traitement de la création
     public function create()
     {
         $data = [
-            'name'        => $this->request->getPost('name'),
+            'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
 
@@ -42,6 +47,7 @@ class Categories extends AdminBaseController
         }
     }
 
+    // Formulaire d'édition d'une catégorie
     public function edit($id)
     {
         $category = $this->categoryModel->find($id);
@@ -51,19 +57,20 @@ class Categories extends AdminBaseController
         }
 
         $data = array_merge($this->adminData, [
-            'title'    => 'Éditer la catégorie : ' . $category->name,
+            'title' => 'Éditer la catégorie : ' . $category->name,
             'category' => $category,
-            'action'   => 'edit'
+            'action' => 'edit'
         ]);
 
         return view('admin/categories/form', $data);
     }
 
+    // Traitement de la mise à jour
     public function update($id)
     {
         $data = [
-            'id'          => $id,
-            'name'        => $this->request->getPost('name'),
+            'id' => $id,
+            'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
 
@@ -74,13 +81,14 @@ class Categories extends AdminBaseController
         }
     }
 
+    // Suppression d'une catégorie
     public function delete($id)
     {
         if ($this->categoryModel->find($id)) {
             try {
                 $this->categoryModel->delete($id);
                 return redirect()->back()->with('success', 'Catégorie supprimée.');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()->with('error', 'Impossible de supprimer (contient des produits).');
             }
         }

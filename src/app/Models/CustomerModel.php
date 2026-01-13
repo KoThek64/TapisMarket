@@ -27,6 +27,15 @@ class CustomerModel extends Model
         ]
     ];
 
+    // Retrieves the complete profile of a client with user info
+    public function getByEmail(string $email)
+    {
+        return $this->select('customers.*, users.email, users.password, users.lastname, users.firstname, users.created_at')
+                    ->join('users', 'users.id = customers.user_id')
+                    ->where('users.email', $email)
+                    ->first();
+    }
+
     // Returns the customer to display a personalized message if connected
     public function getFullProfile(int $id)
     {
@@ -45,5 +54,4 @@ class CustomerModel extends Model
                     ->limit($limit)
                     ->findAll();
     }
-
 }

@@ -124,3 +124,10 @@ _modules/*
 
 /results/
 /phpunit*.xml
+
+public/uploads/products/*
+!public/uploads/products/.gitkeep
+public/uploads/*
+!public/uploads/products/
+public/uploads/products/*
+!public/uploads/products/.gitkeep

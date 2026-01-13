@@ -17,6 +17,11 @@ function user_role(): ?UserRole
     return $currentRole;
 }
 
+function user_id(): ?int
+{
+    return session()->get('user_id');
+}
+
 function user_data(): ?object
 {
     static $data = null;

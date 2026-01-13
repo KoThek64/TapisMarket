@@ -36,8 +36,15 @@
                 </div>
             <?php endif; ?>
 
-            <form action="<?= site_url('admin/categories/' . $category->id) ?>" method="patch" class="space-y-6">
+            <?php
+            $formUrl = ($action === 'create') ? 'admin/categories' : 'admin/categories/' . $category->id;
+            ?>
+            <form action="<?= site_url($formUrl) ?>" method="post" class="space-y-6">
                 <?= csrf_field() ?>
+                
+                <?php if ($action === 'edit'): ?>
+                    <input type="hidden" name="_method" value="PUT">
+                <?php endif; ?>
 
                 <div>
                     <label class="block text-sm font-bold text-primary mb-2 tracking-tight">Nom de la catégorie</label>

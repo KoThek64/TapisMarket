@@ -28,23 +28,28 @@ defined('COMPOSER_PATH') || define('COMPOSER_PATH', ROOTPATH . 'vendor/autoload.
 // Upload Directories
 defined('PATH_PRODUCTS') || define('PATH_PRODUCTS', FCPATH . 'uploads/products/');
 
-// User Roles
+// les contraintes pour les images uploadées
+defined('MAX_UPLOAD_SIZE') || define('MAX_UPLOAD_SIZE', 5 * 1024); // 5 MB 
+defined('ALLOWED_IMAGE_TYPES') || define('ALLOWED_IMAGE_TYPES', 'image/jpg,image/jpeg,image/png,image/webp'); // les types autorisés
+defined('MAX_IMAGE_DIMENSION') || define('MAX_IMAGE_DIMENSION', 2048); 
+
+//role user
 defined('ROLE_ADMIN')   || define('ROLE_ADMIN', 'ADMIN');
 defined('ROLE_SELLER')  || define('ROLE_SELLER', 'SELLER');
 defined('ROLE_CUSTOMER')|| define('ROLE_CUSTOMER', 'CUSTOMER');
 
-// Product Statuses
+//statu général
 defined('STATUS_PENDING')  || define('STATUS_PENDING', 'PENDING_VALIDATION');
 defined('STATUS_APPROVED') || define('STATUS_APPROVED', 'APPROVED');
 defined('STATUS_REFUSED')  || define('STATUS_REFUSED', 'REFUSED');
 
-// Seller Statuses
+//status vendeur
 defined('SELLER_PENDING') || define('SELLER_PENDING', 'PENDING_VALIDATION');
 defined('SELLER_VALIDATED') || define('SELLER_VALIDATED', 'VALIDATED');
 defined('SELLER_REFUSED') || define('SELLER_REFUSED', 'REFUSED');
 defined('SELLER_SUSPENDED') || define('SELLER_SUSPENDED', 'SUSPENDED');
 
-// Order Statuses
+//status commande
 defined('ORDER_PENDING')   || define('ORDER_PENDING', 'PENDING_VALIDATION');
 defined('ORDER_PREPARING') || define('ORDER_PREPARING', 'PREPARING');
 defined('ORDER_CANCELLED') || define('ORDER_CANCELLED', 'CANCELLED');
@@ -52,12 +57,12 @@ defined('ORDER_PAID')      || define('ORDER_PAID', 'PAID');
 defined('ORDER_SHIPPED')   || define('ORDER_SHIPPED', 'SHIPPED');
 defined('ORDER_DELIVERED') || define('ORDER_DELIVERED', 'DELIVERED');
 
-// Review Statuses
+//status avis
 defined('REVIEW_PUBLISHED') || define('REVIEW_PUBLISHED', 'PUBLISHED');
 defined('REVIEW_REFUSED')   || define('REVIEW_REFUSED', 'REFUSED');
 
-// Default Images
-defined('DEFAULT_PRODUCT_IMAGE') || define('DEFAULT_PRODUCT_IMAGE', 'https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400');
+//image par defaut
+defined('DEFAULT_PRODUCT_IMAGE') || define('DEFAULT_PRODUCT_IMAGE', 'https://placehold.co/600x400/EEE/31343C?font=montserrat&text=No+Image');
 
 /*
  |--------------------------------------------------------------------------

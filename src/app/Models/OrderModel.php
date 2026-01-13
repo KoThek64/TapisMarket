@@ -25,7 +25,52 @@ class OrderModel extends Model
         'reference' => 'is_unique[orders.reference]', 
     ];
 
+    /**
+     * Crée une commande complète à partir du panier, gère les stocks et vide le panier
+     * Retourne l'ID de la commande si succès, false sinon.
+     */
+    public function createOrderFromCart(int $customerId, array $orderData, $cart, array $items)
+    {
+        $this->db->transStart();
 
+        // 1. Création de la commande
+        $orderId = $this->insert($orderData);
+        if (!$orderId) {
+            $this->db->transRollback();
+            return false;
+        }
+
+        $orderItemModel = model('App\Models\OrderItemModel');
+        $productModel = model('App\Models\ProductModel');
+        $cartItemModel = model('App\Models\CartItemModel');
+        $cartModel = model('App\Models\CartModel');
+
+        // 2. Transfert des articles et mise à jour des stocks
+        foreach ($items as $item) {
+            // Création de la ligne de commande
+            $orderItemModel->insert([
+                'order_id'   => $orderId,
+                'product_id' => $item->product_id,
+                'quantity'   => $item->quantity,
+                'unit_price' => $item->price
+            ]);
+
+            // Décrémentation du stock via le modèle produit
+            $productModel->decrementStock($item->product_id, $item->quantity);
+        }
+
+        // 3. Vider le panier
+        $cartItemModel->where('cart_id', $cart->id)->delete();
+        $cartModel->updateTotal($cart->id);
+
+        $this->db->transComplete();
+
+        if ($this->db->transStatus() === false) {
+            return false;
+        }
+
+        return $orderId;
+    }
 
     // Get all orders with client info for admin
     public function getAllOrdersWithClient(int $perPage = 15, ?string $status = null)

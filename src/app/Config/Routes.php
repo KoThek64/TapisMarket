@@ -26,7 +26,7 @@ $routes->get('/', 'Home::index');
 
 // Catalog (Public)
 $routes->get('catalog', 'Catalog::index');
-$routes->get('product/(:num)', 'Catalog::detail/$1');
+$routes->get('product/(:segment)', 'Catalog::detail/$1');
 $routes->get('search', 'Catalog::search');
 
 // Cart (Public)
@@ -38,6 +38,9 @@ $routes->group('cart', function ($routes) {
     $routes->get('clear', 'Cart::clear');
 });
 
+$routes->get('checkout', 'Checkout::index');
+$routes->post('checkout/process', 'Checkout::process');
+
 // Auth
 $routes->group('auth', function ($routes) {
     $routes->get('login', 'Auth::login');
@@ -47,21 +50,23 @@ $routes->group('auth', function ($routes) {
     $routes->get('logout', 'Auth::logout');
 });
 
-//Admin
+// Admin
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {
-    
+
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
 
-    $routes->resource('categories', ['expect' => ['show']]);
+    $routes->resource('categories');
 
     $routes->resource('products', ['only' => ['index', 'delete']]);
+
     $routes->get('products/approve/(:num)', 'Products::approve/$1');
     $routes->match(['GET', 'POST'], 'products/reject/(:num)', 'Products::reject/$1');
-    
+
     $routes->resource('users', ['only' => ['index', 'delete']]);
-    $routes->get('users/approve/(:num)', 'Users::approveSeller/$1'); 
+    $routes->get('users/approve/(:num)', 'Users::approveSeller/$1');
     $routes->match(['GET', 'POST'], 'users/reject/(:num)', 'Users::rejectSeller/$1');
 
     $routes->resource('reviews', ['only' => ['index', 'delete']]);
@@ -72,8 +77,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => 'auth:client'], function ($routes) {
 
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
-    $routes->group('profile', function($routes) {
+    $routes->group('profile', function ($routes) {
         $routes->get('/', 'Profile::index');
         $routes->post('update', 'Profile::update');
     });
@@ -81,24 +87,36 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
     $routes->resource('addresses');
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
-    
-    $routes->group('reviews', function($routes) {
-        $routes->get('create/(:num)', 'Reviews::create/$1');
-        $routes->post('save', 'Reviews::store');
+
+    $routes->group('reviews', function ($routes) {
+        $routes->get('/', 'Reviews::index');
+        $routes->get('(:num)/edit', 'Reviews::edit/$1');
+        $routes->post('update', 'Reviews::update');
     });
 });
 
+
 // Seller
 $routes->group('seller', ['namespace' => 'App\Controllers\Seller', 'filter' => 'auth:seller'], function ($routes) {
-    
+
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
+
+    $routes->group('products/(:num)', function ($routes) {
+        $routes->post('photos', 'Photos::create/$1');
+        $routes->put('photos/(:num)', 'Photos::update/$1/$2');
+        $routes->delete('photos/(:num)', 'Photos::delete/$1/$2');
+    });
 
     $routes->resource('products');
 
+    $routes->post('orders/update-status/(:num)', 'Orders::updateStatus/$1');
     $routes->post('orders/ship/(:num)', 'Orders::ship/$1');
     $routes->resource('orders', ['only' => ['index', 'show']]);
-    
-    $routes->group('shop', function($routes) {
+
+    $routes->resource('reviews', ['only' => ['index']]);
+
+    $routes->group('shop', function ($routes) {
         $routes->get('/', 'Shop::index');
         $routes->get('edit', 'Shop::edit');
         $routes->post('update', 'Shop::update');

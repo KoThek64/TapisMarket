@@ -5,8 +5,9 @@ namespace App\Controllers\Admin;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-
 use App\Controllers\BaseController;
+
+// Import des modèles pour le mapping
 use App\Models\ProductModel;
 use App\Models\SellerModel;
 use App\Models\UserModel;
@@ -16,29 +17,42 @@ use App\Models\CategoryModel;
 
 class AdminBaseController extends BaseController
 {
-    protected $productModel;
-    protected $sellerModel;
-    protected $userModel;
-    protected $orderModel;
-    protected $reviewModel;
-    protected $categoryModel;
+    protected array $adminData = [];
+    private array $loadedModels = [];
 
-    protected $adminData = [];
-
+    // Initialisation des modèles communs et des données admin
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
-
-        $this->productModel   = new ProductModel();
-        $this->sellerModel    = new SellerModel();
-        $this->userModel      = new UserModel();
-        $this->orderModel     = new OrderModel();
-        $this->reviewModel    = new ReviewModel();
-        $this->categoryModel  = new CategoryModel();
 
         $this->adminData = [
             'pendingProductsCount' => $this->productModel->countPendingProducts(),
             'pendingSellersCount'  => $this->sellerModel->countSellersPendingValidation(),
         ];
+    }
+
+    // Chargement dynamique des modèles
+    public function __get($name)
+    {
+        if (isset($this->loadedModels[$name])) {
+            return $this->loadedModels[$name];
+        }
+
+        $modelMap = [
+            'productModel'  => ProductModel::class,
+            'sellerModel'   => SellerModel::class,
+            'userModel'     => UserModel::class,
+            'orderModel'    => OrderModel::class,
+            'reviewModel'   => ReviewModel::class,
+            'categoryModel' => CategoryModel::class,
+        ];
+
+        if (array_key_exists($name, $modelMap)) {
+            $class = $modelMap[$name];
+            $this->loadedModels[$name] = new $class();
+            return $this->loadedModels[$name];
+        }
+
+        return null;
     }
 }
