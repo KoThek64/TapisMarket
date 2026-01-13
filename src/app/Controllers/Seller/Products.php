@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Seller;
 
-use App\Libraries\ProductImageManager;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -11,12 +10,10 @@ use CodeIgniter\Database\Exceptions\DataException;
 
 class Products extends SellerBaseController
 {
-    protected $imageManager;
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
-        $this->imageManager = new ProductImageManager();
     }
 
     // Vérifie que le produit appartient bien au vendeur connecté
@@ -120,9 +117,6 @@ class Products extends SellerBaseController
             return redirect()->to('seller/products')->with('error', 'Produit introuvable ou accès refusé.');
         }
 
-        // Nettoyage des photos orphelines
-        $this->imageManager->cleanupMissingFiles((int)$productId);
-
         $photos = $this->photoModel->where('product_id', $productId)->orderBy('display_order', 'ASC')->findAll();
         $categories = $this->categoryModel->orderBy('name', 'ASC')->findAll();
 
@@ -196,8 +190,6 @@ class Products extends SellerBaseController
         if (!$product) {
             return redirect()->to('seller/products')->with('error', "Action non autorisée.");
         }
-
-        $this->imageManager->deleteAll($productId);
 
         $forceDelete = true;
         if ($this->productModel->delete($productId, $forceDelete)) {

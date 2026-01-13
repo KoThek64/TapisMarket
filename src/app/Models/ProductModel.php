@@ -311,9 +311,6 @@ class ProductModel extends Model
         
         // Suppression des items de panier liés
         $db->table('cart_items')->whereIn('product_id', $ids)->delete();
-        
-        // Suppression des photos (les fichiers physiques doivent être gérés par ImageManager, ici on nettoie juste la base si besoin, mais ProductPhotos a sa propre table)
-        // Note: Idéalement, ProductImageManager::deleteAll() est appelé avant delete() du modèle
 
         return $data;
     }

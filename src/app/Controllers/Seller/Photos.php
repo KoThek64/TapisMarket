@@ -56,6 +56,10 @@ class Photos extends SellerBaseController
             return $this->response->setStatusCode(404)->setJSON(['error' => 'Photo non trouvée.']);
         }
 
+        if ($this->countPhotos($productId) <= 1) {
+            return $this->response->setStatusCode(404)->setJSON(['error' => 'Vous devez avoir au moins une photo.']);
+        }
+
         if ($this->deletePhoto([
             'id'         => $photo->id,
             'product_id' => $photo->product_id,

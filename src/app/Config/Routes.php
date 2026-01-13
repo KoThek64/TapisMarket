@@ -98,10 +98,13 @@ $routes->group('seller', ['namespace' => 'App\Controllers\Seller', 'filter' => '
     $routes->get('/', 'Dashboard::index');
     $routes->get('dashboard', 'Dashboard::index');
 
-    $routes->resource('products');
     $routes->group('products/(:num)', function ($routes) {
-        $routes->resource('photos', ['only' => ['create', 'update', 'delete']]);
+        $routes->post('photos', 'Photos::create/$1');
+        $routes->put('photos/(:num)', 'Photos::update/$1/$2');
+        $routes->delete('photos/(:num)', 'Photos::delete/$1/$2');
     });
+
+    $routes->resource('products');
 
     $routes->post('orders/update-status/(:num)', 'Orders::updateStatus/$1');
     $routes->post('orders/ship/(:num)', 'Orders::ship/$1');
