@@ -6,9 +6,11 @@ use App\Entities\Order;
 
 class StandardShipping implements ShippingStrategy
 {
+    public $shippingCostDefault = 14.99;
+
     public function calculate(Order $order): float
     {
         
-        return 14.99;
+        return $this->shippingCostDefault;
     }
 }

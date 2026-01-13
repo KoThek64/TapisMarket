@@ -152,8 +152,8 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-primary text-white py-4 rounded-full font-bold text-base hover:bg-gray-800 transition shadow-lg transform active:scale-[0.99]">
-                        Confirmer le paiement (<?= $cart->getFormattedTotal() ?>)
+                    <button type="submit" id="submit-button" class="w-full bg-primary text-white py-4 rounded-full font-bold text-base hover:bg-gray-800 transition shadow-lg transform active:scale-[0.99]">
+                        Confirmer le paiement (<span id="btn-total"><?= $cart->getFormattedTotal() ?></span>)
                     </button>
                 </form>
             </div>
@@ -163,7 +163,11 @@
                     <h3 class="font-serif text-xl text-gray-900 mb-6">Résumé</h3>
 
                     <div class="space-y-4 mb-6">
-                        <?php foreach ($items as $item): ?>
+                        <?php 
+                        $totalQuantity = 0;
+                        foreach ($items as $item): 
+                            $totalQuantity += $item->quantity;
+                        ?>
                             <div class="flex justify-between items-start text-sm text-gray-600">
                                 <span class="pr-4 leading-relaxed"><span class="font-semibold text-gray-900"><?= $item->quantity ?>x</span> <?= esc($item->getProductName()) ?></span>
                                 <span class="whitespace-nowrap font-medium text-gray-900"><?= $item->getFormattedSubtotal() ?></span>
@@ -173,9 +177,22 @@
 
                     <div class="border-t border-gray-200 my-6"></div>
 
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>Sous-total</span>
+                            <span><?= $cart->getFormattedTotal() ?></span>
+                        </div>
+                        <div class="flex justify-between items-start text-sm text-gray-600">
+                            <span>Frais de livraison</span>
+                            <div id="shipping-cost" class="text-right">--</div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-6"></div>
+
                     <div class="flex justify-between items-center">
                         <span class="font-bold text-gray-900">Total à payer</span>
-                        <span class="font-bold text-xl text-gray-900"><?= $cart->getFormattedTotal() ?></span>
+                        <span class="font-bold text-xl text-gray-900" id="total-price"><?= $cart->getFormattedTotal() ?></span>
                     </div>
                 </div>
             </div>
@@ -183,6 +200,7 @@
     </div>
 </main>
 
+<<<<<<< HEAD
 
 <script>
     /**
@@ -240,6 +258,54 @@
             // Si addressInput a une valeur mais aucun radio coché, on est en mode "Nouvelle Adresse"
             // Donc on laisse le formulaire visible (état par défaut)
         }
+    })
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartTotal = parseFloat('<?= $cart->total ?>'); 
+        const totalItems = parseInt('<?= $totalQuantity ?>');
+        const extraItems = Math.max(0, totalItems - 1);
+        
+        const shippingRates = {
+            'standard': { base: 14.99, perItem: 0 },
+            'express': { base: 24.99, perItem: 2.00 },
+            'international': { base: 39.99, perItem: 2.50 }
+        };
+
+        const shippingRadios = document.querySelectorAll('input[name="shipping_method"]');
+        const shippingCostEl = document.getElementById('shipping-cost');
+        const totalPriceEl = document.getElementById('total-price');
+        const btnTotalEl = document.getElementById('btn-total');
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(price);
+        }
+
+        function updateTotals() {
+            const selectedMethod = document.querySelector('input[name="shipping_method"]:checked');
+            if (selectedMethod) {
+                const rates = shippingRates[selectedMethod.value];
+                const shippingCost = rates.base + (extraItems * rates.perItem);
+                const total = cartTotal + shippingCost;
+
+                let displayHtml = `<span class="font-medium text-gray-900">${formatPrice(shippingCost)}</span>`;
+                if (extraItems > 0 && rates.perItem > 0) {
+                     displayHtml += `<div class="text-[10px] text-gray-500 mt-0.5">
+                        ${extraItems} supp. x ${formatPrice(rates.perItem)} + ${formatPrice(rates.base)}
+                    </div>`;
+                }
+
+                if(shippingCostEl) shippingCostEl.innerHTML = displayHtml;
+                if(totalPriceEl) totalPriceEl.textContent = formatPrice(total);
+                if(btnTotalEl) btnTotalEl.textContent = formatPrice(total);
+            }
+        }
+
+        shippingRadios.forEach(radio => {
+            radio.addEventListener('change', updateTotals);
+        });
+
+        // Initial calculation
+        updateTotals();
     });
 </script>
 

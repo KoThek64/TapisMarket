@@ -6,8 +6,10 @@ use App\Entities\Order;
 
 class FreeShipping implements ShippingStrategy
 {
+    public $shippingCostDefault = 0.00;
+    
     public function calculate(Order $order): float
     {
-        return 0.00;
+        return $this->shippingCostDefault;
     }
 }

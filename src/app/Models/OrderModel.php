@@ -56,10 +56,10 @@ class OrderModel extends Model
             return false;
         }
 
-        $orderItemModel = model('App\Models\OrderItemModel');
-        $productModel = model('App\Models\ProductModel');
-        $cartItemModel = model('App\Models\CartItemModel');
-        $cartModel = model('App\Models\CartModel');
+        $orderItemModel = new OrderItemModel();
+        $productModel = new ProductModel();
+        $cartItemModel = new CartItemModel();
+        $cartModel = new CartModel();
 
         // 2. Transfert des articles et mise à jour des stocks
         foreach ($items as $item) {
@@ -76,26 +76,24 @@ class OrderModel extends Model
         }
 
         // 3. Calcul des frais de port via Strategy Pattern
-        try {
-            $methodStr = strtolower($orderData['delivery_method'] ?? 'standard');
-            $shippingType = ShippingType::tryFrom($methodStr) ?? ShippingType::STANDARD;
-            
-            $strategy = ShippingStrategyFactory::create($shippingType);
-            
-            // Recharger la commande pour que la stratégie puisse compter les articles
-            $order = $this->find($orderId);
-            $shippingCost = $strategy->calculate($order);
-            
-            // Mise à jour du total
-            $newTotal = $orderData['total_ttc'] + $shippingCost;
-            
-            $this->update($orderId, [
-                'shipping_fees' => $shippingCost,
-                'total_ttc'     => $newTotal
-            ]);
-        } catch (\Exception $e) {
-            // Log error or fallback to standard?
-            // For now proceed, defaults were 0 in insert
+        $methodStr = strtolower($orderData['delivery_method'] ?? 'standard');
+        $shippingType = ShippingType::tryFrom($methodStr) ?? ShippingType::STANDARD;
+        
+        $strategy = ShippingStrategyFactory::create($shippingType);
+        
+        // Recharger la commande pour que la stratégie puisse compter les articles
+        $order = $this->find($orderId);
+        $shippingCost = $strategy->calculate($order);
+        
+        // Mise à jour du total
+        $newTotal = $orderData['total_ttc'] + $shippingCost;
+        
+        if (!$this->update($orderId, [
+            'shipping_fees' => $shippingCost,
+            'total_ttc'     => $newTotal
+        ])) {
+            $this->db->transRollback();
+            return false;
         }
 
         // 4. Vider le panier
@@ -225,7 +223,7 @@ class OrderModel extends Model
     {
         $orderItemModel = new OrderItemModel();
         
-        $result = $orderItemModel->select('SUM(quantity)')
+        $result = $orderItemModel->selectSum('quantity')
                                  ->where('order_id', $orderId)
                                  ->get()
                                  ->getRow();
