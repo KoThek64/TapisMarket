@@ -90,7 +90,7 @@
                                 <?= $statusInfo['label'] ?>
                             </span>
                             <?php if (empty($review->product_deleted_at)): ?>
-                                <a href="<?= site_url('client/reviews/' . $review->product_id . '/edit/' ) ?>"
+                                <a href="<?= site_url('client/reviews/' . $review->product_id . '/edit/') ?>"
                                     class="text-xs text-muted hover:text-accent font-bold underline decoration-dotted">Modifier</a>
                             <?php endif; ?>
                         </div>

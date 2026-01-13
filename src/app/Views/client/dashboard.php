@@ -125,7 +125,7 @@
                             'CANCELLED' => 'bg-red-100 text-red-700 border-red-200',
                             default => 'bg-gray-100 text-gray-700 border-gray-200'
                         };
-                        ?>
+                    ?>
                         <tr class="hover:bg-gray-50 transition group">
                             <td class="px-6 py-4 font-mono font-bold text-primary">#<?= esc($order->reference ?? $order->id) ?>
                             </td>
