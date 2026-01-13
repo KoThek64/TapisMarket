@@ -36,7 +36,8 @@ class ProductModel extends Model
     protected $updatedField  = '';
 
     protected $beforeInsert = ['generateAlias'];
-    protected $beforeUpdate = ['generateAlias'];
+    protected $beforeUpdate = ['generateAlias', 'checkStatusReset'];
+    protected $beforeDelete = ['cleanupDependencies']; // Ajout du hook de nettoyage
 
     protected $validationRules = [
         'title'            => 'required|min_length[3]|max_length[150]',
@@ -52,26 +53,31 @@ class ProductModel extends Model
         return $product && $product->stock_available >= $quantity;
     }
 
+
     // Get pending products
     public function getPendingProductsPaginated(int $perPage = 5)
     {
-        return $this->select('products.*, sellers.shop_name, product_photos.file_name as image')
+        return $this->select('products.*, sellers.shop_name')
+                    ->select('(SELECT file_name FROM product_photos WHERE product_photos.product_id = products.id ORDER BY display_order ASC LIMIT 1) as image')
+                    ->select('(SELECT GROUP_CONCAT(file_name) FROM product_photos WHERE product_photos.product_id = products.id ORDER BY display_order ASC) as images')
                     ->join('sellers', 'sellers.user_id = products.seller_id')
-                    ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
-                    ->where('products.product_status', STATUS_PENDING)
-                    ->orderBy('products.created_at', 'ASC')
+                    ->where('product_status', STATUS_PENDING)
+                    ->orderBy('created_at', 'DESC')
                     ->paginate($perPage, 'pending');
     }
 
-    // Get all products for admin
+    // Get all products (admin)
     public function getAllProductsPaginated(int $perPage = 10)
     {
-        return $this->select('products.*, sellers.shop_name, product_photos.file_name as image')
+        return $this->select('products.*, sellers.shop_name, categories.name as category_name')
+                    ->select('(SELECT file_name FROM product_photos WHERE product_photos.product_id = products.id ORDER BY display_order ASC LIMIT 1) as image')
+                    ->select('(SELECT GROUP_CONCAT(file_name) FROM product_photos WHERE product_photos.product_id = products.id ORDER BY display_order ASC) as images')
                     ->join('sellers', 'sellers.user_id = products.seller_id')
-                    ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
-                    ->orderBy('products.created_at', 'DESC')
+                    ->join('categories', 'categories.id = products.category_id')
+                    ->orderBy('created_at', 'DESC')
                     ->paginate($perPage, 'catalog');
     }
+
 
     // Count pending products
     public function countPendingProducts()
@@ -139,12 +145,26 @@ class ProductModel extends Model
 
 
     //list seller's products
-    public function getSellerProducts(int $sellerId, int $perPage = 10)
+    public function getSellerProducts(int $sellerId, int $perPage = 10, ?string $search = null, ?string $status = null)
     {
-        return $this->select('products.*, categories.name as category_name')
-                    ->join('categories', 'categories.id = products.category_id')
-                    ->where('seller_id', $sellerId)
-                    ->orderBy('created_at', 'DESC')
+        $this->select('products.*, categories.name as category_name')
+             ->select('(SELECT file_name FROM product_photos WHERE product_photos.product_id = products.id ORDER BY display_order ASC LIMIT 1) as image')
+             ->join('categories', 'categories.id = products.category_id')
+             ->where('seller_id', $sellerId);
+
+        if (!empty($search)) {
+            $this->groupStart()
+                 ->like('products.title', $search)
+                 ->orLike('products.short_description', $search)
+                 ->orLike('products.alias', $search)
+                 ->groupEnd();
+        }
+
+        if (!empty($status)) {
+            $this->where('products.product_status', $status);
+        }
+
+        return $this->orderBy('products.created_at', 'DESC')
                     ->paginate($perPage);
     }
 
@@ -202,13 +222,12 @@ class ProductModel extends Model
                     ->paginate($perPage);
     }
 
-    //Create alias from title
-    protected function generateAlias(array $data)
+    // Count low stock products for a seller
+    public function countSellerLowStock(int $sellerId, int $threshold)
     {
-        if (isset($data['data']['title']) && empty($data['data']['alias'])) {
-            $data['data']['alias'] = url_title($data['data']['title'], '-', true);
-        }
-        return $data;
+        return $this->where('seller_id', $sellerId)
+                    ->where('stock_available <', $threshold)
+                    ->countAllResults();
     }
 
     //Count products pending validation
@@ -217,6 +236,92 @@ class ProductModel extends Model
         return $this->where('product_status', STATUS_PENDING)->countAllResults();
     }
 
+    public function countSellerPendingProducts(int $sellerId): int
+    {
+        $status = defined('STATUS_PENDING') ? STATUS_PENDING : 1;
+        return $this->where('seller_id', $sellerId)
+                    ->where('product_status', $status)
+                    ->countAllResults();
+    }
+
+    // Callbacks
+    protected function generateAlias(array $data)
+    {
+        if (isset($data['data']['title'])) {
+            $data['data']['alias'] = url_title($data['data']['title'], '-', true);
+            
+            // Unicité basique (à améliorer pour production)
+            $existing = $this->where('alias', $data['data']['alias'])->first();
+            if ($existing && (!isset($data['id']) || reset($data['id']) != $existing->id)) {
+                $data['data']['alias'] .= '-' . uniqid();
+            }
+        }
+        return $data;
+    }
+
+    protected function checkStatusReset(array $data)
+    {
+        if (!isset($data['id'])) return $data;
+
+        // CodeIgniter update() passe un tableau d'ids, on prend le premier
+        $ids = (array)$data['id'];
+        $id = reset($ids); 
+
+        // On récupère l'ancienne version du produit
+        $oldProduct = $this->find($id);
+        if (!$oldProduct) return $data;
+
+        $hasChanged = false;
+        
+        // Liste des champs qui nécessitent une re-validation
+        $sensitiveFields = [
+            'title', 'category_id', 
+            'short_description', 'long_description', 
+            'dimensions', 'material'
+        ];
+
+        foreach ($data['data'] as $key => $value) {
+            // On ignore les champs non sensibles ou absents
+            if (!in_array($key, $sensitiveFields)) continue;
+
+            // Comparaison stricte avec normalisation
+            $oldVal = trim((string)$oldProduct->$key);
+            $newVal = trim((string)$value);
+            
+            $oldVal = str_replace("\r\n", "\n", $oldVal);
+            $newVal = str_replace("\r\n", "\n", $newVal);
+
+            if ($oldVal !== $newVal) {
+                $hasChanged = true;
+                break; // Un seul changement suffit
+            }
+        }
+
+        // Si modification sensible détectée sur un produit déjà validé ou refusé
+        if ($hasChanged && $oldProduct->product_status !== STATUS_PENDING) {
+            $data['data']['product_status'] = STATUS_PENDING;
+            $data['data']['refusal_reason'] = null;
+        }
+
+        return $data;
+    }
+
+    protected function cleanupDependencies(array $data)
+    {
+        if (empty($data['id'])) return $data;
+
+        $ids = (array)$data['id'];
+        $db = \Config\Database::connect();
+
+        // Suppression des avis liés
+        $db->table('reviews')->whereIn('product_id', $ids)->delete();
+        
+        // Suppression des items de panier liés
+        $db->table('cart_items')->whereIn('product_id', $ids)->delete();
+
+        return $data;
+    }
+        
     /**
      * Get min and max dimensions (width)
      */

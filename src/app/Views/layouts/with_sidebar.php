@@ -65,6 +65,8 @@
     </main>
 
     <?= view("partials/delete_modal") ?>
+    <?= $this->renderSection('modals') ?>
+    <?= $this->renderSection('scripts') ?>
 </body>
 
 </html>

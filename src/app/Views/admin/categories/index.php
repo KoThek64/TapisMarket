@@ -3,7 +3,7 @@
 <?= $this->section('header_content') ?>
 <a href="<?= site_url('/') ?>"
     class="text-xs font-bold text-muted hover:text-primary transition uppercase tracking-wide mr-4">Retour au site</a>
-<a href="<?= site_url('admin/categories/create') ?>"
+<a href="<?= site_url('admin/categories/new') ?>"
     class="group flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-full hover:bg-accent transition-all text-sm font-bold shadow-lg shadow-primary/30 hover:shadow-accent/30">
     <span>+ Nouvelle Catégorie</span>
 </a>
@@ -50,13 +50,13 @@
 
                         <td class="px-8 py-5 text-right">
                             <div class="flex items-center justify-end gap-3">
-                                <a href="<?= site_url('admin/categories/edit/' . $cat->id) ?>"
+                                <a href="<?= site_url('admin/categories/' . $cat->id . '/edit') ?>"
                                     class="text-xs font-bold uppercase tracking-wide text-muted hover:text-accent transition border border-transparent hover:border-border px-3 py-1.5 rounded">
                                     Éditer
                                 </a>
 
                                 <a href="javascript:void(0)"
-                                    onclick="openDeleteModal('<?= site_url('admin/categories/delete/' . $cat->id) ?>')"
+                                    onclick="openDeleteModal('<?= site_url('admin/categories/' . $cat->id) ?>')"
                                     class="text-xs font-bold uppercase tracking-wide text-red-400 hover:text-red-600 transition border border-transparent hover:border-red-100 hover:bg-red-50 px-3 py-1.5 rounded">
                                     Supprimer
                                 </a>

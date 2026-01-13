@@ -11,7 +11,7 @@ trait ImageTrait
             $placeholderUrl = DEFAULT_PRODUCT_IMAGE;
         }
 
-        if (empty($filename)) {
+        if (empty($filename) || $filename === 'default.jpg') {
             return $placeholderUrl;
         }
 
@@ -19,7 +19,7 @@ trait ImageTrait
             return $filename;
         }
         
-        return base_url('images/' . $filename);
+        return base_url('uploads/products/' . $this->id . '/' . $filename);
     }
 
     // Alias for getImageUrl to match Entity usage

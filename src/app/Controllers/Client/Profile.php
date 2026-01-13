@@ -15,7 +15,7 @@ class Profile extends ClientBaseController
             'title' => 'Mon Profil',
             'subtitle' => 'Gérez vos informations personnelles',
             'theme' => 'accent',
-            'initial' => substr($user->firstname, 0, 1),
+            'initial' => substr($user->firstname ?? 'C', 0, 1),
             'stats' => [
                 'Membre depuis' => date('Y', strtotime($user->created_at))
             ],

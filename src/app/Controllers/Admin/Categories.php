@@ -3,9 +3,11 @@
 namespace App\Controllers\Admin;
 
 use App\Entities\Category;
+use Exception;
 
 class Categories extends AdminBaseController
 {
+    // Affichage de la liste des catégories
     public function index()
     {
         $data = array_merge($this->adminData, [
@@ -18,6 +20,7 @@ class Categories extends AdminBaseController
         return view('admin/categories/index', $data);
     }
 
+    // Formulaire de création d'une nouvelle catégorie
     public function new()
     {
         $data = array_merge($this->adminData, [
@@ -29,6 +32,7 @@ class Categories extends AdminBaseController
         return view('admin/categories/form', $data);
     }
 
+    // Traitement de la création
     public function create()
     {
         $data = [
@@ -43,6 +47,7 @@ class Categories extends AdminBaseController
         }
     }
 
+    // Formulaire d'édition d'une catégorie
     public function edit($id)
     {
         $category = $this->categoryModel->find($id);
@@ -60,6 +65,7 @@ class Categories extends AdminBaseController
         return view('admin/categories/form', $data);
     }
 
+    // Traitement de la mise à jour
     public function update($id)
     {
         $data = [
@@ -75,13 +81,14 @@ class Categories extends AdminBaseController
         }
     }
 
+    // Suppression d'une catégorie
     public function delete($id)
     {
         if ($this->categoryModel->find($id)) {
             try {
                 $this->categoryModel->delete($id);
                 return redirect()->back()->with('success', 'Catégorie supprimée.');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()->with('error', 'Impossible de supprimer (contient des produits).');
             }
         }

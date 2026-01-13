@@ -102,7 +102,11 @@
                                 </div>
                                 <div class="mt-3 pt-3 border-t border-dashed border-border flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                      <a href="<?= site_url('client/addresses/' . $addr->id . '/edit') ?>" class="text-xs font-bold text-muted hover:text-accent">Modifier</a>
-                                     <a href="<?= site_url('client/addresses/' . $addr->id . '/delete') ?>" class="text-xs font-bold text-red-400 hover:text-red-600" onclick="return confirm('Supprimer cette adresse ?')">Supprimer</a>
+                                     <form action="<?= site_url('client/addresses/' . $addr->id) ?>" method="post" onsubmit="return confirm('Supprimer cette adresse ?')" class="inline">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="text-xs font-bold text-red-400 hover:text-red-600">Supprimer</button>
+                                     </form>
                                 </div>
                             </div>
                         <?php endforeach; ?>
