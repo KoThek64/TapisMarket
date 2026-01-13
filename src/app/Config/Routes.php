@@ -26,7 +26,7 @@ $routes->get('/', 'Home::index');
 
 // Catalog (Public)
 $routes->get('catalog', 'Catalog::index');
-$routes->get('product/(:num)', 'Catalog::detail/$1');
+$routes->get('product/(:segment)', 'Catalog::detail/$1');
 $routes->get('search', 'Catalog::search');
 
 // Cart (Public)
@@ -37,6 +37,9 @@ $routes->group('cart', function ($routes) {
     $routes->post('update', 'Cart::update');
     $routes->get('clear', 'Cart::clear');
 });
+
+$routes->get('checkout', 'Checkout::index');
+$routes->post('checkout/process', 'Checkout::process');
 
 // Auth
 $routes->group('auth', function ($routes) {
@@ -51,6 +54,7 @@ $routes->group('auth', function ($routes) {
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {
 
     $routes->get('/', 'Dashboard::index');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->resource('orders', ['only' => ['index', 'show']]);
 

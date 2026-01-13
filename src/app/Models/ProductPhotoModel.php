@@ -82,4 +82,12 @@ class ProductPhotoModel extends Model
                          ->first();
         return ($maxOrder->display_order ?? 0) + 1;
     }
+
+    // Get all photos for a product sorted by display order
+    public function getPhotosByProduct(int $productId)
+    {
+        return $this->where('product_id', $productId)
+                    ->orderBy('display_order', 'ASC')
+                    ->findAll();
+    }
 }
