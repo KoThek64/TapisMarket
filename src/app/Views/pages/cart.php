@@ -96,6 +96,21 @@
                         <div class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 sticky top-28">
                             <h3 class="font-serif text-2xl text-gray-900 mb-8">Récapitulatif</h3>
                             
+                            <!-- Detail des articles -->
+                            <div class="space-y-3 mb-6">
+                                <?php foreach ($items as $item): ?>
+                                    <div class="flex justify-between text-sm">
+                                        <div class="flex flex-col flex-1 pr-4">
+                                            <span class="font-medium text-gray-800 line-clamp-1"><?= esc($item->getProductName()) ?></span>
+                                            <span class="text-xs text-gray-500"><?= $item->quantity ?> x <?= $item->getFormattedUnitPrice() ?></span>
+                                        </div>
+                                        <span class="font-medium text-gray-700 whitespace-nowrap"><?= $item->getFormattedSubtotal() ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+
+                            <div class="border-t border-gray-100 my-4"></div>
+
                             <div class="flex justify-between text-gray-600 mb-4 font-medium">
                                 <span>Sous-total</span>
                                 <span><?= $cart->getFormattedTotal() ?></span>
