@@ -16,7 +16,6 @@
 
     <?php if (session()->has('message')): ?>
         <div class="bg-green-50 border border-green-200 text-green-700 p-4 rounded-xl flex items-center gap-3">
-            <span class="text-xl">✅</span>
             <div><?= session('message') ?></div>
         </div>
     <?php endif; ?>
@@ -59,7 +58,7 @@
                     <div class="mb-4">
                         <p class="text-xs text-muted uppercase font-bold tracking-wide mb-1">Produit concerné</p>
                         <?php if (empty($review->product_deleted_at)): ?>
-                            <a href="<?= site_url('product/' . $review->product_id) ?>"
+                            <a href="<?= site_url('product/' . $review->product_alias) ?>"
                                 class="font-serif font-bold text-lg text-primary truncate hover:text-accent transition block">
                                 <?= esc($review->product_name ?? 'Produit #' . $review->product_id) ?>
                             </a>
