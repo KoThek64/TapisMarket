@@ -94,9 +94,47 @@
 
                     <div class="bg-white border border-gray-100 rounded-xl p-8 mb-8 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
                         <h3 class="font-serif text-xl mb-6 flex items-center gap-2">
-                            <span class="text-yellow-500 text-base">💳</span> Paiement
+                            <span class="text-blue-500 text-base">🚚</span> Mode de livraison
                         </h3>
 
+                        <div class="space-y-3">
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shipping_method" value="standard" class="w-4 h-4 text-primary focus:ring-primary border-gray-300" checked>
+                                <div class="ml-4 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">Standard</span>
+                                    <span class="block text-xs text-gray-500">Livraison fiable sous 3 à 5 jours ouvrés</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-900">14.99 €</span>
+                            </label>
+
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shipping_method" value="express" class="w-4 h-4 text-primary focus:ring-primary border-gray-300">
+                                <div class="ml-4 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">Express</span>
+                                    <span class="block text-xs text-gray-500">Livraison rapide sous 24h à 48h</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-sm font-medium text-gray-900">24.99 €</span>
+                                    <span class="block text-[10px] text-gray-400">+2€/art. supp.</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shipping_method" value="international" class="w-4 h-4 text-primary focus:ring-primary border-gray-300">
+                                <div class="ml-4 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">International</span>
+                                    <span class="block text-xs text-gray-500">Livraison dans le monde entier</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-sm font-medium text-gray-900">39.99 €</span>
+                                    <span class="block text-[10px] text-gray-400">+2.5€/art. supp.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-100 rounded-xl p-8 mb-8 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+                        
                         <div class="mb-5">
                             <label class="block text-xs font-bold text-gray-900 mb-2 ml-1">Numéro de carte (16 chiffres)</label>
                             <input type="text" name="card_number" inputmode="numeric" pattern="[0-9\s]{16}" class="w-full bg-input border border-gray-200 rounded-lg px-4 py-3.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-900 transition placeholder-gray-400" placeholder="0000 0000 0000 0000" maxlength="16" required value="<?= old('card_number') ?>">

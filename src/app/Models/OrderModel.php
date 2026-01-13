@@ -4,6 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use App\Entities\Order;
+use App\Enums\ShippingType;
+use App\Libraries\Factories\ShippingStrategyFactory;
 
 class OrderModel extends Model
 {
@@ -73,7 +75,30 @@ class OrderModel extends Model
             $productModel->decrementStock($item->product_id, $item->quantity);
         }
 
-        // 3. Vider le panier
+        // 3. Calcul des frais de port via Strategy Pattern
+        try {
+            $methodStr = strtolower($orderData['delivery_method'] ?? 'standard');
+            $shippingType = ShippingType::tryFrom($methodStr) ?? ShippingType::STANDARD;
+            
+            $strategy = ShippingStrategyFactory::create($shippingType);
+            
+            // Recharger la commande pour que la stratégie puisse compter les articles
+            $order = $this->find($orderId);
+            $shippingCost = $strategy->calculate($order);
+            
+            // Mise à jour du total
+            $newTotal = $orderData['total_ttc'] + $shippingCost;
+            
+            $this->update($orderId, [
+                'shipping_fees' => $shippingCost,
+                'total_ttc'     => $newTotal
+            ]);
+        } catch (\Exception $e) {
+            // Log error or fallback to standard?
+            // For now proceed, defaults were 0 in insert
+        }
+
+        // 4. Vider le panier
         $cartItemModel->where('cart_id', $cart->id)->delete();
         $cartModel->updateTotal($cart->id);
 
