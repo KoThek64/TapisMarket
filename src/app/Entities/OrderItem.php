@@ -30,4 +30,20 @@ class OrderItem extends Entity
     {
         return $this->formatPrice($this->getTotal());
     }
+
+    public function getImage(): string
+    {
+        $filename = $this->attributes['image'] ?? null;
+        $productId = $this->attributes['product_id'] ?? null;
+
+        if (empty($filename) || $filename === 'default.jpg' || empty($productId)) {
+            return defined('DEFAULT_PRODUCT_IMAGE') ? DEFAULT_PRODUCT_IMAGE : '';
+        }
+
+        if (strpos($filename, 'http') === 0) {
+            return $filename;
+        }
+
+        return base_url('uploads/products/' . $productId . '/' . $filename);
+    }
 }

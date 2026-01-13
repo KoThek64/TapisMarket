@@ -224,7 +224,7 @@ class ReviewModel extends Model
 
     public function getPaginatedReviewsForUser(int $userId, int $perPage = 8): array
     {
-        return $this->select('reviews.*, products.title as product_name, products.deleted_at as product_deleted_at')
+        return $this->select('reviews.*, products.title as product_name, products.alias as product_alias, products.deleted_at as product_deleted_at')
                     ->join('products', 'products.id = reviews.product_id', 'left')
                     ->where('reviews.customer_id', $userId) 
                     ->orderBy('reviews.id', 'DESC') 
