@@ -25,6 +25,20 @@ class OrderModel extends Model
         'reference' => 'is_unique[orders.reference]', 
     ];
 
+    // Client: Get orders for logged user
+    public function getUserOrders(int $userId, int $perPage = 10)
+    {
+        return $this->where('customer_id', $userId)
+                    ->orderBy('order_date', 'DESC')
+                    ->paginate($perPage);
+    }
+
+    // Client: Count orders
+    public function countUserOrders(int $userId)
+    {
+        return $this->where('customer_id', $userId)->countAllResults();
+    }
+
     /**
      * Crée une commande complète à partir du panier, gère les stocks et vide le panier
      * Retourne l'ID de la commande si succès, false sinon.
@@ -170,5 +184,12 @@ class OrderModel extends Model
                     ->join('users', 'users.id = customers.user_id')
                     ->orderBy('order_date', 'DESC')
                     ->findAll($limit);
+    }
+
+    public function getPaginatedOrdersForClient(int $clientId, int $perPage = 10): array
+    {
+        return $this->where('customer_id', $clientId)
+                    ->orderBy('order_date', 'DESC')
+                    ->paginate($perPage);
     }
 }
