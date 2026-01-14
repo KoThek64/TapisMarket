@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\CartModel;
 use App\Models\OrderModel;
+use App\Models\AddressModel;
 
 class Checkout extends BaseController
 {
@@ -36,6 +37,10 @@ class Checkout extends BaseController
         if (empty($cartData['items'])) {
             return redirect()->to('cart');
         }
+
+        // Récupération des adresses
+        $addressModel = new AddressModel();
+        $cartData['addresses'] = $addressModel->where('user_id', $this->userId)->findAll();
 
         return view('pages/checkout', $cartData);
     }
@@ -80,6 +85,10 @@ class Checkout extends BaseController
         ];
 
         if (! $this->validate($rules)) {
+            // Récupération des adresses pour réaffichage
+            $addressModel = new AddressModel();
+            $cartData['addresses'] = $addressModel->where('user_id', $this->userId)->findAll();
+
             return view('pages/checkout', array_merge($cartData, [
                 'validation' => $this->validator
             ]));
@@ -91,6 +100,30 @@ class Checkout extends BaseController
             'city'    => $this->request->getPost('city'),
             'zip'     => $this->request->getPost('zip'),
         ];
+
+        // Sauvegarde de la nouvelle adresse si demandé
+        if ($this->request->getPost('save_address')) {
+            $addressModel = new AddressModel();
+            
+            $rawAddress = $shippingDetails['address'];
+            $number = null;
+            $street = $rawAddress;
+
+            // Tentative d'extraction simpliste du numéro
+            if (preg_match('/^(\d+)\s+(.*)$/', $rawAddress, $matches)) {
+                $number = $matches[1];
+                $street = $matches[2];
+            }
+
+            $addressModel->insert([
+                'user_id'     => $this->userId,
+                'number'      => $number,
+                'street'      => $street,
+                'postal_code' => $shippingDetails['zip'],
+                'city'        => $shippingDetails['city'],
+                'country'     => 'France'
+            ]);
+        }
 
         $orderId = $this->processOrder($this->userId, $shippingDetails);
 
