@@ -223,7 +223,7 @@ class OrderModel extends Model
     {
         $orderItemModel = new OrderItemModel();
         
-        $result = $orderItemModel->selectSum('quantity')
+        $result = $orderItemModel->select('Sum(quantity) as quantity')
                                  ->where('order_id', $orderId)
                                  ->get()
                                  ->getRow();
