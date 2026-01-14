@@ -15,17 +15,6 @@
 
         <!-- Main Form -->
         <div class="md:col-span-3 space-y-6">
-            
-            <?php if (session()->getFlashdata('message')): ?>
-                <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl">
-                    <?= session()->getFlashdata('message') ?>
-                </div>
-            <?php endif; ?>
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
-                    <?= session()->getFlashdata('error') ?>
-                </div>
-            <?php endif; ?>
 
             <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 p-8 ring-1 ring-gray-100">
                 <h3 class="font-serif font-bold text-2xl text-primary mb-8 border-b-2 border-gray-100 pb-4">Informations du compte</h3>
