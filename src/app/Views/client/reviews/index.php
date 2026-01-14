@@ -14,12 +14,6 @@
 
 <div class="space-y-8">
 
-    <?php if (session()->has('message')): ?>
-        <div class="bg-green-50 border border-green-200 text-green-700 p-4 rounded-xl flex items-center gap-3">
-            <div><?= session('message') ?></div>
-        </div>
-    <?php endif; ?>
-
     <?php if (empty($reviews)): ?>
         <div class="bg-white rounded-2xl shadow-sm border border-border p-16 text-center">
             <div class="w-16 h-16 bg-yellow-50 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">⭐</div>
