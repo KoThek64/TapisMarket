@@ -44,7 +44,7 @@
                 },
             },
         }
-    </script>   
+    </script>
 </head>
 
 <body class="bg-cream text-primary font-sans antialiased h-screen flex overflow-hidden">
@@ -52,11 +52,11 @@
     <?= $this->renderSection('sidebar') ?>
 
     <main class="flex-1 flex flex-col h-screen overflow-hidden bg-cream relative">
-        
+
         <?= $this->include("headers/" . ($header ?? "with_sidebar")) ?>
 
         <div class="flex-1 overflow-y-auto p-8 lg:p-12 space-y-8">
-            
+
             <?= $this->include("partials/alert_handler") ?>
             <?= $this->renderSection('content') ?>
             <?= $this->include("footers/" . ($footer ?? "client")) ?>
@@ -67,6 +67,21 @@
     <?= view("partials/delete_modal") ?>
     <?= $this->renderSection('modals') ?>
     <?= $this->renderSection('scripts') ?>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
 </body>
 
 </html>
