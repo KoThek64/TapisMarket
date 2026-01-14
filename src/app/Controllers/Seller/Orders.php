@@ -15,6 +15,7 @@ class Orders extends SellerBaseController
 
         $totalTurnover = $this->orderItemModel->getSellerTurnover($userId);
         $totalOrders   = $this->orderItemModel->getSellerTotalOrders($userId);
+        $statusCounts = $this->orderItemModel->countOrdersByStatus($userId);
 
         $pagedOrders = $this->orderItemModel->getSellerOrders($userId, 10, $statusFilter);
         $pager       = $this->orderItemModel->pager;
@@ -49,6 +50,7 @@ class Orders extends SellerBaseController
             'orders'        => $orders,
             'pager'         => $pager,
             'currentStatus' => $statusFilter,
+            'statusCounts' => $statusCounts,
             'stats'         => [
                 'turnover' => $totalTurnover,
                 'count'    => $totalOrders

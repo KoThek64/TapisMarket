@@ -27,14 +27,13 @@ class OrderItemModel extends Model
     // Recupere les ID de commande uniques pagines.
     public function getSellerOrders(int $sellerId, int $perPage = 5, ?string $status = null)
     {
-        // Selectionne les ID uniques et les infos de base pour la pagination
         $builder = $this->select('orders.id')
                     ->join('products', 'products.id = order_items.product_id')
                     ->join('orders', 'orders.id = order_items.order_id')
                     ->where('products.seller_id', $sellerId)
                     ->where('orders.status !=', 'CANCELLED')
                     ->distinct()
-                    ->orderBy('orders.id', 'DESC'); // Utilise ID comme proxy pour la date si la date est la meme
+                    ->orderBy('orders.id', 'DESC'); 
         
         if ($status && $status !== 'ALL') {
              $builder->where('orders.status', $status);
@@ -173,5 +172,24 @@ class OrderItemModel extends Model
                     ->countAllResults();
 
         return $count > 0;
+    }
+
+    public function countOrdersByStatus(int $sellerId)
+    {
+        $query = $this->db->table('order_items')
+            ->select('orders.status, COUNT(DISTINCT orders.id) as count')
+            ->join('products', 'products.id = order_items.product_id')
+            ->join('orders', 'orders.id = order_items.order_id')
+            ->where('products.seller_id', $sellerId)
+            ->where('orders.status !=', 'CANCELLED')
+            ->groupBy('orders.status')
+            ->get();
+
+        $results = $query->getResult();
+        $counts = [];
+        foreach ($results as $row) {
+            $counts[$row->status] = $row->count;
+        }
+        return $counts;
     }
 }
