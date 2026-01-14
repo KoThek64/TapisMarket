@@ -491,4 +491,10 @@ class ProductModel extends Model
                     ->limit($limit)
                     ->find();
     }
+
+    // Compter tous les produits d'un vendeur
+    public function countSellerProducts(int $sellerId)
+    {
+        return $this->where('seller_id', $sellerId)->countAllResults();
+    }
 }
