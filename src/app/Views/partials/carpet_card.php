@@ -32,14 +32,25 @@
                 <input type="hidden" name="product_id" value="<?= $product->id ?? $product->id_product ?>">
                 <input type="hidden" name="quantity" value="1">
                 
-                <?= view('partials/black_button', [
-                    'tag' => 'button',
-                    'type' => 'button',
-                    'label' => 'Acheter', 
-                    'padding' => 'px-5 py-2.5', 
-                    'customClass' => 'text-sm',
-                    'onclick' => 'submitAddToCart(this)'
-                ]) ?>
+                <?php 
+                    $role = function_exists('user_role') ? user_role() : null;
+                    $isAdminOrSeller = ($role === \App\Enums\UserRole::ADMIN || $role === \App\Enums\UserRole::SELLER);
+                ?>
+
+                <?php if ($isAdminOrSeller): ?>
+                    <button type="button" disabled class="px-5 py-2.5 text-sm inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-400 font-bold rounded cursor-not-allowed border border-gray-200" title="Les vendeurs et administrateurs ne peuvent pas acheter">
+                        Acheter
+                    </button>
+                <?php else: ?>
+                    <?= view('partials/black_button', [
+                        'tag' => 'button',
+                        'type' => 'button',
+                        'label' => 'Acheter', 
+                        'padding' => 'px-5 py-2.5', 
+                        'customClass' => 'text-sm',
+                        'onclick' => 'submitAddToCart(this)'
+                    ]) ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

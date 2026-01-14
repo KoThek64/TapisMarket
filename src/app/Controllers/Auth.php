@@ -68,7 +68,11 @@ class Auth extends BaseController
             login_user($user->user_id, $role);
             
             // Merge guest cart
-            $this->mergeGuestCart($user->user_id);
+            if ($role === UserRole::ADMIN || $role === UserRole::SELLER) {
+                set_error("Vous n'êtes pas client, votre panier n'a pas été sauvgardé");
+            }else {
+                $this->mergeGuestCart($user->user_id);
+            }
 
             set_success("Connexion réussie. Bienvenue " . ($user->firstname ?? ''));
             

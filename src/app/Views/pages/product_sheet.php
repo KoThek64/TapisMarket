@@ -61,8 +61,18 @@
                                 class="w-8 text-center font-bold border-none focus:ring-0 p-0 appearance-none bg-transparent [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" readonly>
                          <button type="button" onclick="el=document.getElementById('qty'); v=parseInt(el.value); m=<?= (int)$product->stock_available ?>; if(v<m) el.value=v+1" class="text-muted hover:text-primary focus:outline-none">+</button>
                     </div>
+                    
+                    <?php 
+                        use \App\Enums\UserRole;
+                        $role = function_exists('user_role') ? user_role() : null;
+                        $isAdminOrSeller = ($role === UserRole::ADMIN || $role === UserRole::SELLER);
+                    ?>
 
-                    <?php if ($product->stock_available > 0): ?>
+                    <?php if ($isAdminOrSeller): ?>
+                        <button type="button" disabled class="flex-1 bg-gray-200 text-gray-400 py-3.5 rounded font-bold uppercase tracking-widest cursor-not-allowed border border-gray-200" title="Les vendeurs et administrateurs ne peuvent pas acheter">
+                            Action non autorisée
+                        </button>
+                    <?php elseif ($product->stock_available > 0): ?>
                         <button type="submit" class="flex-1 bg-primary text-white py-3.5 rounded font-bold uppercase tracking-widest hover:bg-accent transition-colors">
                             Ajouter au panier
                         </button>
