@@ -21,6 +21,9 @@ class Auth extends BaseController
     protected $customerModel;
     protected $sellerModel;
     protected $administratorModel;
+    protected $cartModel;
+    protected $cartItemModel;
+    protected $productModel;
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -29,6 +32,9 @@ class Auth extends BaseController
         $this->customerModel      = new CustomerModel();
         $this->sellerModel        = new SellerModel();
         $this->administratorModel = new AdministratorModel();
+        $this->cartModel = new CartModel();
+        $this->cartItemModel = new CartItemModel();
+        $this->productModel = new ProductModel();
     }
 
     public function login()
@@ -190,15 +196,11 @@ class Auth extends BaseController
         $guestCart = $session->get('guest_cart');
 
         if (!empty($guestCart)) {
-            $cartModel = new \App\Models\CartModel();
-            $cartItemModel = new \App\Models\CartItemModel();
-            $productModel = new \App\Models\ProductModel();
-
-            $cart = $cartModel->getActiveCart($userId);
+            $cart = $this->cartModel->getActiveCart($userId);
 
             foreach ($guestCart as $productId => $quantity) {
                 // Check if item exists in user cart
-                $existingItem = $cartItemModel->where('cart_id', $cart->id)
+                $existingItem = $this->cartItemModel->where('cart_id', $cart->id)
                                               ->where('product_id', $productId)
                                               ->first();
                                               
@@ -206,16 +208,16 @@ class Auth extends BaseController
                 $newTotalQty = $currentQty + $quantity;
 
                 // Validate merged stock
-                if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
+                if ($this->productModel->hasSufficientStock($productId, $newTotalQty)) {
                     if ($existingItem) {
-                         $cartItemModel->updateQuantity($cart->id, $productId, $newTotalQty);
+                         $this->cartItemModel->updateQuantity($cart->id, $productId, $newTotalQty);
                     } else {
-                         $cartItemModel->addItem($cart->id, $productId, $quantity);
+                         $this->cartItemModel->addItem($cart->id, $productId, $quantity);
                     }
                 } 
             }
             
-            $cartModel->updateTotal($cart->id);
+            $this->cartModel->updateTotal($cart->id);
             $session->remove('guest_cart');
         }
     }
