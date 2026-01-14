@@ -148,12 +148,14 @@ class DataSeeder extends Seeder
                 $pid = $this->createProduct($vid, $cat, $name, $price, $stock, $status, $mat);
                 $productIds[] = $pid;
 
-                $imgUrl = $realImages[array_rand($realImages)];
-                $this->db->table('product_photos')->insert([
-                    'product_id' => $pid,
-                    'file_name' => $imgUrl,
-                    'display_order' => 1
-                ]);
+                for ($i = 1; $i <= 3; $i++) {
+                    $imgUrl = $realImages[array_rand($realImages)];
+                    $this->db->table('product_photos')->insert([
+                        'product_id'    => $pid,
+                        'file_name'     => $imgUrl,
+                        'display_order' => $i
+                    ]);
+                }
             }
         }
 
