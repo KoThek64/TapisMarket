@@ -10,6 +10,12 @@
             <p class="font-sans text-muted">Connectez-vous à votre espace personnel</p>
         </div>
 
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 text-sm rounded-r-md">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (session()->getFlashdata('error')): ?>
             <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r-md">
                 <?= session()->getFlashdata('error') ?>
@@ -51,10 +57,14 @@
             </button>
         </form>
 
+        <div class="mt-4 text-center">
+            <a href="<?= base_url('/auth/forgot') ?>" class="text-sm text-accent font-semibold hover:underline">Mot de passe oublié ?</a>
+        </div>
+
         <div class="mt-8 pt-6 border-t border-border-custom text-center">
             <p class="text-sm text-muted">
                 Pas encore de compte ? 
-                <a href="/auth/register" class="text-accent font-semibold hover:underline">Créer un compte</a>
+                <a href="<?= base_url('/auth/register') ?>" class="text-accent font-semibold hover:underline">Créer un compte</a>
             </p>
         </div>
     </div>
