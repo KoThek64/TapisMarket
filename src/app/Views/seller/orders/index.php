@@ -94,7 +94,7 @@
                 </svg>
             </div>
             <h3 class="text-lg font-bold text-primary mb-2">Aucune commande</h3>
-            <p class="text-muted">Vos produits n'ont pas encore trouvé preneur pour ce statut.</p>
+            <p class="text-muted">Vos produits n'ont pas encore trouvé preneur.</p>
         </div>
     <?php else: ?>
         <div class="space-y-6">
@@ -171,7 +171,9 @@
                                         <input type="hidden" name="status" value="PREPARING">
                                         <button type="submit" class="inline-flex items-center gap-1 text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 font-medium px-3 py-1.5 rounded-lg border border-amber-200 transition-colors w-full md:w-auto justify-center">
                                             <span>Préparer</span>
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                                            </svg>
                                         </button>
                                     </form>
                                 <?php endif; ?>
@@ -182,12 +184,26 @@
                                         <input type="hidden" name="status" value="SHIPPED">
                                         <button type="submit" class="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 hover:bg-blue-100 font-medium px-3 py-1.5 rounded-lg border border-blue-200 transition-colors w-full md:w-auto justify-center">
                                             <span>Expédier</span>
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
                                         </button>
                                     </form>
                                 <?php endif; ?>
-                                
-                                </div>
+
+                                <?php if ($info->status === 'SHIPPED'): ?>
+                                    <form action="<?= base_url('seller/orders/update-status/' . $info->order_id) ?>" method="POST">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="status" value="DELIVERED">
+                                        <button type="submit" class="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 hover:bg-green-100 font-medium px-3 py-1.5 rounded-lg border border-green-200 transition-colors w-full md:w-auto justify-center">
+                                            <span>Confirmer Livraison</span>
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
 
