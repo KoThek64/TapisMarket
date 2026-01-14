@@ -34,7 +34,8 @@ class Auth extends BaseController
     public function login()
     {
         return view('auth/login', [
-            'custom_error_alert' => true
+            'custom_error_alert' => true,
+            'custom_success_alert' => true
         ]);
     }
 
@@ -167,6 +168,15 @@ class Auth extends BaseController
         }
     }
 
+
+    public function forgotPassword()
+    {
+        if ($this->request->getMethod() === 'POST') {
+            return redirect()->to('/auth/login')->with('success', 'Si cet email est enregistré, un lien de réinitialisation a été envoyé.');
+        }
+
+        return view('auth/forgotPassword');
+    }
 
     public function logout()
     {

@@ -27,7 +27,7 @@
             <form class="flex border-b border-gray-600 pb-2">
                 <input type="email" placeholder="Votre email" class="bg-transparent text-sm w-full outline-none text-white">
                 <button type="submit" class="text-accent font-bold text-xs uppercase tracking-widest">OK</button>
-            </form>
+            </form> 
         </div>
     </div>
     <div class="max-w-[1600px] mx-auto px-[5%] border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-500 uppercase tracking-widest">

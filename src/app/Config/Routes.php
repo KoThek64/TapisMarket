@@ -48,6 +48,8 @@ $routes->group('auth', function ($routes) {
     $routes->get('register', 'Auth::register');
     $routes->post('register', 'Auth::attemptRegister');
     $routes->get('logout', 'Auth::logout');
+    $routes->get('forgot', 'Auth::forgotPassword');
+    $routes->post('forgot', 'Auth::forgotPassword');
 });
 
 // Admin
