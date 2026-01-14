@@ -22,6 +22,10 @@ PUT ou DELETE) si on n'utilise pas l'option websafe.
 */
 
 // Public
+$routes->get('/legal-notice', 'Home::legalNotice');
+$routes->get('/confidentiality', 'Home::confidentiality');
+$routes->get('/delivery-returns', 'Home::deliveryReturns');
+$routes->get('/faq', 'Home::faq');
 $routes->get('/', 'Home::index');
 
 // Catalog (Public)
