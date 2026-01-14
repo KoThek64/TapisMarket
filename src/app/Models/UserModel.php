@@ -19,13 +19,12 @@ class UserModel extends Model
         'password',
         'lastname',
         'firstname',
-        'created_at',
         'role'
     ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
-    protected $updatedField  = null;
+    protected $updatedField  = ''
 
     protected $validationRules = [
         'email'        => 'required|valid_email|is_unique[users.email]',
@@ -42,7 +41,7 @@ class UserModel extends Model
     ];
 
 
-    // verifie la connection 
+    // Check connection information
     public function checkConnection(string $email, string $password)
     {
         $user = $this->where('email', $email)->first();
@@ -52,21 +51,21 @@ class UserModel extends Model
         return false;
     }
 
-    // recuper par le mail 
+    // Get a user by email (e.g. for forgot password)
     public function getByEmail(string $email)
     {
         return $this->where('email', $email)->first();
     }
 
-    // recupere les utilisateurs par leurs roles 
+    // Get users by role
     public function getUsersByRole(string $role, int $perPage = 20)
     {
         return $this->where('role', $role)
-            ->orderBy('created_at', 'DESC')
-            ->paginate($perPage);
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate($perPage);
     }
 
-    // recupere les utilisateurs avec pagination
+     // recupere les utilisateurs avec pagination
     public function getAdminAllUsersPaginated(int $perPage = 10, ?string $role = null)
     {
         $builder = $this->select('users.*, sellers.status as seller_status')
@@ -80,18 +79,16 @@ class UserModel extends Model
         return $builder->paginate($perPage, 'users');
     }
 
-    //compte tous les utilisateurs
+    // Count total users
     public function countAllUsers()
     {
         return $this->countAllResults();
     }
 
-    // recupere les derniers connecter
+    // Get latest registered users
     public function getLatestRegistered(int $limit = 5)
     {
-        return $this->select('users.*, sellers.status as seller_status')
-            ->join('sellers', 'sellers.user_id = users.id', 'left')
-            ->orderBy('users.created_at', 'DESC')
-            ->findAll($limit);
+        return $this->orderBy('created_at', 'DESC')
+                    ->findAll($limit);
     }
 }
