@@ -20,7 +20,6 @@
                 <li><a href="<?= base_url('/delivery-returns') ?>" class="hover:text-white transition-colors">Livraison & Retours</a></li>
                 
                 <!-- redirects to a contact page, we don't really know what it is. -->
-                <li><a href="<?= base_url('/') ?>" class="hover:text-white transition-colors">Contactez-nous</a></li>
                 <li><a href="<?= base_url('/faq') ?>" class="hover:text-white transition-colors">FAQ</a></li>
             </ul>
         </div>

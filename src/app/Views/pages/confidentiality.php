@@ -1,32 +1,7 @@
+<?= $this->extend('layouts/default') ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Politique de Confidentialité - TapisMarket</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Onest', sans-serif; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<?= $this->section('content') ?>
 
-    <!-- To Modify with the partial header -->    
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-[1600px] mx-auto px-[5%] h-20 flex items-center justify-between">
-            <a href="<?= base_url('/') ?>" class="text-2xl font-bold font-serif text-slate-900 hover:text-blue-600 transition-colors">
-                TapisMarket
-            </a>
-            <a href="<?= base_url('/') ?>" class="text-sm font-medium text-slate-500 hover:text-slate-900 flex items-center gap-2">
-                <span>← Retour à l'accueil</span>
-            </a>
-        </div>
-    </header>
-
-    <main class="flex-grow">
         <div class="max-w-4xl mx-auto px-6 py-16">
             
             <!-- Titre de la page -->
@@ -97,10 +72,4 @@
 
             </div>
         </div>
-    </main>
-
-    
-    <?= view('Partial/footer') ?>
-
-</body>
-</html>
+    <?= $this->endSection() ?>

@@ -22,16 +22,17 @@ class Home extends BaseController
 
     public function confidentiality()
     {
-        return view('FooterViews/confidentiality');
+        
+        return view('pages/confidentiality');
     }
 
     public function deliveryReturns()
     {
-        return view('FooterViews/deliveryReturns');
+        return view('pages/deliveryReturns');
     }
 
     public function FAQ()
     {
-        return view('FooterViews/faq');
+        return view('pages/faq');
     }
 }
