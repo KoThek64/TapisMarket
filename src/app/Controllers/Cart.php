@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\CartModel;
 use App\Models\CartItemModel;
 use App\Models\ProductModel;
+use App\Enums\UserRole;
 
 class Cart extends BaseController
 {
@@ -29,6 +30,11 @@ class Cart extends BaseController
 
     public function index()
     {
+        $role = user_role();
+        if ($role === UserRole::ADMIN || $role === UserRole::SELLER) {
+            set_error("Vous devez être un client pour avoir un panier.");
+            return redirect()->back()->withInput();
+        }
         if ($this->userId) {
             // Récupération du panier actif pour utilisateur connecté
             $cart = $this->cartModel->getActiveCart($this->userId);
@@ -146,6 +152,12 @@ class Cart extends BaseController
 
     public function add()
     {
+        $role = user_role();
+        if ($role === UserRole::ADMIN || $role === UserRole::SELLER) {
+            set_error("Action non autorisée pour ce compte.");
+            return redirect()->back()->withInput();
+        }
+
         $productId = $this->request->getPost('product_id');
         $quantity = (int) ($this->request->getPost('quantity') ?? 1);
 
