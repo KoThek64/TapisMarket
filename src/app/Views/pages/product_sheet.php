@@ -14,22 +14,56 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
             <!-- Gallery -->
             <div class="space-y-4">
-                <div class="aspect-[4/5] bg-gray-100 rounded-xl overflow-hidden relative">
-                     <?php if(!empty($photos) && isset($photos[0])): ?>
-                        <img src="<?= base_url('images/' . esc($photos[0]->file_name)) ?>" alt="<?= esc($product->title) ?>" class="w-full h-full object-cover">
-                     <?php else: ?>
-                        <img src="https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400" alt="Default" class="w-full h-full object-cover">
-                     <?php endif; ?>
+                <div class="aspect-[4/5] bg-gray-100 rounded-xl overflow-hidden relative group">
+                     <?php 
+                        $firstPhotoUrl = 'https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';
+                        if(!empty($photos) && isset($photos[0])) {
+                             $firstPhotoUrl = base_url('uploads/products/' . $photos[0]->product_id . '/' . $photos[0]->file_name);
+                        }
+                     ?>
+                     <img id="mainImage" src="<?= $firstPhotoUrl ?>" alt="<?= esc($product->title) ?>" 
+                          class="w-full h-full object-cover transition-all duration-300 transform group-hover:scale-105"
+                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';">
                 </div>
+                
                 <div class="grid grid-cols-4 gap-4">
-                    <?php if(!empty($photos) && count($photos) > 1): ?>
-                        <?php foreach($photos as $photo): ?>
-                            <div class="aspect-square rounded-lg overflow-hidden cursor-pointer opacity-70 hover:opacity-100 border border-transparent hover:border-accent">
-                                <img src="<?= base_url('images/' . esc($photo->file_name)) ?>" class="w-full h-full object-cover">
+                    <?php if(!empty($photos)): ?>
+                        <?php foreach($photos as $index => $photo): ?>
+                            <?php 
+                                $photoUrl = base_url('uploads/products/' . $photo->product_id . '/' . $photo->file_name);
+                                $activeClass = ($index === 0) ? 'border-accent opacity-100' : 'border-transparent opacity-70';
+                            ?>
+                            <div class="thumbnail aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-100 border hover:border-accent transition-all <?= $activeClass ?>"
+                                 onclick="updateMainImage('<?= $photoUrl ?>', this)">
+                                <img src="<?= $photoUrl ?>" class="w-full h-full object-cover" alt="Vue produit <?= $index + 1 ?>"
+                                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';">
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+
+                <script>
+                function updateMainImage(src, thumb) {
+                    const main = document.getElementById('mainImage');
+                    
+                    // Simple fade effect
+                    main.style.opacity = '0.8';
+                    
+                    setTimeout(() => {
+                        main.src = src;
+                        main.style.opacity = '1';
+                    }, 100);
+                    
+                    // Update active state
+                    document.querySelectorAll('.thumbnail').forEach(el => {
+                        el.classList.remove('border-accent', 'opacity-100');
+                        el.classList.add('opacity-70', 'border-transparent');
+                    });
+                    
+                    thumb.classList.remove('opacity-70', 'border-transparent');
+                    thumb.classList.add('border-accent', 'opacity-100');
+                }
+                </script>
             </div>
 
             <!-- Product Info -->
@@ -118,17 +152,7 @@
             <h2 class="font-serif text-3xl font-bold text-primary mb-8">Vous aimerez aussi</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                  <?php foreach($similarProducts as $simProduct): ?>
-                    <article class="group cursor-pointer">
-                        <div class="aspect-[4/5] bg-gray-100 rounded-lg overflow-hidden mb-4 relative">
-                            <a href="<?= base_url('product/' . $simProduct->alias) ?>">
-                                <img src="<?= base_url('images/' . esc($simProduct->image)) ?>" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';">
-                            </a>
-                        </div>
-                        <h3 class="font-bold text-lg mb-1 group-hover:text-accent transition-colors">
-                            <a href="<?= base_url('product/' . $simProduct->alias) ?>"><?= esc($simProduct->title) ?></a>
-                        </h3>
-                        <span class="text-muted"><?= $simProduct->getFormattedPrice() ?></span>
-                    </article>
+                    <?= view('partials/carpet_card', ['product' => $simProduct]) ?>
                  <?php endforeach; ?>
             </div>
         </section>

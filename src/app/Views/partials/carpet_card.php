@@ -1,7 +1,12 @@
 <article class="group bg-white border border-transparent rounded-2xl overflow-hidden transition-all duration-300 flex flex-col relative hover:-translate-y-2 hover:shadow-xl">
     <!-- Image -->
     <a href="<?= base_url('product/' . $product->alias) ?>" class="relative block pt-[130%] overflow-hidden bg-gray-100 rounded-t-2xl">
-        <img src="<?= base_url('images/' . esc($product->image)) ?>" 
+        <?php
+            $imgSrc = method_exists($product, 'getImageUrl') 
+                        ? $product->getImageUrl($product->image ?? null) 
+                        : base_url('uploads/products/' . ($product->id ?? 0) . '/' . ($product->image ?? 'default.jpg'));
+        ?>
+        <img src="<?= $imgSrc ?>" 
              alt="<?= esc($product->title) ?>" 
              class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1600166898405-da9535204843?q=80&w=400';">
