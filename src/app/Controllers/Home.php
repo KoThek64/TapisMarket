@@ -17,7 +17,7 @@ class Home extends BaseController
 
     public function legalNotice()
     {
-        return view('FooterViews/legalNotice');
+        return view('pages/legalNotice');
     }
 
     public function confidentiality()
