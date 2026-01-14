@@ -82,6 +82,7 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
     $routes->group('profile', function ($routes) {
         $routes->get('/', 'Profile::index');
         $routes->post('update', 'Profile::update');
+        $routes->get('export', 'Profile::export');
     });
 
     $routes->resource('addresses');

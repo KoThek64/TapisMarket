@@ -24,7 +24,6 @@ class OrderItemModel extends Model
         'unit_price'    => 'required|decimal|greater_than_equal_to[0]',
     ];
 
-    // CORRECTION PAGINATION : Etape 1
     // Recupere les ID de commande uniques pagines.
     public function getSellerOrders(int $sellerId, int $perPage = 5, ?string $status = null)
     {
@@ -44,7 +43,6 @@ class OrderItemModel extends Model
         return $builder->paginate($perPage);
     }
 
-    // CORRECTION PAGINATION : Etape 2
     // Recupere tous les articles pour la liste specifique d'ID de commandes.
     public function getItemsForOrders(int $sellerId, array $orderIds)
     {

@@ -11,9 +11,6 @@
 
     <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
         
-        <!-- Sidebar Navigation (Optional, skipped for now to keep simple) -->
-
-        <!-- Main Form -->
         <div class="md:col-span-3 space-y-6">
             
             <?php if (session()->getFlashdata('message')): ?>
@@ -79,7 +76,6 @@
                 </form>
             </div>
 
-            <!-- Addresses Section -->
             <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 p-8 ring-1 ring-gray-100">
                 <div class="flex justify-between items-center mb-8 border-b-2 border-gray-100 pb-4">
                     <h3 class="font-serif font-bold text-2xl text-primary">Mes Adresses</h3>
@@ -113,6 +109,24 @@
                     </div>
                 <?php endif; ?>
             </div>
+
+            <div class="bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 p-8 ring-1 ring-gray-100">
+                <h3 class="font-serif font-bold text-2xl text-primary mb-6 border-b-2 border-gray-100 pb-4">Mes données personnelles</h3>
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h4 class="font-bold text-gray-800">Exporter mes données</h4>
+                        <p class="text-sm text-gray-500 mt-1">
+                            Téléchargez une copie de vos données personnelles (RGPD).
+                        </p>
+                    </div>
+                    <a href="<?= site_url('client/profile/export') ?>" class="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-300 rounded-xl text-gray-700 font-bold text-sm hover:bg-gray-50 hover:border-gray-400 transition-all shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Télécharger (JSON)
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
 
