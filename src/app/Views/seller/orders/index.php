@@ -101,8 +101,7 @@
             <?php foreach ($orders as $orderData):
                 $info = $orderData['info'];
                 $items = $orderData['items'];
-                $orderTotal = 0;
-                foreach ($items as $item) $orderTotal += $item->unit_price * $item->quantity;
+                $orderTotal = $info->total_ttc ?? 0;
             ?>
                 <div class="bg-white rounded-2xl shadow-sm border border-border overflow-hidden transition-all duration-200 hover:shadow-md">
                     <div class="p-5 flex flex-col md:flex-row justify-between gap-4">
@@ -247,6 +246,15 @@
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
+                                             <!-- Shipping Fees -->
+                                                <tr class="hover:bg-gray-50/50 transition-colors border-t border-gray-100">
+                                                    <td class="px-4 py-3" colspan="3">
+                                                        <div class="font-medium text-primary text-right">Frais de port</div>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-right font-bold text-accent">
+                                                        <?= number_format($info->shipping_fees ?? 0, 2) ?> €
+                                                    </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>

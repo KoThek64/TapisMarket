@@ -58,6 +58,8 @@ class OrderItemModel extends Model
                         orders.delivery_postal_code, 
                         orders.delivery_city, 
                         orders.delivery_country,
+                        orders.total_ttc,
+                        orders.shipping_fees,
                         users.lastname as customer_lastname, 
                         users.firstname as customer_firstname,
                         customers.phone as customer_phone
