@@ -9,7 +9,7 @@ class Profile extends ClientBaseController
     // Affichage du profil client
     public function index()
     {
-        $user = user_data();
+        $user = $this->getCurrentUser();
 
         $data = array_merge($this->clientData, [
             'title' => 'Mon Profil',
@@ -29,8 +29,7 @@ class Profile extends ClientBaseController
     public function update()
     {
         $userId = user_id();
-
-        // Chargement  de userModel et customerModel
+        
         $user = $this->userModel->find($userId);
         $customer = $this->customerModel->find($userId);
 
@@ -81,4 +80,50 @@ class Profile extends ClientBaseController
 
         return redirect()->back()->withInput()->with('error', 'Erreur lors de la mise à jour.');
     }
+
+    public function export()
+    {
+        $userId = user_id();
+
+        $user = $this->userModel->find($userId);
+        
+        $customer = $this->customerModel->find($userId);
+
+        $addresses = $this->addressModel->where('user_id', $userId)->findAll();
+
+        $exportData = [
+            'compte' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'nom' => $user->lastname,
+                'prenom' => $user->firstname,
+                'cree_le' => $user->created_at->toDateTimeString(),
+            ],
+            'infos_personnelles' => [
+                'telephone' => $customer ? $customer->phone : null,
+                'date_naissance' => $customer && $customer->birth_date ? $customer->birth_date->format('Y-m-d') : null,
+            ],
+            'adresses' => []
+        ];
+
+        foreach ($addresses as $addr) {
+            $exportData['adresses'][] = [
+                'numero' => $addr->number,
+                'rue' => $addr->street,
+                'code_postal' => $addr->postal_code,
+                'ville' => $addr->city,
+                'pays' => $addr->country,
+                'contact' => $addr->contact_phone
+            ];
+        }
+
+        // Génération du fichier JSON
+        $filename = 'export_donnees_tapis_' . date('Y-m-d') . '.json';
+        
+        return $this->response->download(
+            $filename, 
+            json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        );
+    }
+
 }
