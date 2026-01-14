@@ -46,7 +46,7 @@
                                     <span class="font-bold text-primary font-serif">#<?= esc($order->reference) ?></span>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-muted">
-                                    <?= date('d/m/Y', strtotime($order->created_at)) ?>
+                                    <?= date('d/m/Y', strtotime($order->order_date)) ?>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="font-bold text-accent"><?= number_format($order->total_ttc, 2, ',', ' ') ?>
