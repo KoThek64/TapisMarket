@@ -56,6 +56,8 @@ $routes->group('auth', function ($routes) {
     $routes->post('forgot', 'Auth::forgotPassword');
 });
 
+$routes->get('seller-validation-error', 'Home::sellerValidationError');
+
 // Admin
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {
 
@@ -104,7 +106,7 @@ $routes->group('client', ['namespace' => 'App\Controllers\Client', 'filter' => '
 
 
 // Seller
-$routes->group('seller', ['namespace' => 'App\Controllers\Seller', 'filter' => 'auth:seller'], function ($routes) {
+$routes->group('seller', ['namespace' => 'App\Controllers\Seller', 'filter' => ['auth:seller', 'validated-seller']], function ($routes) {
 
     $routes->get('/', 'Dashboard::index');
     $routes->get('dashboard', 'Dashboard::index');
