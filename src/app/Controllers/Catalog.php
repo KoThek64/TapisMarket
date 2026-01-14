@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\ProductModel;
 use App\Models\CategoryModel;
 use App\Models\ProductPhotoModel;
+use App\Models\ReviewModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Catalog extends BaseController
@@ -41,20 +42,20 @@ class Catalog extends BaseController
             'sellers' => $productModel->getActiveSellers(),
             'searchTerm' => $filters['search'],
             'activeSection' => $this->request->getGet('active_section'),
-            
+
             // Filters data
             'selectedCategories' => $filters['categories'] ?? [],
             'selectedMaterials' => $filters['materials'] ?? [],
             'selectedSellers' => $filters['sellers'] ?? [],
-            
+
             // Price range
             'selectedPriceMin' => $filters['price_min'] ?? 0,
             'selectedPriceMax' => $filters['price_max'] ?? 5000,
-            
+
             // Dimensions range (default to query or bounds or fallback)
             'dimMinBound' => $dimBounds->min ?? 0,
             'dimMaxBound' => $dimBounds->max ?? 500,
-            
+
             'selectedWidthMin' => $filters['width_min'] ?? ($dimBounds->min ?? 0),
             'selectedWidthMax' => $filters['width_max'] ?? ($dimBounds->max ?? 500),
             'selectedLengthMin' => $filters['length_min'] ?? ($dimBounds->min ?? 0),
@@ -70,13 +71,13 @@ class Catalog extends BaseController
     {
         $term = $this->request->getGet('q');
         $productModel = new ProductModel();
-        
+
         $data = [
             'products' => $productModel->search($term ?? '', 12),
             'pager' => $productModel->pager,
             'searchTerm' => $term
         ];
-        
+
         return view('pages/catalog', $data);
     }
 
@@ -87,24 +88,30 @@ class Catalog extends BaseController
         }
 
         $productModel = new ProductModel();
-        
+
         $product = $productModel->getByAlias($alias);
-                    
+
         if (!$product) {
             throw PageNotFoundException::forPageNotFound('Produit introuvable');
         }
-        
+
         // Récupérer toutes les photos
         $photoModel = new ProductPhotoModel();
         $photos = $photoModel->getPhotosByProduct($product->id);
-        
-        // Produits similaires (même catégorie)
+
+       
+        $reviewModel = new ReviewModel();
+        $reviews = $reviewModel->getReviewsForProduct($product->id);
+        $reviewStats = $reviewModel->getProductStats($product->id);
+
         $similarProducts = $productModel->getSimilarProducts($product->category_id, $product->id);
 
         $data = [
             'product' => $product,
             'photos' => $photos,
-            'similarProducts' => $similarProducts
+            'similarProducts' => $similarProducts,
+            'reviews' => $reviews,          
+            'reviewStats' => $reviewStats   
         ];
 
         return view('pages/product_sheet', $data);
