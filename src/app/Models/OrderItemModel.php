@@ -24,7 +24,7 @@ class OrderItemModel extends Model
         'unit_price'    => 'required|decimal|greater_than_equal_to[0]',
     ];
 
-    // Recupere les ID de commande uniques pagines.
+    // Récupère les ID de commande uniques paginés
     public function getSellerOrders(int $sellerId, int $perPage = 5, ?string $status = null)
     {
         $builder = $this->select('orders.id')
@@ -42,7 +42,7 @@ class OrderItemModel extends Model
         return $builder->paginate($perPage);
     }
 
-    // Recupere tous les articles pour la liste specifique d'ID de commandes.
+    // Récupère les détails pour les IDs de commandes donnés
     public function getItemsForOrders(int $sellerId, array $orderIds)
     {
         if (empty($orderIds)) return [];
@@ -59,7 +59,8 @@ class OrderItemModel extends Model
                         orders.delivery_city, 
                         orders.delivery_country,
                         users.lastname as customer_lastname, 
-                        users.firstname as customer_firstname
+                        users.firstname as customer_firstname,
+                        customers.phone as customer_phone
                     ')
                     ->join('products', 'products.id = order_items.product_id')
                     ->join('orders', 'orders.id = order_items.order_id')
@@ -71,7 +72,7 @@ class OrderItemModel extends Model
                     ->findAll();
     }
 
-    // liste des ventes
+    // Liste des ventes (pour l'export ou autre usage global)
     public function getSellerSales(int $sellerId, int $perPage = 10)
     {
         return $this->select('
@@ -98,7 +99,7 @@ class OrderItemModel extends Model
                     ->paginate($perPage);
     }
 
-    // compteur de ventes pour les vendeurs
+    // Compteur de ventes
     public function countSellerSales(int $sellerId): int
     {
         return $this->join('products', 'products.id = order_items.product_id')
@@ -108,7 +109,7 @@ class OrderItemModel extends Model
                     ->countAllResults();
     }
 
-    // chiffre d'affaire du vendeur
+    // Chiffre d'affaire
     public function getSellerTurnover(int $sellerId): float
     {
         $validStatuses = ['PAID', 'PREPARING', 'SHIPPED', 'DELIVERED'];
@@ -123,7 +124,7 @@ class OrderItemModel extends Model
         return $result->total_turnover ?? 0.00;
     }
 
-    // total des commandes pour le vendeur
+    // Total des commandes
     public function getSellerTotalOrders(int $sellerId): int
     {
         return $this->select('order_items.order_id')
@@ -135,7 +136,7 @@ class OrderItemModel extends Model
                     ->countAllResults();
     }
 
-    // produits les mieux vendus pour ce vendeur (top 3)
+    // Top ventes
     public function getSellerBestSellers(int $sellerId, int $limit = 3)
     {
         return $this->select('products.title, SUM(order_items.quantity) as total_sold')
@@ -149,8 +150,7 @@ class OrderItemModel extends Model
                     ->findAll();
     }
 
-
-    // For order detail page
+    // Pour la page détail commande
     public function getPaginatedOrderItems(int $orderId, int $perPage = 10)
     {
         return $this->select('order_items.*, products.title, products.alias, product_photos.file_name as image')
