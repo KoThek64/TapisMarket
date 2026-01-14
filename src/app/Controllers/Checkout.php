@@ -12,6 +12,7 @@ class Checkout extends BaseController
     protected $cartModel;
     protected $orderModel;
     protected $db;
+    protected $addressModel;
 
     public function __construct()
     {
@@ -20,6 +21,7 @@ class Checkout extends BaseController
         $this->userId = user_id();
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();
+        $this->addressModel = new AddressModel();
     }
 
     public function index()
@@ -39,8 +41,7 @@ class Checkout extends BaseController
         }
 
         // Récupération des adresses
-        $addressModel = new AddressModel();
-        $cartData['addresses'] = $addressModel->where('user_id', $this->userId)->findAll();
+        $cartData['addresses'] = $this->addressModel->where('user_id', $this->userId)->findAll();
 
         return view('pages/checkout', $cartData);
     }
@@ -86,8 +87,7 @@ class Checkout extends BaseController
 
         if (! $this->validate($rules)) {
             // Récupération des adresses pour réaffichage
-            $addressModel = new AddressModel();
-            $cartData['addresses'] = $addressModel->where('user_id', $this->userId)->findAll();
+            $cartData['addresses'] = $this->addressModel->where('user_id', $this->userId)->findAll();
 
             return view('pages/checkout', array_merge($cartData, [
                 'validation' => $this->validator
@@ -103,7 +103,6 @@ class Checkout extends BaseController
 
         // Sauvegarde de la nouvelle adresse si demandé
         if ($this->request->getPost('save_address')) {
-            $addressModel = new AddressModel();
             
             $rawAddress = $shippingDetails['address'];
             $number = null;
@@ -115,7 +114,7 @@ class Checkout extends BaseController
                 $street = $matches[2];
             }
 
-            $addressModel->insert([
+            $this->addressModel->insert([
                 'user_id'     => $this->userId,
                 'number'      => $number,
                 'street'      => $street,
