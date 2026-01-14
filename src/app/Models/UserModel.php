@@ -67,7 +67,7 @@ class UserModel extends Model
     }
 
     // recupere les utilisateurs avec pagination
-    public function getAllUsersPaginated(int $perPage = 10, ?string $role = null)
+    public function getAdminAllUsersPaginated(int $perPage = 10, ?string $role = null)
     {
         $builder = $this->select('users.*, sellers.status as seller_status')
             ->join('sellers', 'sellers.user_id = users.id', 'left')

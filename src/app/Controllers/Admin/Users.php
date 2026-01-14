@@ -14,7 +14,7 @@ class Users extends AdminBaseController
             'title' => 'Gestion des Utilisateurs',
             'subtitle' => 'Gestion des comptes clients et vendeurs',
             'pendingSellers' => $this->sellerModel->getSellersPendingValidation(5),
-            'allUsers' => $this->userModel->getAllUsersPaginated(10, $roleFilter),
+            'allUsers' => $this->userModel->getAdminAllUsersPaginated(10, $roleFilter),
             'pagerSellers' => $this->sellerModel->pager,
             'pagerUsers' => $this->userModel->pager,
             'currentRole' => $roleFilter,
