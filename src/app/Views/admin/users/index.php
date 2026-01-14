@@ -45,11 +45,11 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center gap-2 w-full xl:w-auto mt-2 xl:mt-0">
-                        <a href="<?= site_url('admin/users/approve/' . $seller->user_id) ?>" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition w-full sm:w-auto text-center text-sm">Approve</a>
-                        <form action="<?= site_url('admin/users/reject/' . $seller->user_id) ?>" method="post" class="flex gap-2 w-full sm:w-auto">
+                        <a href="<?= site_url('admin/users/approveSeller/' . $seller->user_id) ?>" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition w-full sm:w-auto text-center text-sm">Approve</a>
+                        <form action="<?= site_url('admin/users/refuseSeller/' . $seller->user_id) ?>" method="post" class="flex gap-2 w-full sm:w-auto">
                             <?= csrf_field() ?>
                             <input type="text" name="reason" class="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none min-w-[150px]" placeholder="Reason (optional)...">
-                            <button type="submit" class="bg-white text-red-600 border border-red-200 hover:bg-red-50 px-4 py-2 rounded-lg font-bold transition text-sm">Refuser</button>
+                            <button type="submit" class="bg-white text-red-600 border border-red-200 hover:bg-red-50 px-4 py-2 rounded-lg font-bold transition text-sm">Reject</button>
                         </form>
                     </div>
                 </div>
@@ -89,10 +89,43 @@
                     <tr class="hover:bg-cream transition-colors">
                         <td class="px-8 py-5 font-bold text-primary"><?= esc($user->lastname) ?> <?= esc($user->firstname) ?></td>
                         <td class="px-8 py-5 text-muted"><?= esc($user->email) ?></td>
+
                         <td class="px-8 py-5">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide <?= $user->role === 'SELLER' ? 'bg-purple-50 text-purple-700 border border-purple-100' : 'bg-gray-100 text-gray-600 border border-gray-200' ?>">
-                                <?= $user->role === 'SELLER' ? 'Vendeur' : 'Client' ?>
-                            </span>
+                            <?php if ($user->role === 'SELLER'): ?>
+                                <div class="flex items-center gap-3">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-purple-50 text-purple-700 border border-purple-100">
+                                        Vendeur
+                                    </span>
+
+                                    <?php if (isset($user->seller_status)): ?>
+                                        <?php if ($user->seller_status === 'VALIDATED'): ?>
+                                            <div class="relative group cursor-default">
+                                                <span class="h-3 w-3 block rounded-full bg-green-500 shadow-sm border border-green-200"></span>
+                                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">Compte validé</span>
+                                            </div>
+
+                                        <?php elseif ($user->seller_status === 'PENDING_VALIDATION'): ?>
+                                            <div class="relative group cursor-default">
+                                                <span class="relative flex h-3 w-3">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-500 border border-orange-200"></span>
+                                                </span>
+                                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">En attente</span>
+                                            </div>
+
+                                        <?php elseif ($user->seller_status === 'REFUSED'): ?>
+                                            <div class="relative group cursor-default">
+                                                <span class="h-3 w-3 block rounded-full bg-red-500 shadow-sm border border-red-200"></span>
+                                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">Candidature refusée</span>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                            <?php else: ?>
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-gray-100 text-gray-600 border border-gray-200">
+                                    Client
+                                </span>
+                            <?php endif; ?>
                         </td>
                         <td class="px-8 py-5 text-muted font-mono text-xs"><?= substr($user->created_at, 0, 10) ?></td>
                         <td class="px-8 py-5 text-center">
