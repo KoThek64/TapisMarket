@@ -86,7 +86,7 @@ class UserModel extends Model
     }
 
     // Get latest registered users
-    public function getLatestRegistered(int $limit = 5)
+    public function getAdminLatestRegistered(int $limit = 5)
     {
         return $this->orderBy('created_at', 'DESC')
                     ->findAll($limit);

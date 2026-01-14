@@ -29,7 +29,7 @@ class Users extends AdminBaseController
         try {
             $this->sellerModel->validateSeller($id);
             return redirect()->to('admin/users')->with('success', 'Compte vendeur validé.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->to('admin/users')->with('error', 'Erreur lors de la validation.');
         }
     }
