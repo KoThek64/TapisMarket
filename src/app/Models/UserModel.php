@@ -12,22 +12,22 @@ class UserModel extends Model
 
     protected $useAutoIncrement = true;
     protected $returnType       = User::class; 
-    protected $useSoftDeletes   = false;  
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields = [
         'email',
-        'password', 
-        'lastname', 'firstname',
-        'created_at', 
-        'role' 
+        'password',
+        'lastname',
+        'firstname',
+        'role'
     ];
 
-    protected $useTimestamps = true;       
+    protected $useTimestamps = true;
     protected $createdField  = 'created_at'; 
-    protected $updatedField  = null;        
+    protected $updatedField  = '';
 
     protected $validationRules = [
-        'email'        => 'required|valid_email|is_unique[users.email,id,{id}]',
+        'email'        => 'required|valid_email|is_unique[users.email]',
         'lastname'     => 'required|min_length[2]',
         'firstname'    => 'required|min_length[2]',
         'password'     => 'required|min_length[8]', 
