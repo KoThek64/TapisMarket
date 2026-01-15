@@ -111,18 +111,6 @@
 
                             <div class="border-t border-gray-100 my-4"></div>
 
-                            <div class="flex justify-between text-gray-600 mb-4 font-medium">
-                                <span>Sous-total</span>
-                                <span><?= $cart->getFormattedTotal() ?></span>
-                            </div>
-                            
-                            <div class="flex justify-between text-gray-600 mb-6 font-medium">
-                                <span>Livraison</span>
-                                <span class="text-green-600">Gratuite</span>
-                            </div>
-
-                            <div class="border-t border-gray-100 my-6"></div>
-
                             <div class="flex justify-between items-center mb-8">
                                 <span class="text-xl font-bold text-gray-900 font-serif">Total</span>
                                 <span class="text-2xl font-bold text-gray-900 font-serif"><?= $cart->getFormattedTotal() ?></span>

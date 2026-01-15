@@ -94,9 +94,50 @@
 
                     <div class="bg-white border border-gray-100 rounded-xl p-8 mb-8 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
                         <h3 class="font-serif text-xl mb-6 flex items-center gap-2">
-                            <span class="text-yellow-500 text-base">💳</span> Paiement
+                            <span class="text-blue-500 text-base">🚚</span> Mode de livraison
                         </h3>
 
+                        <div class="space-y-3">
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shipping_method" value="standard" class="w-4 h-4 text-primary focus:ring-primary border-gray-300" checked>
+                                <div class="ml-4 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">Standard</span>
+                                    <span class="block text-xs text-gray-500">Livraison fiable sous 3 à 5 jours ouvrés</span>
+                                </div >
+                                <div class="text-right">
+                                    <span class="text-sm font-medium text-gray-900"><?= STANDARD_SHIPPING_COST_DEFAULT ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= STANDARD_ADDITIONAL_COST_PER_ITEM ?>€/art. supp.</span>
+                                </div >
+                            </label>
+
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shipping_method" value="express" class="w-4 h-4 text-primary focus:ring-primary border-gray-300">
+                                <div class="ml-4 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">Express</span>
+                                    <span class="block text-xs text-gray-500">Livraison rapide sous 24h à 48h</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-sm font-medium text-gray-900"><?= EXPRESS_SHIPPING_COST_DEFAULT ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= EXPRESS_ADDITIONAL_COST_PER_ITEM ?>€/art. supp.</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
+                                <input type="radio" name="shipping_method" value="international" class="w-4 h-4 text-primary focus:ring-primary border-gray-300">
+                                <div class="ml-4 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">International</span>
+                                    <span class="block text-xs text-gray-500">Livraison dans le monde entier</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-sm font-medium text-gray-900"><?= INTERNATIONAL_SHIPPING_COST_DEFAULT ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= INTERNATIONAL_ADDITIONAL_COST_PER_ITEM ?>€/art. supp.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-100 rounded-xl p-8 mb-8 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+                        
                         <div class="mb-5">
                             <label class="block text-xs font-bold text-gray-900 mb-2 ml-1">Numéro de carte (16 chiffres)</label>
                             <input type="text" name="card_number" inputmode="numeric" pattern="[0-9\s]{16}" class="w-full bg-input border border-gray-200 rounded-lg px-4 py-3.5 text-sm focus:outline-none focus:ring-1 focus:ring-gray-900 transition placeholder-gray-400" placeholder="0000 0000 0000 0000" maxlength="16" required value="<?= old('card_number') ?>">
@@ -114,8 +155,8 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-primary text-white py-4 rounded-full font-bold text-base hover:bg-gray-800 transition shadow-lg transform active:scale-[0.99]">
-                        Confirmer le paiement (<?= $cart->getFormattedTotal() ?>)
+                    <button type="submit" id="submit-button" class="w-full bg-primary text-white py-4 rounded-full font-bold text-base hover:bg-gray-800 transition shadow-lg transform active:scale-[0.99]">
+                        Confirmer le paiement (<span id="btn-total"><?= $cart->getFormattedTotal() ?></span>)
                     </button>
                 </form>
             </div>
@@ -125,7 +166,11 @@
                     <h3 class="font-serif text-xl text-gray-900 mb-6">Résumé</h3>
 
                     <div class="space-y-4 mb-6">
-                        <?php foreach ($items as $item): ?>
+                        <?php 
+                        $totalQuantity = 0;
+                        foreach ($items as $item): 
+                            $totalQuantity += $item->quantity;
+                        ?>
                             <div class="flex justify-between items-start text-sm text-gray-600">
                                 <span class="pr-4 leading-relaxed"><span class="font-semibold text-gray-900"><?= $item->quantity ?>x</span> <?= esc($item->getProductName()) ?></span>
                                 <span class="whitespace-nowrap font-medium text-gray-900"><?= $item->getFormattedSubtotal() ?></span>
@@ -135,16 +180,28 @@
 
                     <div class="border-t border-gray-200 my-6"></div>
 
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>Sous-total</span>
+                            <span><?= $cart->getFormattedTotal() ?></span>
+                        </div>
+                        <div class="flex justify-between items-start text-sm text-gray-600">
+                            <span>Frais de livraison</span>
+                            <div id="shipping-cost" class="text-right">--</div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-6"></div>
+
                     <div class="flex justify-between items-center">
                         <span class="font-bold text-gray-900">Total à payer</span>
-                        <span class="font-bold text-xl text-gray-900"><?= $cart->getFormattedTotal() ?></span>
+                        <span class="font-bold text-xl text-gray-900" id="total-price"><?= $cart->getFormattedTotal() ?></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
 
 <script>
     /**
@@ -202,6 +259,54 @@
             // Si addressInput a une valeur mais aucun radio coché, on est en mode "Nouvelle Adresse"
             // Donc on laisse le formulaire visible (état par défaut)
         }
+    })
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartTotal = parseFloat('<?= $cart->total ?>'); 
+        const totalItems = parseInt('<?= $totalQuantity ?>');
+        const extraItems = Math.max(0, totalItems - 1);
+        
+        const shippingRates = {
+            'standard':      { base: <?= STANDARD_SHIPPING_COST_DEFAULT ?>,      perItem: <?= STANDARD_ADDITIONAL_COST_PER_ITEM ?> },
+            'express':       { base: <?= EXPRESS_SHIPPING_COST_DEFAULT ?>,       perItem: <?= EXPRESS_ADDITIONAL_COST_PER_ITEM ?> },
+            'international': { base: <?= INTERNATIONAL_SHIPPING_COST_DEFAULT ?>, perItem: <?= INTERNATIONAL_ADDITIONAL_COST_PER_ITEM ?> }
+        };
+
+        const shippingRadios = document.querySelectorAll('input[name="shipping_method"]');
+        const shippingCostEl = document.getElementById('shipping-cost');
+        const totalPriceEl = document.getElementById('total-price');
+        const btnTotalEl = document.getElementById('btn-total');
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(price);
+        }
+
+        function updateTotals() {
+            const selectedMethod = document.querySelector('input[name="shipping_method"]:checked');
+            if (selectedMethod) {
+                const rates = shippingRates[selectedMethod.value];
+                const shippingCost = rates.base + (extraItems * rates.perItem);
+                const total = cartTotal + shippingCost;
+
+                let displayHtml = `<span class="font-medium text-gray-900">${formatPrice(shippingCost)}</span>`;
+                if (extraItems > 0 && rates.perItem > 0) {
+                     displayHtml += `<div class="text-[10px] text-gray-500 mt-0.5">
+                        ${extraItems} supp. x ${formatPrice(rates.perItem)} + ${formatPrice(rates.base)}
+                    </div>`;
+                }
+
+                if(shippingCostEl) shippingCostEl.innerHTML = displayHtml;
+                if(totalPriceEl) totalPriceEl.textContent = formatPrice(total);
+                if(btnTotalEl) btnTotalEl.textContent = formatPrice(total);
+            }
+        }
+
+        shippingRadios.forEach(radio => {
+            radio.addEventListener('change', updateTotals);
+        });
+
+        // Initial calculation
+        updateTotals();
     });
 </script>
 

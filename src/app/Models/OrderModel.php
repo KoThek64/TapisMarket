@@ -4,6 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use App\Entities\Order;
+use App\Enums\ShippingType;
+use App\Libraries\TemplateMethod\Shipping\ShippingTemplateMethod;
 
 class OrderModel extends Model
 {
@@ -54,10 +56,10 @@ class OrderModel extends Model
             return false;
         }
 
-        $orderItemModel = model('App\Models\OrderItemModel');
-        $productModel = model('App\Models\ProductModel');
-        $cartItemModel = model('App\Models\CartItemModel');
-        $cartModel = model('App\Models\CartModel');
+        $orderItemModel = new OrderItemModel();
+        $productModel = new ProductModel();
+        $cartItemModel = new CartItemModel();
+        $cartModel = new CartModel();
 
         // 2. Transfert des articles et mise à jour des stocks
         foreach ($items as $item) {
@@ -73,7 +75,28 @@ class OrderModel extends Model
             $productModel->decrementStock($item->product_id, $item->quantity);
         }
 
-        // 3. Vider le panier
+        // 3. Calcul des frais de port via Template Method Pattern
+        $methodStr = strtolower($orderData['delivery_method'] ?? 'standard');
+        $shippingType = ShippingType::tryFrom($methodStr) ?? ShippingType::STANDARD;
+        
+        $template = ShippingTemplateMethod::create($shippingType);
+        
+        // Recharger la commande pour que la stratégie puisse compter les articles
+        $order = $this->find($orderId);
+        $shippingCost = $template->calculate($order);
+        
+        // Mise à jour du total
+        $newTotal = $orderData['total_ttc'] + $shippingCost;
+        
+        if (!$this->update($orderId, [
+            'shipping_fees' => $shippingCost,
+            'total_ttc'     => $newTotal
+        ])) {
+            $this->db->transRollback();
+            return false;
+        }
+
+        // 4. Vider le panier
         $cartItemModel->where('cart_id', $cart->id)->delete();
         $cartModel->updateTotal($cart->id);
 
@@ -193,5 +216,18 @@ class OrderModel extends Model
         return $this->where('customer_id', $clientId)
                     ->orderBy('order_date', 'DESC')
                     ->paginate($perPage);
+    }
+    
+    // Get item count for a specific order
+    public function getItemCount(int $orderId): int
+    {
+        $orderItemModel = new OrderItemModel();
+        
+        $result = $orderItemModel->select('Sum(quantity) as quantity')
+                                 ->where('order_id', $orderId)
+                                 ->get()
+                                 ->getRow();
+                                 
+        return (int) ($result->quantity ?? 0);
     }
 }

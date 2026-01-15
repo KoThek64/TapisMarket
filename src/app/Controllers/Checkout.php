@@ -83,6 +83,10 @@ class Checkout extends BaseController
                 'rules'  => 'required|numeric|min_length[3]|max_length[4]',
                 'errors' => ['numeric' => 'Le CVC est invalide.']
             ],
+            'shipping_method' => [
+                'rules'  => 'required|in_list[standard,express,international,free]',
+                'errors' => ['required' => 'Veuillez choisir un mode de livraison.', 'in_list' => 'Mode de livraison invalide.']
+            ],
         ];
 
         if (! $this->validate($rules)) {
@@ -99,6 +103,7 @@ class Checkout extends BaseController
             'address' => $this->request->getPost('address'),
             'city'    => $this->request->getPost('city'),
             'zip'     => $this->request->getPost('zip'),
+            'method'  => $this->request->getPost('shipping_method'),
         ];
 
         // Sauvegarde de la nouvelle adresse si demandé
@@ -170,8 +175,8 @@ class Checkout extends BaseController
             'customer_id' => $userId,
             'status'      => defined('ORDER_PAID') ? ORDER_PAID : 'PAID',
             'total_ttc'   => $cart->total,
-            'shipping_fees' => 0,
-            'delivery_method' => 'Standard',
+            'shipping_fees' => 0, // Will be calculated in model
+            'delivery_method' => ucfirst($shippingDetails['method'] ?? 'Standard'),
             'delivery_street' => $shippingDetails['address'],
             'delivery_postal_code' => $shippingDetails['zip'],
             'delivery_city' => $shippingDetails['city'],

@@ -45,4 +45,9 @@ class Order extends Entity
                $this->delivery_city . ' (' . 
                strtoupper($this->delivery_country) . ')';
     }
+
+    public function get(): Int
+    {
+        return $this->getItemCount($this->id);
+    }
 }

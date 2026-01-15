@@ -21,7 +21,7 @@
                 </div>
                 <h3 class="font-serif text-xl font-bold text-primary mb-2">Aucune commande</h3>
                 <p class="text-muted mb-6">Vous n'avez pas encore passé de commande sur notre boutique.</p>
-                <a href="<?= base_url('shop') ?>"
+                <a href="<?= base_url('/catalog') ?>"
                     class="inline-block px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-accent transition">
                     Découvrir la boutique
                 </a>
