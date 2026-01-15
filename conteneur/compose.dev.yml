@@ -5,6 +5,12 @@ services:
     build:
       context: app_php
       target: builder
+    environment:
+      CI_ENVIRONMENT: ${ENVIRONMENT}
+      "databse.default.hostname": "mysql"
+      "databse.default.username": ${DB_USER}
+      "databse.default.password": ${DB_PASSWORD}
+      "databse.default.database": ${DB_DATABASE}
     volumes:
       - ../src:/var/www/html:Z
     ports:
@@ -16,10 +22,10 @@ services:
     image: docker.io/mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tp
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - 3306:3306
   phpmyadmin:
@@ -28,8 +34,8 @@ services:
       container_name: phpmyadmin
       environment:
         PMA_HOST: mysql
-        PMA_USER: user
-        PMA_PASSWORD: pass
+        PMA_USER: ${DB_USER}
+        PMA_PASSWORD: ${DB_PASSWORD}
         UPLOAD_LIMIT: 20M
       ports:
         - 8082:80
