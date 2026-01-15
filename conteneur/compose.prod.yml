@@ -1,0 +1,30 @@
+services:
+  mysql:
+    container_name: mysql
+    image: docker.io/mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tp
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql:Z
+  web-prod:
+    build:
+      context: app_php
+      target: builder
+      dockerfile: Dockerfile.prod
+    ports:
+      - 8080:8080
+    volumes:
+      - tapis_market_storage:/var/www/html/writable:Z
+    depends_on:
+        - mysql
+    
+
+volumes:
+  mysql_data:
+  tapis_market_storage:
