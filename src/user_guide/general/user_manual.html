@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Utilisateur &mdash; Documentation Marketplace Tapis 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=884319ab" />
+
+  
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=e6b791cb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+    <link rel="next" title="Architecture &amp; Base de Données" href="architecture.html" />
+    <link rel="prev" title="Déploiement Production" href="deploy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #111827" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Marketplace Tapis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Démarrage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#pre-requis-techniques">Pré-requis Techniques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#peupler-la-base-de-donnees">Peupler la Base de Données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#lancer-le-serveur">Lancer le Serveur</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Déploiement Production</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deploy.html#architecture-du-dossier">Architecture du Dossier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy.html#configuration-serveur">Configuration Serveur</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy.html#permissions-securite">Permissions &amp; Sécurité</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Guide Utilisateur</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#espace-client">Espace Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#espace-vendeur">Espace Vendeur</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture &amp; Base de Données</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#architecture-globale">Architecture Globale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#schema-de-base-de-donnees">Schéma de Base de Données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#dictionnaire-des-donnees">Dictionnaire des Données</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#groupe-utilisateurs-roles">Groupe : Utilisateurs &amp; Rôles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#groupe-catalogue-produit">Groupe : Catalogue Produit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#groupe-commandes-panier">Groupe : Commandes &amp; Panier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#groupe-social">Groupe : Social</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#diagramme-relationnel">Diagramme Relationnel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Sécurité &amp; Routage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="security.html#App\Filters\AuthFilter"><code class="docutils literal notranslate"><span class="pre">App\Filters\AuthFilter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html#matrice-des-permissions">Matrice des Permissions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Modèles (Models)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#utilisateurs-roles">Utilisateurs &amp; Rôles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models.html#usermodel">UserModel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="models.html#App\Models\UserModel"><code class="docutils literal notranslate"><span class="pre">UserModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models.html#customermodel">CustomerModel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="models.html#App\Models\CustomerModel"><code class="docutils literal notranslate"><span class="pre">CustomerModel</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#catalogue-produits">Catalogue &amp; Produits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models.html#productmodel">ProductModel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="models.html#App\Models\ProductModel"><code class="docutils literal notranslate"><span class="pre">ProductModel</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="entities.html">Entités (Entities)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="entities.html#utilisateurs-roles">Utilisateurs &amp; Rôles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#user">User</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="entities.html#App\Entities\User"><code class="docutils literal notranslate"><span class="pre">User</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="entities.html#catalogue-produits">Catalogue &amp; Produits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="entities.html#product">Product</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="entities.html#App\Entities\Product"><code class="docutils literal notranslate"><span class="pre">Product</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="traits.html">Traits Communs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="traits.html#datetrait">DateTrait</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="traits.html#App\Traits\DateTrait"><code class="docutils literal notranslate"><span class="pre">DateTrait</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="traits.html#App\Traits\DateTrait::formatDate"><code class="docutils literal notranslate"><span class="pre">DateTrait::formatDate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="traits.html#imagetrait">ImageTrait</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="traits.html#App\Traits\ImageTrait"><code class="docutils literal notranslate"><span class="pre">ImageTrait</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="traits.html#App\Traits\ImageTrait::getImageUrl"><code class="docutils literal notranslate"><span class="pre">ImageTrait::getImageUrl()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="traits.html#pricetrait">PriceTrait</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="traits.html#App\Traits\PriceTrait"><code class="docutils literal notranslate"><span class="pre">PriceTrait</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="traits.html#App\Traits\PriceTrait::formatPrice"><code class="docutils literal notranslate"><span class="pre">PriceTrait::formatPrice()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Contrôleurs (Controllers)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#authentification">Authentification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Auth"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Auth</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#espace-public">Espace Public</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Home"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Home</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Catalog"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Catalog</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Cart"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Cart</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Checkout"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Checkout</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#espace-client">Espace Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Client\Dashboard"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Client\Dashboard</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Client\Orders"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Client\Orders</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Client\Reviews"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Client\Reviews</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Client\Addresses"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Client\Addresses</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Client\Profile"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Client\Profile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#espace-vendeur">Espace Vendeur</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Seller\Dashboard"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Seller\Dashboard</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Seller\Products"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Seller\Products</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Seller\Photos"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Seller\Photos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Seller\Orders"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Seller\Orders</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Seller\Shop"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Seller\Shop</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Seller\Reviews"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Seller\Reviews</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#espace-admin">Espace Admin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Admin\Dashboard"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Admin\Dashboard</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Admin\Users"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Admin\Users</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Admin\Categories"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Admin\Categories</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Admin\Products"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Admin\Products</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Admin\Reviews"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Admin\Reviews</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controllers.html#App\Controllers\Admin\Orders"><code class="docutils literal notranslate"><span class="pre">App\Controllers\Admin\Orders</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helpers &amp; Utilitaires</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#auth-helper">Auth Helper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html#user"><code class="docutils literal notranslate"><span class="pre">user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html#logged_in"><code class="docutils literal notranslate"><span class="pre">logged_in()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html#is_admin"><code class="docutils literal notranslate"><span class="pre">is_admin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html#is_seller"><code class="docutils literal notranslate"><span class="pre">is_seller()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#alert-helper">Alert Helper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html#display_alert"><code class="docutils literal notranslate"><span class="pre">display_alert()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#icon-helper">Icon Helper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html#icon"><code class="docutils literal notranslate"><span class="pre">icon()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Vues &amp; Interface (Views)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="views.html#structure-des-dossiers">Structure des Dossiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html#composants-cles">Composants Clés</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="views.html#carte-produit-carpet-card">Carte Produit (Carpet Card)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="views.html#layout-with-sidebar">Layout « With Sidebar »</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #111827" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Marketplace Tapis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Guide Utilisateur</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/general/user_manual.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="guide-utilisateur">
+<h1>Guide Utilisateur<a class="headerlink" href="#guide-utilisateur" title="Lien vers cette rubrique"></a></h1>
+<p>Bienvenue dans le manuel d’utilisation de Marketplace Tapis.</p>
+<section id="espace-client">
+<h2>Espace Client<a class="headerlink" href="#espace-client" title="Lien vers cette rubrique"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Rechercher un Tapis</strong>
+Utilisez la barre de recherche en haut ou naviguez par catégorie (Persan, Moderne, etc.).</p></li>
+<li><p><strong>Commander</strong>
+* Ajoutez des articles au panier.
+* Validez le panier et choisissez une adresse de livraison.
+* Le paiement valide la commande instantanément (Statut: <em>PAID</em>).</p></li>
+<li><p><strong>Suivre ses commandes</strong>
+Dans « Mon Compte », retrouvez l’historique et téléchargez vos factures.</p></li>
+</ol>
+</section>
+<section id="espace-vendeur">
+<h2>Espace Vendeur<a class="headerlink" href="#espace-vendeur" title="Lien vers cette rubrique"></a></h2>
+<p>Pour vendre sur la plateforme :</p>
+<ol class="arabic simple">
+<li><p><strong>Inscription</strong> : Créez un compte et cochez « Je suis vendeur ». Renseignez votre SIRET.</p></li>
+<li><p><strong>Validation</strong> : Attendez que l’administrateur valide votre compte (Statut: <em>VALIDATED</em>).</p></li>
+<li><p><strong>Mise en vente</strong> :
+* Allez dans <strong>Produits &gt; Nouveau</strong>.
+* Ajoutez photos, description et stock.
+* Votre produit apparaît immédiatement dans le catalogue.</p></li>
+<li><p><strong>Expédition</strong> :
+* Une commande reçue apparaît en statut <em>PAID</em>.
+* Préparez le colis et cliquez sur « Expédier » pour passer en <em>SHIPPED</em>.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="deploy.html" class="btn btn-neutral float-left" title="Déploiement Production" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture &amp; Base de Données" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2025, Équipe 4.02.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
