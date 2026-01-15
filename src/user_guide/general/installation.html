@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Installation &amp; Démarrage &#8212; Marketplace Tapis  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture &amp; Base de Données" href="architecture.html" />
+    <link rel="prev" title="Documentation Marketplace Tapis" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="installation-demarrage">
+<h1>Installation &amp; Démarrage<a class="headerlink" href="#installation-demarrage" title="Link to this heading">¶</a></h1>
+<p>Ce guide détaille comment installer et lancer le projet Marketplace Tapis en local.</p>
+<section id="prerequis">
+<h2>Prérequis<a class="headerlink" href="#prerequis" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>PHP</strong> 8.1 ou supérieur (extensions : intl, mbstring, mysql).</p></li>
+<li><p><strong>Composer</strong> (Gestionnaire de dépendances).</p></li>
+<li><p><strong>MySQL</strong> ou MariaDB.</p></li>
+<li><p><strong>Serveur Web</strong> (Apache/Nginx) ou le serveur interne PHP.</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p><strong>Cloner le projet</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">&lt;</span><span class="n">url_du_repo</span><span class="o">&gt;</span>
+<span class="n">cd</span> <span class="n">marketplace</span><span class="o">-</span><span class="n">tapis</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Installer les dépendances</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">composer</span> <span class="n">install</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Configuration de l’environnement</strong>
+Copiez le fichier env en .env et configurez votre base de données :</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">database.default.hostname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">localhost</span>
+<span class="na">database.default.database</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">sae_tapis</span>
+<span class="na">database.default.username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">root</span>
+<span class="na">database.default.password</span><span class="w"> </span><span class="o">=</span>
+<span class="na">database.default.DBDriver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MySQLi</span>
+
+<span class="na">CI_ENVIRONMENT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">development</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Migrations (Création des tables)</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">php</span> <span class="n">spark</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="jeu-de-donnees-seeding">
+<h2>Jeu de Données (Seeding)<a class="headerlink" href="#jeu-de-donnees-seeding" title="Link to this heading">¶</a></h2>
+<p>Le projet inclut un seeder puissant pour générer des données de test réalistes (Vendeurs, Produits, Commandes).</p>
+<section id="lancer-le-seed-complet">
+<h3>Lancer le seed complet<a class="headerlink" href="#lancer-le-seed-complet" title="Link to this heading">¶</a></h3>
+<p>Créez d’abord le dossier pour les images sources : writable/seed_images/ et placez-y quelques images (jpg/png).</p>
+<p>Ensuite, lancez la commande</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">php</span> <span class="n">spark</span> <span class="n">db</span><span class="p">:</span><span class="n">seed</span> <span class="n">DataSeeder</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Le seeder crée automatiquement :
+* <strong>Admins</strong> : <a class="reference external" href="mailto:admin&#37;&#52;&#48;tapis&#46;com">admin<span>&#64;</span>tapis<span>&#46;</span>com</a> / 123456
+* <strong>Vendeurs</strong> : <a class="reference external" href="mailto:seller0&#37;&#52;&#48;mail&#46;com">seller0<span>&#64;</span>mail<span>&#46;</span>com</a> (etc…)
+* <strong>Clients</strong> : <a class="reference external" href="mailto:client0&#37;&#52;&#48;mail&#46;com">client0<span>&#64;</span>mail<span>&#46;</span>com</a> (etc…)</p>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Marketplace Tapis</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Démarrage Rapide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation &amp; Démarrage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture &amp; Base de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Sécurité &amp; Routage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Référence Technique</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Modèles (Models)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entities.html">Entités (Entities)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Contrôleurs (Controllers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helpers &amp; Utilitaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Vues &amp; Interface (Views)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Documentation Marketplace Tapis</a></li>
+      <li>Next: <a href="architecture.html" title="next chapter">Architecture &amp; Base de Données</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Equipe 4.02.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/general/installation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

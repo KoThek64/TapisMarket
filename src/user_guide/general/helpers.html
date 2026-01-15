@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Helpers &amp; Utilitaires &#8212; Marketplace Tapis  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vues &amp; Interface (Views)" href="views.html" />
+    <link rel="prev" title="Contrôleurs (Controllers)" href="controllers.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="helpers-utilitaires">
+<h1>Helpers &amp; Utilitaires<a class="headerlink" href="#helpers-utilitaires" title="Link to this heading">¶</a></h1>
+<p>Le projet utilise des “Helpers” CodeIgniter personnalisés pour simplifier les tâches répétitives dans les Vues et les Contrôleurs.</p>
+<section id="auth-helper">
+<h2>Auth Helper<a class="headerlink" href="#auth-helper" title="Link to this heading">¶</a></h2>
+<p>Chargé automatiquement. Gère l’état de connexion.</p>
+<dl class="php function">
+<dt class="sig sig-object php" id="user">
+<span class="sig-name descname"><span class="pre">user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#user" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère l’entité de l’utilisateur actuellement connecté.
+:returns: AppEntitiesUser|null</p>
+</dd></dl>
+
+<dl class="php function">
+<dt class="sig sig-object php" id="logged_in">
+<span class="sig-name descname"><span class="pre">logged_in</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logged_in" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie si un utilisateur est connecté.
+:returns: bool</p>
+</dd></dl>
+
+<dl class="php function">
+<dt class="sig sig-object php" id="is_admin">
+<span class="sig-name descname"><span class="pre">is_admin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#is_admin" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie si l’utilisateur connecté a le rôle ADMIN.
+:returns: bool</p>
+</dd></dl>
+
+<dl class="php function">
+<dt class="sig sig-object php" id="is_seller">
+<span class="sig-name descname"><span class="pre">is_seller</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#is_seller" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie si l’utilisateur connecté a le rôle SELLER.
+:returns: bool</p>
+</dd></dl>
+
+</section>
+<section id="alert-helper">
+<h2>Alert Helper<a class="headerlink" href="#alert-helper" title="Link to this heading">¶</a></h2>
+<p>Gère l’affichage des notifications flash (Succès, Erreur).</p>
+<dl class="php function">
+<dt class="sig sig-object php" id="display_alert">
+<span class="sig-name descname"><span class="pre">display_alert</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#display_alert" title="Link to this definition">¶</a></dt>
+<dd><p>Génère le code HTML (Tailwind CSS) pour afficher les messages flash stockés en session.
+Supporte les types : success, error, warning, info.</p>
+</dd></dl>
+
+</section>
+<section id="icon-helper">
+<h2>Icon Helper<a class="headerlink" href="#icon-helper" title="Link to this heading">¶</a></h2>
+<dl class="php function">
+<dt class="sig sig-object php" id="icon">
+<span class="sig-name descname"><span class="pre">icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$name</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">$classes</span> <span class="pre">=</span> <span class="pre">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#icon" title="Link to this definition">¶</a></dt>
+<dd><p>Génère le SVG d’une icône HeroIcons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$name</strong> (<span><code class="xref php php-obj docutils literal notranslate"><span class="pre">string</span></code></span>) – Nom de l’icône (ex: ‘trash’, ‘user’, ‘cart’).</p></li>
+<li><p><strong>$classes</strong> (<span><code class="xref php php-obj docutils literal notranslate"><span class="pre">string</span></code></span>) – Classes CSS additionnelles.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>string (HTML SVG)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Marketplace Tapis</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Démarrage Rapide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Démarrage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture &amp; Base de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Sécurité &amp; Routage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Référence Technique</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="models.html">Modèles (Models)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entities.html">Entités (Entities)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Contrôleurs (Controllers)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Helpers &amp; Utilitaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Vues &amp; Interface (Views)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="controllers.html" title="previous chapter">Contrôleurs (Controllers)</a></li>
+      <li>Next: <a href="views.html" title="next chapter">Vues &amp; Interface (Views)</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Equipe 4.02.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/general/helpers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

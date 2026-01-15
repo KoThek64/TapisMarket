@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Entités (Entities) &#8212; Marketplace Tapis  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Contrôleurs (Controllers)" href="controllers.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="entites-entities">
+<h1>Entités (Entities)<a class="headerlink" href="#entites-entities" title="Link to this heading">¶</a></h1>
+<p>Les entités encapsulent les données d’une ligne de table et fournissent des méthodes utilitaires pour le formatage et l’affichage.</p>
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Entities\User">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Entities\User</span></span><a class="headerlink" href="#App\Entities\User" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\User::setMotDePasse">
+<span class="sig-name descname"><span class="pre">setMotDePasse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$motDePasse</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\User::setMotDePasse" title="Link to this definition">¶</a></dt>
+<dd><p>Hache le mot de passe avant l’enregistrement en base.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\User::getIdentite">
+<span class="sig-name descname"><span class="pre">getIdentite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\User::getIdentite" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne le <code class="docutils literal notranslate"><span class="pre">Prénom</span> <span class="pre">NOM</span></code> formaté proprement.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\User::estAdmin">
+<span class="sig-name descname"><span class="pre">estAdmin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\User::estAdmin" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true si le rôle est ADMIN.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\User::estVendeur">
+<span class="sig-name descname"><span class="pre">estVendeur</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\User::estVendeur" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true si le rôle est SELLER.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Entities\Seller">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Entities\Seller</span></span><a class="headerlink" href="#App\Entities\Seller" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Seller::estActif">
+<span class="sig-name descname"><span class="pre">estActif</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Seller::estActif" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true si le statut est VALIDATED.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Seller::getSiretFormate">
+<span class="sig-name descname"><span class="pre">getSiretFormate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Seller::getSiretFormate" title="Link to this definition">¶</a></dt>
+<dd><p>Formate l’affichage du numéro SIRET (ex: avec des espaces).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Entities\Product">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Entities\Product</span></span><a class="headerlink" href="#App\Entities\Product" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Product::estDisponible">
+<span class="sig-name descname"><span class="pre">estDisponible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Product::estDisponible" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie si le produit est achetable (Statut APPROVED + Stock &gt; 0).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Product::aBesoinDeStock">
+<span class="sig-name descname"><span class="pre">aBesoinDeStock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Product::aBesoinDeStock" title="Link to this definition">¶</a></dt>
+<dd><p>Indique si le stock est critique (&lt;= 3 unités).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Product::getPrixFormate">
+<span class="sig-name descname"><span class="pre">getPrixFormate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Product::getPrixFormate" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne le prix avec le sigle Euro (ex: <code class="docutils literal notranslate"><span class="pre">125,00</span> <span class="pre">€</span></code>).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Product::getImage">
+<span class="sig-name descname"><span class="pre">getImage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Product::getImage" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne l’URL absolue de l’image principale, ou une image par défaut.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Entities\Review">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Entities\Review</span></span><a class="headerlink" href="#App\Entities\Review" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Review::getEtoiles">
+<span class="sig-name descname"><span class="pre">getEtoiles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Review::getEtoiles" title="Link to this definition">¶</a></dt>
+<dd><p>Génère le code HTML (SVG/Icones) représentant la note sur 5.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Review::getDateRelative">
+<span class="sig-name descname"><span class="pre">getDateRelative</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Review::getDateRelative" title="Link to this definition">¶</a></dt>
+<dd><p>Affiche la date au format relatif (ex: “il y a 2 jours”).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Entities\Cart">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Entities\Cart</span></span><a class="headerlink" href="#App\Entities\Cart" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Cart::getTotalFormate">
+<span class="sig-name descname"><span class="pre">getTotalFormate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Cart::getTotalFormate" title="Link to this definition">¶</a></dt>
+<dd><p>Affiche le montant total du panier formaté en euros.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Cart::estVide">
+<span class="sig-name descname"><span class="pre">estVide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Cart::estVide" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true si le panier ne contient aucun article.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Entities\Order">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Entities\Order</span></span><a class="headerlink" href="#App\Entities\Order" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Order::estTerminee">
+<span class="sig-name descname"><span class="pre">estTerminee</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Order::estTerminee" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie si la commande est clôturée (LIVREE ou ANNULEE).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Entities\Order::getCouleurStatut">
+<span class="sig-name descname"><span class="pre">getCouleurStatut</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Entities\Order::getCouleurStatut" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne une classe CSS (Tailwind) correspondant à l’état (ex: <code class="docutils literal notranslate"><span class="pre">bg-green-100</span></code> pour payé).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Marketplace Tapis</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Architecture &amp; Base de données</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture &amp; Base de Données</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Référence Technique</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="models.html">Modèles (Models)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Contrôleurs (Controllers)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Entités (Entities)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="controllers.html" title="previous chapter">Contrôleurs (Controllers)</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Equipe 4.02.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/general/entities.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

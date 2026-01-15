@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Modèles (Models) &#8212; Marketplace Tapis  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contrôleurs (Controllers)" href="controllers.html" />
+    <link rel="prev" title="Architecture &amp; Base de Données" href="architecture.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="modeles-models">
+<h1>Modèles (Models)<a class="headerlink" href="#modeles-models" title="Link to this heading">¶</a></h1>
+<p>Les modèles sont responsables des interactions avec la base de données. Ils sont situés dans <code class="docutils literal notranslate"><span class="pre">app/Models</span></code>.</p>
+<section id="utilisateurs-roles">
+<h2>Utilisateurs &amp; Rôles<a class="headerlink" href="#utilisateurs-roles" title="Link to this heading">¶</a></h2>
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\UserModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\UserModel</span></span><a class="headerlink" href="#App\Models\UserModel" title="Link to this definition">¶</a></dt>
+<dd><p>Gère la table <code class="docutils literal notranslate"><span class="pre">users</span></code> (table mère de tous les comptes).</p>
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\UserModel::verifierConnexion">
+<span class="sig-name descname"><span class="pre">verifierConnexion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$email</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">$motDePasse</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\UserModel::verifierConnexion" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie les identifiants de l’utilisateur (email et hachage du mot de passe).
+:returns: L’entité User ou false.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\UserModel::getParEmail">
+<span class="sig-name descname"><span class="pre">getParEmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$email</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\UserModel::getParEmail" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère un utilisateur par son email.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\UserModel::getUtilisateursParRole">
+<span class="sig-name descname"><span class="pre">getUtilisateursParRole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$role</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$perPage</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\UserModel::getUtilisateursParRole" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère une liste paginée d’utilisateurs filtrée par rôle (<code class="docutils literal notranslate"><span class="pre">ADMIN</span></code>, <code class="docutils literal notranslate"><span class="pre">SELLER</span></code>, <code class="docutils literal notranslate"><span class="pre">CUSTOMER</span></code>).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\AdministratorModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\AdministratorModel</span></span><a class="headerlink" href="#App\Models\AdministratorModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\AdministratorModel::getProfilAdmin">
+<span class="sig-name descname"><span class="pre">getProfilAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\AdministratorModel::getProfilAdmin" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les informations complètes d’un administrateur grâce à la jointure avec la table utilisateur.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\CustomerModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\CustomerModel</span></span><a class="headerlink" href="#App\Models\CustomerModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CustomerModel::getProfilComplet">
+<span class="sig-name descname"><span class="pre">getProfilComplet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CustomerModel::getProfilComplet" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les informations complètes d’un client (téléphone, date de naissance) en joignant la table utilisateur.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CustomerModel::getDerniersInscrits">
+<span class="sig-name descname"><span class="pre">getDerniersInscrits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$limit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CustomerModel::getDerniersInscrits" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère la liste des derniers clients inscrits pour le tableau de bord administrateur.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\SellerModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\SellerModel</span></span><a class="headerlink" href="#App\Models\SellerModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\SellerModel::getProfilComplet">
+<span class="sig-name descname"><span class="pre">getProfilComplet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\SellerModel::getProfilComplet" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les informations complètes d’un vendeur (boutique, SIRET, description et données utilisateur).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\SellerModel::getVendeursEnAttente">
+<span class="sig-name descname"><span class="pre">getVendeursEnAttente</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$perPage</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\SellerModel::getVendeursEnAttente" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère la liste paginée des vendeurs dont le statut est <code class="docutils literal notranslate"><span class="pre">PENDING_VALIDATION</span></code>.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\SellerModel::validerVendeur">
+<span class="sig-name descname"><span class="pre">validerVendeur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\SellerModel::validerVendeur" title="Link to this definition">¶</a></dt>
+<dd><p>Met à jour le statut du vendeur à <code class="docutils literal notranslate"><span class="pre">VALIDATED</span></code>.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\SellerModel::refuserVendeur">
+<span class="sig-name descname"><span class="pre">refuserVendeur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">$motif</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\SellerModel::refuserVendeur" title="Link to this definition">¶</a></dt>
+<dd><p>Met à jour le statut du vendeur à <code class="docutils literal notranslate"><span class="pre">REFUSED</span></code> et enregistre le motif du refus.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\AddressModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\AddressModel</span></span><a class="headerlink" href="#App\Models\AddressModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\AddressModel::getAdressesUtilisateur">
+<span class="sig-name descname"><span class="pre">getAdressesUtilisateur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idUtilisateur</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\AddressModel::getAdressesUtilisateur" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne la liste des adresses (livraison/facturation) associées à un utilisateur spécifique.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="catalogue-produits">
+<h2>Catalogue &amp; Produits<a class="headerlink" href="#catalogue-produits" title="Link to this heading">¶</a></h2>
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\CategoryModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\CategoryModel</span></span><a class="headerlink" href="#App\Models\CategoryModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CategoryModel::getCategoriesMenu">
+<span class="sig-name descname"><span class="pre">getCategoriesMenu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CategoryModel::getCategoriesMenu" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne la liste des catégories triées par nom pour l’affichage dans le menu principal.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\ProductModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\ProductModel</span></span><a class="headerlink" href="#App\Models\ProductModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::getParAlias">
+<span class="sig-name descname"><span class="pre">getParAlias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$alias</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::getParAlias" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère la fiche détaillée d’un produit (avec infos vendeur et catégorie) via son alias URL (slug).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::getParCategorie">
+<span class="sig-name descname"><span class="pre">getParCategorie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">$tri</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$perPage</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::getParCategorie" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les produits validés d’une catégorie avec pagination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$tri</strong> (<span><code class="xref php php-obj docutils literal notranslate"><span class="pre">string</span></code></span>) – Mode de tri (‘price_asc’, ‘price_desc’, ‘recent’).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::rechercher">
+<span class="sig-name descname"><span class="pre">rechercher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$terme</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$perPage</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::rechercher" title="Link to this definition">¶</a></dt>
+<dd><p>Effectue une recherche textuelle (<cite>LIKE</cite>) sur le titre et la description des produits validés.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::getProduitsVendeur">
+<span class="sig-name descname"><span class="pre">getProduitsVendeur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idVendeur</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::getProduitsVendeur" title="Link to this definition">¶</a></dt>
+<dd><p>Liste tous les produits appartenant à un vendeur spécifique (utilisé dans le Back-office vendeur).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::incrementerStock">
+<span class="sig-name descname"><span class="pre">incrementerStock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$qte</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::incrementerStock" title="Link to this definition">¶</a></dt>
+<dd><p>Ajoute une quantité au stock disponible d’un produit.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::decrementerStock">
+<span class="sig-name descname"><span class="pre">decrementerStock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$id</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$qte</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::decrementerStock" title="Link to this definition">¶</a></dt>
+<dd><p>Soustrait une quantité au stock disponible d’un produit (appelé lors de la validation d’une commande).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductModel::getProduitsEnAttente">
+<span class="sig-name descname"><span class="pre">getProduitsEnAttente</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductModel::getProduitsEnAttente" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère la liste des produits nécessitant une validation par l’administrateur (Statut <code class="docutils literal notranslate"><span class="pre">PENDING</span></code>).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\ProductPhotoModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\ProductPhotoModel</span></span><a class="headerlink" href="#App\Models\ProductPhotoModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductPhotoModel::getGalerie">
+<span class="sig-name descname"><span class="pre">getGalerie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductPhotoModel::getGalerie" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne l’ensemble des photos associées à un produit, triées par ordre d’affichage.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductPhotoModel::getImagePrincipale">
+<span class="sig-name descname"><span class="pre">getImagePrincipale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductPhotoModel::getImagePrincipale" title="Link to this definition">¶</a></dt>
+<dd><p>Retourne uniquement la photo définie comme couverture (ordre d’affichage 1).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductPhotoModel::definirPrincipale">
+<span class="sig-name descname"><span class="pre">definirPrincipale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPhoto</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductPhotoModel::definirPrincipale" title="Link to this definition">¶</a></dt>
+<dd><p>Définit une photo comme principale (ordre 1) et décale automatiquement l’ordre des autres photos.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ProductPhotoModel::supprimerTout">
+<span class="sig-name descname"><span class="pre">supprimerTout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ProductPhotoModel::supprimerTout" title="Link to this definition">¶</a></dt>
+<dd><p>Supprime toutes les photos liées à un produit (nettoyage).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\ReviewModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\ReviewModel</span></span><a class="headerlink" href="#App\Models\ReviewModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ReviewModel::getAvisPourProduit">
+<span class="sig-name descname"><span class="pre">getAvisPourProduit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ReviewModel::getAvisPourProduit" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les avis <strong>validés</strong> d’un produit avec le nom de l’auteur pour l’affichage public.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ReviewModel::getStatsProduit">
+<span class="sig-name descname"><span class="pre">getStatsProduit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ReviewModel::getStatsProduit" title="Link to this definition">¶</a></dt>
+<dd><p>Calcule la note moyenne et le nombre total d’avis validés pour un produit.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\ReviewModel::aDejaNote">
+<span class="sig-name descname"><span class="pre">aDejaNote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$idClient</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\ReviewModel::aDejaNote" title="Link to this definition">¶</a></dt>
+<dd><p>Vérifie si un client a déjà déposé un avis sur un produit donné (pour empêcher les doublons).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="panier-commandes">
+<h2>Panier &amp; Commandes<a class="headerlink" href="#panier-commandes" title="Link to this heading">¶</a></h2>
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\CartModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\CartModel</span></span><a class="headerlink" href="#App\Models\CartModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartModel::getPanierActif">
+<span class="sig-name descname"><span class="pre">getPanierActif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idClient</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartModel::getPanierActif" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère le panier en cours d’un client ou en crée un nouveau s’il n’existe pas.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartModel::getArticlesPanier">
+<span class="sig-name descname"><span class="pre">getArticlesPanier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPanier</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartModel::getArticlesPanier" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère le contenu détaillé du panier (produits, prix unitaires, images principales).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartModel::mettreAJourTotal">
+<span class="sig-name descname"><span class="pre">mettreAJourTotal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPanier</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartModel::mettreAJourTotal" title="Link to this definition">¶</a></dt>
+<dd><p>Recalcule la somme des lignes et met à jour le champ <code class="docutils literal notranslate"><span class="pre">total</span></code> du panier en base de données.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartModel::viderPanier">
+<span class="sig-name descname"><span class="pre">viderPanier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPanier</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartModel::viderPanier" title="Link to this definition">¶</a></dt>
+<dd><p>Supprime le contenu du panier (lignes) et remet le total à zéro (sans supprimer le panier lui-même).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\CartItemModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\CartItemModel</span></span><a class="headerlink" href="#App\Models\CartItemModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartItemModel::ajouterArticle">
+<span class="sig-name descname"><span class="pre">ajouterArticle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPanier</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$quantite</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartItemModel::ajouterArticle" title="Link to this definition">¶</a></dt>
+<dd><p>Ajoute un article au panier. Si l’article existe déjà, incrémente simplement la quantité.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartItemModel::modifierQuantite">
+<span class="sig-name descname"><span class="pre">modifierQuantite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPanier</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$idProduit</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">$nouvelleQuantite</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartItemModel::modifierQuantite" title="Link to this definition">¶</a></dt>
+<dd><p>Met à jour la quantité d’un article. Si la quantité tombe à 0, l’article est supprimé.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\CartItemModel::getNombreArticlesTotal">
+<span class="sig-name descname"><span class="pre">getNombreArticlesTotal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idPanier</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\CartItemModel::getNombreArticlesTotal" title="Link to this definition">¶</a></dt>
+<dd><p>Compte le nombre total d’articles (somme des quantités) pour l’affichage du badge panier dans le header.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\OrderModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\OrderModel</span></span><a class="headerlink" href="#App\Models\OrderModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\OrderModel::getHistoriqueClient">
+<span class="sig-name descname"><span class="pre">getHistoriqueClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idClient</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\OrderModel::getHistoriqueClient" title="Link to this definition">¶</a></dt>
+<dd><p>Liste l’historique des commandes passées par un client, triées par date décroissante.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\OrderModel::getParReference">
+<span class="sig-name descname"><span class="pre">getParReference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">$reference</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\OrderModel::getParReference" title="Link to this definition">¶</a></dt>
+<dd><p>Recherche une commande par sa référence unique (ex: <code class="docutils literal notranslate"><span class="pre">CMD-A1B2...</span></code>).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\OrderModel::getCommandesEnCours">
+<span class="sig-name descname"><span class="pre">getCommandesEnCours</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\OrderModel::getCommandesEnCours" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les commandes non finalisées (non livrées/annulées) pour le suivi logistique.</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\OrderModel::getTotalVentes">
+<span class="sig-name descname"><span class="pre">getTotalVentes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\OrderModel::getTotalVentes" title="Link to this definition">¶</a></dt>
+<dd><p>Calcule le chiffre d’affaires total de toutes les commandes validées (Dashboard Admin).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="php class">
+<dt class="sig sig-object php" id="App\Models\OrderItemModel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">App\Models\OrderItemModel</span></span><a class="headerlink" href="#App\Models\OrderItemModel" title="Link to this definition">¶</a></dt>
+<dd><dl class="php method">
+<dt class="sig sig-object php" id="App\Models\OrderItemModel::getVentesVendeur">
+<span class="sig-name descname"><span class="pre">getVentesVendeur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idVendeur</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\OrderItemModel::getVentesVendeur" title="Link to this definition">¶</a></dt>
+<dd><p>Récupère les lignes de commandes concernant spécifiquement les produits d’un vendeur (pour son CA personnel).</p>
+</dd></dl>
+
+<dl class="php method">
+<dt class="sig sig-object php" id="App\Models\OrderItemModel::getBestSellersVendeur">
+<span class="sig-name descname"><span class="pre">getBestSellersVendeur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">$idVendeur</span></em><span class="sig-paren">)</span><a class="headerlink" href="#App\Models\OrderItemModel::getBestSellersVendeur" title="Link to this definition">¶</a></dt>
+<dd><p>Identifie les produits les plus vendus d’un vendeur (Top des ventes).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Marketplace Tapis</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Architecture &amp; Base de données</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture &amp; Base de Données</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Référence Technique</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modèles (Models)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Contrôleurs (Controllers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entities.html">Entités (Entities)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="architecture.html" title="previous chapter">Architecture &amp; Base de Données</a></li>
+      <li>Next: <a href="controllers.html" title="next chapter">Contrôleurs (Controllers)</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Equipe 4.02.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/general/models.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

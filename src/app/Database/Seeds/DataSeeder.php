@@ -22,7 +22,7 @@ class DataSeeder extends Seeder
         $this->db->enableForeignKeyChecks();
 
         echo "Creating Admins...\n";
-        // 1. ADMINS
+        // ADMINS
         $adminIds = [];
         $adminIds[] = $this->createUser('admin@tapis.com', 'System', 'Admin', 'ADMIN');
         $adminIds[] = $this->createUser('staff@tapis.com', 'Moderator', 'Marc', 'ADMIN');
@@ -31,7 +31,7 @@ class DataSeeder extends Seeder
         }
 
         echo "Creating Sellers...\n";
-        // 2. SELLERS
+        // SELLERS
         $sellerIds = [];
         $shops = [
             ['name' => 'Oriental Rugs', 'desc' => 'Silk and wool specialist.'],
@@ -55,7 +55,7 @@ class DataSeeder extends Seeder
         }
 
         echo "Creating Clients...\n";
-        // 3. CLIENTS
+        // CLIENTS
         $clientIds = [];
         for ($i = 0; $i < 30; $i++) {
             $cid = $this->createUser("client$i@mail.com", "ClientName$i", "ClientSurname$i", "CUSTOMER");
@@ -66,7 +66,7 @@ class DataSeeder extends Seeder
             ]);
         }
 
-        // --- AJOUT : ADRESSES ---
+        // ADRESSES
         echo "Creating Addresses...\n";
         $cities = ['Paris', 'Lyon', 'Marseille', 'Bordeaux', 'Lille', 'Nice', 'Toulouse', 'Nantes'];
         $streets = ['Rue de la Paix', 'Avenue Victor Hugo', 'Boulevard Haussmann', 'Rue du Commerce', 'Avenue des Champs-Élysées'];
@@ -100,7 +100,7 @@ class DataSeeder extends Seeder
         }
 
         echo "Creating Categories...\n";
-        // 4. CATEGORIES
+        //CATEGORIES
         $categories = [
             ['name' => 'Traditional Persian', 'alias' => 'traditional-persian'],
             ['name' => 'Berber & Kilim', 'alias' => 'berber-kilim'],
@@ -119,7 +119,7 @@ class DataSeeder extends Seeder
         }
 
         echo "Creating Products...\n";
-        // 5. PRODUCTS
+        //PRODUCTS
         $productIds = [];
         $rug_prefixes = ['Royal', 'Antique', 'Minimalist', 'Boho', 'Abstract', 'Classic', 'Imperial', 'Ethnic'];
         $rug_suffixes = ['Tapestry', 'Wool Rug', 'Hand-woven', 'Silk Piece', 'Carpet', 'Flatweave'];
