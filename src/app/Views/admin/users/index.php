@@ -45,8 +45,8 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center gap-2 w-full xl:w-auto mt-2 xl:mt-0">
-                        <a href="<?= site_url('admin/users/approveSeller/' . $seller->user_id) ?>" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition w-full sm:w-auto text-center text-sm">Approuver</a>
-                        <form action="<?= site_url('admin/users/refuseSeller/' . $seller->user_id) ?>" method="post" class="flex gap-2 w-full sm:w-auto">
+                        <a href="<?= site_url('admin/users/approve/' . $seller->user_id) ?>" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:shadow-lg transition w-full sm:w-auto text-center text-sm">Approuver</a>
+                        <form action="<?= site_url('admin/users/reject/' . $seller->user_id) ?>" method="post" class="flex gap-2 w-full sm:w-auto">
                             <?= csrf_field() ?>
                             <input type="text" name="reason" class="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none min-w-[150px]" placeholder="Reason (optional)...">
                             <button type="submit" class="bg-white text-red-600 border border-red-200 hover:bg-red-50 px-4 py-2 rounded-lg font-bold transition text-sm">Refuser</button>
