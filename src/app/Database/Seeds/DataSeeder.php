@@ -227,21 +227,27 @@ class DataSeeder extends Seeder
 
         echo "Creating Orders & Reviews...\n";
         $reviewsPool = [
-            5 => ["Absolument magnifique !", "Qualité incroyable, je recommande.", "Parfait pour mon salon."],
-            4 => ["Très beau tapis, un peu plus foncé que sur la photo.", "Bonne qualité mais livraison lente.", "Satisfait de mon achat."],
-            3 => ["Correct pour le prix.", "Assez fin mais joli.", "Moyen."],
-            2 => ["Déçu par la matière.", "Ne correspond pas à mes attentes."],
-            1 => ["Mauvaise qualité, à éviter.", "Très déçu."]
+            5 => ["Absolument magnifique !", "Qualité incroyable, je recommande.", "Parfait pour mon salon.", "Exactement comme sur la photo."],
+            4 => ["Très beau tapis, un peu plus foncé que sur la photo.", "Bonne qualité mais livraison lente.", "Satisfait de mon achat.", "Beau produit."],
+            3 => ["Correct pour le prix.", "Assez fin mais joli.", "Moyen, je m'attendais à mieux.", "Livraison ok mais emballage léger."],
+            2 => ["Déçu par la matière.", "Ne correspond pas à mes attentes.", "Trop fin à mon goût."],
+            1 => ["Mauvaise qualité, à éviter.", "Très déçu, retour demandé.", "Ne ressemble pas à la photo."]
         ];
+
+        // On garde une trace des avis déjà déposés pour éviter les doublons (Clé unique BDD)
+        $existingReviews = []; // Format: "client_id-product_id"
 
         foreach ($clientIds as $cid) {
             $nbOrders = rand(1, 5);
             for ($c = 0; $c < $nbOrders; $c++) {
                 $pId = $productIds[array_rand($productIds)];
                 $qty = rand(1, 2);
+                
+                // Récupération prix
                 $prodQuery = $this->db->table('products')->select('price')->where('id', $pId)->get()->getRow();
-                $price = $prodQuery->price;
+                $price = $prodQuery ? $prodQuery->price : 100;
 
+                // Statuts aléatoires
                 $randStat = rand(1, 100);
                 if ($randStat < 10)
                     $status = 'PENDING_VALIDATION';
@@ -259,26 +265,40 @@ class DataSeeder extends Seeder
                 $daysAgo = ($status === 'DELIVERED') ? rand(10, 100) : rand(0, 10);
                 $dateStr = "-$daysAgo days";
 
+                // Création commande
                 $this->createOrder($cid, $pId, $qty, $price, $dateStr, $status);
 
-                if ($status === 'DELIVERED' && rand(0, 1) === 1) {
-                    $rating = rand(1, 5);
-                    $comment = $reviewsPool[$rating][array_rand($reviewsPool[$rating])];
-                    $reviewDate = date('Y-m-d H:i:s', strtotime($dateStr . " + " . rand(2, 5) . " days"));
+                if ($status === 'DELIVERED' && rand(1, 10) <= 8) {
+                    $uniqueKey = $cid . '-' . $pId;
 
-                    $this->db->table('reviews')->insert([
-                        'customer_id' => $cid,
-                        'product_id' => $pId,
-                        'rating' => $rating,
-                        'comment' => $comment,
-                        'moderation_status' => (rand(0, 10) > 1) ? 'PUBLISHED' : 'REFUSED',
-                        'published_at' => $reviewDate
-                    ]);
+                    // Vérifie qu'on a pas déjà noté ce produit pour ce client
+                    if (!in_array($uniqueKey, $existingReviews)) {
+                        $rating = rand(1, 5);
+                        // Pondération pour avoir plus de bonnes notes (plus réaliste)
+                        if (rand(1, 10) > 3) $rating = rand(4, 5);
+
+                        $comment = $reviewsPool[$rating][array_rand($reviewsPool[$rating])];
+                        $reviewDate = date('Y-m-d H:i:s', strtotime($dateStr . " + " . rand(2, 5) . " days"));
+
+                        // Statut modération : 90% publiés, 10% refusés
+                        $modStatus = (rand(1, 10) > 1) ? 'PUBLISHED' : 'REFUSED';
+
+                        $this->db->table('reviews')->insert([
+                            'customer_id'       => $cid,
+                            'product_id'        => $pId,
+                            'rating'            => $rating,
+                            'comment'           => $comment,
+                            'moderation_status' => $modStatus,
+                            'published_at'      => $reviewDate
+                        ]);
+
+                        $existingReviews[] = $uniqueKey;
+                    }
                 }
             }
         }
         
-        echo "Seeding Complete.\n";
+        echo "Seeding Complete. Reviews created: " . count($existingReviews) . "\n";
     }
 
     // --- Helpers ---
