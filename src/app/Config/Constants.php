@@ -116,3 +116,13 @@ defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7);     // invalid u
 defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database error
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
+
+defined('freeShippingCostDefault')           || define('freeShippingCostDefault', 0.00);           // Free
+defined('standardShippingCostDefault')       || define('standardShippingCostDefault', 14.99);      // Default cost
+defined('expressShippingCostDefault')        || define('expressShippingCostDefault', 24.99);       // More expensive express delivery
+defined('internationalShippingCostDefault')  || define('internationalShippingCostDefault', 39.99); // Higher shipping costs for international
+
+defined('freeAdditionalCostPerItem')           || define('freeAdditionalCostPerItem', 0.00);          // Free
+defined('standardAdditionalCostPerItem')       || define('standardAdditionalCostPerItem', 0.00);      // Free
+defined('expressAdditionalCostPerItem')        || define('expressAdditionalCostPerItem', 2.00);       // More expensive cost per item for express delivery
+defined('internationalAdditionalCostPerItem')  || define('internationalAdditionalCostPerItem', 2.50); // Higher cost per item for international delivery

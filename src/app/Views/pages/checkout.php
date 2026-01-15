@@ -103,8 +103,11 @@
                                 <div class="ml-4 flex-1">
                                     <span class="block text-sm font-medium text-gray-900">Standard</span>
                                     <span class="block text-xs text-gray-500">Livraison fiable sous 3 à 5 jours ouvrés</span>
-                                </div>
-                                <span class="text-sm font-medium text-gray-900">14.99 €</span>
+                                </div >
+                                <div class="text-right">
+                                    <span class="text-sm font-medium text-gray-900"><?= standardShippingCostDefault ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= standardAdditionalCostPerItem ?>€/art. supp.</span>
+                                </div >
                             </label>
 
                             <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition ring-inset has-[:checked]:ring-2 has-[:checked]:ring-primary has-[:checked]:bg-gray-50">
@@ -114,8 +117,8 @@
                                     <span class="block text-xs text-gray-500">Livraison rapide sous 24h à 48h</span>
                                 </div>
                                 <div class="text-right">
-                                    <span class="block text-sm font-medium text-gray-900">24.99 €</span>
-                                    <span class="block text-[10px] text-gray-400">+2€/art. supp.</span>
+                                    <span class="block text-sm font-medium text-gray-900"><?= expressShippingCostDefault ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= expressAdditionalCostPerItem ?>€/art. supp.</span>
                                 </div>
                             </label>
 
@@ -126,8 +129,8 @@
                                     <span class="block text-xs text-gray-500">Livraison dans le monde entier</span>
                                 </div>
                                 <div class="text-right">
-                                    <span class="block text-sm font-medium text-gray-900">39.99 €</span>
-                                    <span class="block text-[10px] text-gray-400">+2.5€/art. supp.</span>
+                                    <span class="block text-sm font-medium text-gray-900"><?= internationalShippingCostDefault ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= internationalAdditionalCostPerItem ?>€/art. supp.</span>
                                 </div>
                             </label>
                         </div>
@@ -200,8 +203,6 @@
     </div>
 </main>
 
-<<<<<<< HEAD
-
 <script>
     /**
      * Gestion dynamique du formulaire d'adresse (Généré par GitHub Copilot)
@@ -266,9 +267,9 @@
         const extraItems = Math.max(0, totalItems - 1);
         
         const shippingRates = {
-            'standard': { base: 14.99, perItem: 0 },
-            'express': { base: 24.99, perItem: 2.00 },
-            'international': { base: 39.99, perItem: 2.50 }
+            'standard':      { base: <?= standardShippingCostDefault ?>,      perItem: <?= standardAdditionalCostPerItem ?> },
+            'express':       { base: <?= expressShippingCostDefault ?>,       perItem: <?= expressAdditionalCostPerItem ?> },
+            'international': { base: <?= internationalShippingCostDefault ?>, perItem: <?= internationalAdditionalCostPerItem ?> }
         };
 
         const shippingRadios = document.querySelectorAll('input[name="shipping_method"]');

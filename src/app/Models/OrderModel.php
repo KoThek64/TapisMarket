@@ -5,7 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 use App\Entities\Order;
 use App\Enums\ShippingType;
-use App\Libraries\Factories\ShippingStrategyFactory;
+use App\Libraries\TemplateMethod\Shipping\ShippingTemplateMethod;
 
 class OrderModel extends Model
 {
@@ -75,15 +75,15 @@ class OrderModel extends Model
             $productModel->decrementStock($item->product_id, $item->quantity);
         }
 
-        // 3. Calcul des frais de port via Strategy Pattern
+        // 3. Calcul des frais de port via Template Method Pattern
         $methodStr = strtolower($orderData['delivery_method'] ?? 'standard');
         $shippingType = ShippingType::tryFrom($methodStr) ?? ShippingType::STANDARD;
         
-        $strategy = ShippingStrategyFactory::create($shippingType);
+        $template = ShippingTemplateMethod::create($shippingType);
         
         // Recharger la commande pour que la stratégie puisse compter les articles
         $order = $this->find($orderId);
-        $shippingCost = $strategy->calculate($order);
+        $shippingCost = $template->calculate($order);
         
         // Mise à jour du total
         $newTotal = $orderData['total_ttc'] + $shippingCost;
