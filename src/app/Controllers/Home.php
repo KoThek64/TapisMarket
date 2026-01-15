@@ -35,4 +35,8 @@ class Home extends BaseController
     {
         return view('pages/faq');
     }
+
+    public function sellerValidationError() {
+        return view('pages/seller-validation-error');
+    }
 }

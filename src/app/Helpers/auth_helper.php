@@ -38,7 +38,12 @@ function user_data(): ?object
         UserRole::CLIENT  => new CustomerModel(),
     };
 
-    $data = $model->find($id);
+    $tableName = $model->getTable();
+    $data = $model->select("{$tableName}.*, users.email, users.password, users.lastname, users.firstname, users.created_at")
+            ->join('users', "users.id = {$tableName}.user_id")
+            ->where('users.id', $id)
+            ->first();
+
     return $data;
 }
 
