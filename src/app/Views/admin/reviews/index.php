@@ -70,7 +70,7 @@
                         </td>
 
                         <td class="px-8 py-5">
-                            <div class="relative group w-fit max-w-full cursor-help">
+                            <div class="relative group w-fit max-w-full">
                                 <p class="text-muted italic text-xs leading-relaxed line-clamp-3">"<?= esc($a->comment) ?>"</p>
                                 <div class="absolute top-full left-0 mt-2 w-80 bg-gray-900 text-white text-xs p-4 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none border border-gray-700">
                                     <div class="absolute bottom-full left-4 border-8 border-transparent border-b-gray-900"></div>
