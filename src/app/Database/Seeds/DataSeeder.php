@@ -234,8 +234,8 @@ class DataSeeder extends Seeder
             1 => ["Mauvaise qualité, à éviter.", "Très déçu, retour demandé.", "Ne ressemble pas à la photo."]
         ];
 
-        // On garde une trace des avis déjà déposés pour éviter les doublons (Clé unique BDD)
-        $existingReviews = []; // Format: "client_id-product_id"
+        // On garde une trace des avis déjà déposés pour éviter les doublons 
+        $existingReviews = [];
 
         foreach ($clientIds as $cid) {
             $nbOrders = rand(1, 5);
