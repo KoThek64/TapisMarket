@@ -117,12 +117,12 @@ defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database 
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
 
-defined('freeShippingCostDefault')           || define('freeShippingCostDefault', 0.00);           // Free
-defined('standardShippingCostDefault')       || define('standardShippingCostDefault', 14.99);      // Default cost
-defined('expressShippingCostDefault')        || define('expressShippingCostDefault', 24.99);       // More expensive express delivery
-defined('internationalShippingCostDefault')  || define('internationalShippingCostDefault', 39.99); // Higher shipping costs for international
+defined('FREE_SHIPPING_COST_DEFAULT')           || define('FREE_SHIPPING_COST_DEFAULT', 0.00);           // Free
+defined('STANDARD_SHIPPING_COST_DEFAULT')       || define('STANDARD_SHIPPING_COST_DEFAULT', 14.99);      // Default cost
+defined('EXPRESS_SHIPPING_COST_DEFAULT')        || define('EXPRESS_SHIPPING_COST_DEFAULT', 24.99);       // More expensive express delivery
+defined('INTERNATIONAL_SHIPPING_COST_DEFAULT')  || define('INTERNATIONAL_SHIPPING_COST_DEFAULT', 39.99); // Higher shipping costs for international
 
-defined('freeAdditionalCostPerItem')           || define('freeAdditionalCostPerItem', 0.00);          // Free
-defined('standardAdditionalCostPerItem')       || define('standardAdditionalCostPerItem', 0.00);      // Free
-defined('expressAdditionalCostPerItem')        || define('expressAdditionalCostPerItem', 2.00);       // More expensive cost per item for express delivery
-defined('internationalAdditionalCostPerItem')  || define('internationalAdditionalCostPerItem', 2.50); // Higher cost per item for international delivery
+defined('FREE_ADDITIONAL_COST_PER_ITEM')           || define('FREE_ADDITIONAL_COST_PER_ITEM', 0.00);          // Free
+defined('STANDARD_ADDITIONAL_COST_PER_ITEM')       || define('STANDARD_ADDITIONAL_COST_PER_ITEM', 0.00);      // Free
+defined('EXPRESS_ADDITIONAL_COST_PER_ITEM')        || define('EXPRESS_ADDITIONAL_COST_PER_ITEM', 2.00);       // More expensive cost per item for express delivery
+defined('INTERNATIONAL_ADDITIONAL_COST_PER_ITEM')  || define('INTERNATIONAL_ADDITIONAL_COST_PER_ITEM', 2.50); // Higher cost per item for international delivery

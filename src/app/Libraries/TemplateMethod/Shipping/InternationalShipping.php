@@ -6,11 +6,11 @@ class InternationalShipping extends ShippingTemplateMethod
 {
     public function shippingCostDefault() : float 
     { 
-        return internationalShippingCostDefault;
+        return INTERNATIONAL_SHIPPING_COST_DEFAULT;
     }
 
     public function additionalCostPerItem() : float
     { 
-        return internationalAdditionalCostPerItem;
+        return INTERNATIONAL_ADDITIONAL_COST_PER_ITEM;
     }
 }

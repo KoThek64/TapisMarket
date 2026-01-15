@@ -6,11 +6,11 @@ class FreeShipping extends ShippingTemplateMethod
 {
     public function shippingCostDefault() : float 
     { 
-        return freeShippingCostDefault;
+        return FREE_SHIPPING_COST_DEFAULT;
     }
 
     public function additionalCostPerItem() : float
     { 
-        return freeAdditionalCostPerItem;
+        return FREE_ADDITIONAL_COST_PER_ITEM;
     }
 }

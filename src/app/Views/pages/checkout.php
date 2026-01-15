@@ -105,8 +105,8 @@
                                     <span class="block text-xs text-gray-500">Livraison fiable sous 3 à 5 jours ouvrés</span>
                                 </div >
                                 <div class="text-right">
-                                    <span class="text-sm font-medium text-gray-900"><?= standardShippingCostDefault ?> €</span>
-                                    <span class="block text-[10px] text-gray-400">+<?= standardAdditionalCostPerItem ?>€/art. supp.</span>
+                                    <span class="text-sm font-medium text-gray-900"><?= STANDARD_SHIPPING_COST_DEFAULT ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= STANDARD_ADDITIONAL_COST_PER_ITEM ?>€/art. supp.</span>
                                 </div >
                             </label>
 
@@ -117,8 +117,8 @@
                                     <span class="block text-xs text-gray-500">Livraison rapide sous 24h à 48h</span>
                                 </div>
                                 <div class="text-right">
-                                    <span class="block text-sm font-medium text-gray-900"><?= expressShippingCostDefault ?> €</span>
-                                    <span class="block text-[10px] text-gray-400">+<?= expressAdditionalCostPerItem ?>€/art. supp.</span>
+                                    <span class="block text-sm font-medium text-gray-900"><?= EXPRESS_SHIPPING_COST_DEFAULT ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= EXPRESS_ADDITIONAL_COST_PER_ITEM ?>€/art. supp.</span>
                                 </div>
                             </label>
 
@@ -129,8 +129,8 @@
                                     <span class="block text-xs text-gray-500">Livraison dans le monde entier</span>
                                 </div>
                                 <div class="text-right">
-                                    <span class="block text-sm font-medium text-gray-900"><?= internationalShippingCostDefault ?> €</span>
-                                    <span class="block text-[10px] text-gray-400">+<?= internationalAdditionalCostPerItem ?>€/art. supp.</span>
+                                    <span class="block text-sm font-medium text-gray-900"><?= INTERNATIONAL_SHIPPING_COST_DEFAULT ?> €</span>
+                                    <span class="block text-[10px] text-gray-400">+<?= INTERNATIONAL_ADDITIONAL_COST_PER_ITEM ?>€/art. supp.</span>
                                 </div>
                             </label>
                         </div>
@@ -267,9 +267,9 @@
         const extraItems = Math.max(0, totalItems - 1);
         
         const shippingRates = {
-            'standard':      { base: <?= standardShippingCostDefault ?>,      perItem: <?= standardAdditionalCostPerItem ?> },
-            'express':       { base: <?= expressShippingCostDefault ?>,       perItem: <?= expressAdditionalCostPerItem ?> },
-            'international': { base: <?= internationalShippingCostDefault ?>, perItem: <?= internationalAdditionalCostPerItem ?> }
+            'standard':      { base: <?= STANDARD_SHIPPING_COST_DEFAULT ?>,      perItem: <?= STANDARD_ADDITIONAL_COST_PER_ITEM ?> },
+            'express':       { base: <?= EXPRESS_SHIPPING_COST_DEFAULT ?>,       perItem: <?= EXPRESS_ADDITIONAL_COST_PER_ITEM ?> },
+            'international': { base: <?= INTERNATIONAL_SHIPPING_COST_DEFAULT ?>, perItem: <?= INTERNATIONAL_ADDITIONAL_COST_PER_ITEM ?> }
         };
 
         const shippingRadios = document.querySelectorAll('input[name="shipping_method"]');

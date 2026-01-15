@@ -6,11 +6,11 @@ class ExpressShipping extends ShippingTemplateMethod
 {
     public function shippingCostDefault() : float 
     { 
-        return expressShippingCostDefault;
+        return EXPRESS_SHIPPING_COST_DEFAULT;
     }
 
     public function additionalCostPerItem() : float
     { 
-        return expressAdditionalCostPerItem;
+        return EXPRESS_ADDITIONAL_COST_PER_ITEM;
     }
 }
