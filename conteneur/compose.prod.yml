@@ -23,6 +23,8 @@ services:
       - tapis_market_storage:/var/www/html/writable:Z
     depends_on:
         - mysql
+    environment:
+      CI_ENVIRONMENT: development
     
 
 volumes:

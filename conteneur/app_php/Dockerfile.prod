@@ -2,10 +2,9 @@ ARG PHP_VERSION=8.4
 FROM --platform=$BUILDPLATFORM docker.io/library/php:${PHP_VERSION}-apache as builder
 
 ADD data/apache2.conf data/ports.conf /etc/apache2
-COPY ../src /var/www/html
+COPY src /var/www/html
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-ENV CI_ENVIRONMENT=development
 
 RUN <<EOF
 export DEBIAN_FRONTEND=noninteractive
@@ -71,10 +70,6 @@ echo "Installation des dépendances php"
 echo ----------------------------
 composer install
 
-echo ----------------------------
-echo "Creation de la base de donnée"
-echo ----------------------------
-php spark migrate
 EOF
 
 CMD ["apache2-foreground"]
