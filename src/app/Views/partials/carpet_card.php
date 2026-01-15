@@ -24,6 +24,9 @@
                     <?= esc($product->title) ?>
                 </a>
             </h3>
+            
+        
+
             <p class="text-sm text-slate-500 mb-4 line-clamp-2"><?= esc($product->short_description) ?></p>
         </div>
 

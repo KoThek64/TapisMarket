@@ -122,7 +122,15 @@
                 <div class="space-y-4 text-sm">
                     <div class="flex border-b border-dashed border-gray-200 pb-2">
                         <span class="w-32 text-muted">Vendeur</span>
-                        <span class="font-medium"><?= esc($product->shop_name ?? 'TapisMarket') ?></span>
+                        <span class="font-medium">
+                            <?php if(!empty($product->shop_name)): ?>
+                                <a href="<?= base_url('shop/' . urlencode($product->shop_name)) ?>" class="text-accent hover:underline font-bold">
+                                    <?= esc($product->shop_name) ?>
+                                </a>
+                            <?php else: ?>
+                                <?= esc($product->shop_name ?? 'TapisMarket') ?>
+                            <?php endif; ?>
+                        </span>
                     </div>
                     <div class="flex border-b border-dashed border-gray-200 pb-2">
                         <span class="w-32 text-muted">Matière</span>
