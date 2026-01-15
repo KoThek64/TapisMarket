@@ -20,7 +20,7 @@ class Users extends AdminBaseController
             'currentRole' => $roleFilter,
         ]);
 
-        return view('admin/users/index', $data);
+        return view('pages/admin/users/index', $data);
     }
 
     // Approuver un compte vendeur

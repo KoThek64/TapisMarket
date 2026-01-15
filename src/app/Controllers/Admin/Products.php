@@ -16,7 +16,7 @@ class Products extends AdminBaseController
             'pager' => $this->productModel->pager,
         ]);
 
-        return view('admin/products/index', $data);
+        return view('pages/admin/products/index', $data);
     }
 
     // Approuver un produit

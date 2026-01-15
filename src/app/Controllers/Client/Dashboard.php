@@ -22,6 +22,6 @@ class Dashboard extends ClientBaseController
             'publishedReviewsCount' => $this->reviewModel->countPublishedReviewsForUser($userId),
         ]);
 
-        return view('client/dashboard', $data);
+        return view('pages/client/dashboard', $data);
     }
 }

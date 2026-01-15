@@ -37,6 +37,6 @@ class Dashboard extends SellerBaseController
             'recentSales' => $recentSales,
         ]);
 
-        return view('seller/dashboard', $data);
+        return view('pages/seller/dashboard', $data);
     }
 }

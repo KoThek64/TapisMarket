@@ -29,6 +29,6 @@ class Dashboard extends AdminBaseController
             'moderationLink' => $moderationLink,
         ]);
 
-        return view('admin/dashboard', $data);
+        return view('pages/admin/dashboard', $data);
     }
 }

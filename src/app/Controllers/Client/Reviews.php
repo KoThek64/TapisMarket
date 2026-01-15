@@ -22,7 +22,7 @@ class Reviews extends ClientBaseController
             'pager' => $this->reviewModel->pager
         ]);
 
-        return view('client/reviews/index', $data);
+        return view('pages/client/reviews/index', $data);
     }
 
     // Formulaire
@@ -54,7 +54,7 @@ class Reviews extends ClientBaseController
             'existingReview' => $existingReview,
         ]);
 
-        return view('client/reviews/edit', $data);
+        return view('pages/client/reviews/edit', $data);
     }
 
     // Traitement

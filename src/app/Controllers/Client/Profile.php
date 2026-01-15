@@ -22,7 +22,7 @@ class Profile extends ClientBaseController
             'addresses' => $this->addressModel->where('user_id', $user->user_id)->findAll()
         ]);
 
-        return view('client/profile/index', $data);
+        return view('pages/client/profile/index', $data);
     }
 
     // Mise à jour du profil

@@ -16,7 +16,7 @@ class Shop extends SellerBaseController
             'subtitle' => 'Gérez les informations de votre boutique'
         ]);
 
-        return view('seller/shop/index', $data);
+        return view('pages/seller/shop/index', $data);
     }
 
     // Affiche le formulaire d'édition du profil du magasin
@@ -31,7 +31,7 @@ class Shop extends SellerBaseController
             'subtitle' => 'Mettez à jour vos informations'
         ]);
 
-        return view('seller/shop/edit', $data);
+        return view('pages/seller/shop/edit', $data);
     }
 
     // Met à jour le profil du magasin du vendeur

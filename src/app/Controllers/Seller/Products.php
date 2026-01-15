@@ -65,7 +65,7 @@ class Products extends SellerBaseController
             'subtitle' => 'Gérez votre catalogue produit'
         ]);
 
-        return view('seller/products/index', $data);
+        return view('pages/seller/products/index', $data);
     }
 
     // Affiche les détails d'un produit
@@ -76,7 +76,7 @@ class Products extends SellerBaseController
             return redirect()->back()->with('error', 'Produit non trouvé');
         }
 
-        return view('Seller/Products/show', ['product' => $product]);
+        return view('pages/seller/Products/show', ['product' => $product]);
     }
 
     // Affiche le formulaire de création
@@ -90,7 +90,7 @@ class Products extends SellerBaseController
             'subtitle' => 'Ajoutez un produit à votre catalogue'
         ]);
 
-        return view('seller/products/create', $data);
+        return view('pages/seller/products/create', $data);
     }
 
     // Traite le formulaire de création soumis
@@ -128,7 +128,7 @@ class Products extends SellerBaseController
             'subtitle' => 'Mettez à jour les informations et les photos'
         ]);
 
-        return view('seller/products/edit', $data);
+        return view('pages/seller/products/edit', $data);
     }
 
 

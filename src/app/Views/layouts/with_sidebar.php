@@ -53,13 +53,12 @@
 
     <main class="flex-1 flex flex-col h-screen overflow-hidden bg-cream relative">
 
-        <?= $this->include("headers/" . ($header ?? "with_sidebar")) ?>
+        <?= $this->include("partials/headers/" . ($header ?? "with_sidebar")) ?>
 
         <div class="flex-1 overflow-y-auto p-8 lg:p-12 space-y-8">
 
             <?= $this->include("partials/alert_handler") ?>
             <?= $this->renderSection('content') ?>
-            <?= $this->include("footers/" . ($footer ?? "client")) ?>
 
         </div>
     </main>

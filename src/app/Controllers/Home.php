@@ -12,7 +12,7 @@ class Home extends BaseController
 
         $data['products'] = $productModel->getAllWithImage(6);
 
-        return view('home', $data);
+        return view('pages/home', $data);
     }
 
     public function legalNotice()

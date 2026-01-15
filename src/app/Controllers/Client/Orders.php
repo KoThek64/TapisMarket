@@ -21,7 +21,7 @@ class Orders extends ClientBaseController
             'pager' => $this->orderModel->pager,
         ]);
 
-        return view('client/orders/index', $data);
+        return view('pages/client/orders/index', $data);
     }
 
     // Détail d'une commande
@@ -46,6 +46,6 @@ class Orders extends ClientBaseController
             'pager' => $this->orderItemModel->pager
         ]);
 
-        return view('client/orders/show', $data);
+        return view('pages/client/orders/show', $data);
     }
 }

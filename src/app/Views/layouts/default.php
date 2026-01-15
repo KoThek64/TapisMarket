@@ -44,14 +44,14 @@
 
 <body class="flex flex-col min-h-screen bg-cream text-primary font-sans antialiased">
 
-    <?= $this->include("headers/" . ($header ?? "default")) ?>
+    <?= $this->include("partials/headers/" . ($header ?? "default")) ?>
 
     <main class="flex-grow w-full">
         <?= $this->include("partials/alert_handler") ?>
         <?= $this->renderSection('content') ?>
     </main>
 
-    <?= $this->include("footers/" . ($footer ?? "default")) ?>
+    <?= $this->include("partials/footers/" . ($footer ?? "default")) ?>
 
 </body>
 

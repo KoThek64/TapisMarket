@@ -21,7 +21,7 @@ class Addresses extends ClientBaseController
             'address' => null
         ]);
 
-        return view('client/addresses/form', $data);
+        return view('pages/client/addresses/form', $data);
     }
 
     // Traitement de la création
@@ -60,7 +60,7 @@ class Addresses extends ClientBaseController
             'address' => $address
         ]);
 
-        return view('client/addresses/form', $data);
+        return view('pages/client/addresses/form', $data);
     }
 
     // Traitement de la modification

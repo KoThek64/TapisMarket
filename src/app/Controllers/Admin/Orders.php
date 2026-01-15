@@ -21,7 +21,7 @@ class Orders extends AdminBaseController
             'currentStatus' => $statusFilter,
         ]);
 
-        return view('admin/orders/index', $data);
+        return view('pages/admin/orders/index', $data);
     }
 
     // Affichage du détail d'une commande
@@ -39,6 +39,6 @@ class Orders extends AdminBaseController
             'order' => $order,
         ]);
 
-        return view('admin/orders/detail', $data);
+        return view('pages/admin/orders/detail', $data);
     }
 }

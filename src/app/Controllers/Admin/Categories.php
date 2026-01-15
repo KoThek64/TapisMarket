@@ -17,7 +17,7 @@ class Categories extends AdminBaseController
             'pager' => $this->categoryModel->pager,
         ]);
 
-        return view('admin/categories/index', $data);
+        return view('pages/admin/categories/index', $data);
     }
 
     // Formulaire de création d'une nouvelle catégorie
@@ -29,7 +29,7 @@ class Categories extends AdminBaseController
             'action' => 'create'
         ]);
 
-        return view('admin/categories/form', $data);
+        return view('pages/admin/categories/form', $data);
     }
 
     // Traitement de la création
@@ -62,7 +62,7 @@ class Categories extends AdminBaseController
             'action' => 'edit'
         ]);
 
-        return view('admin/categories/form', $data);
+        return view('pages/admin/categories/form', $data);
     }
 
     // Traitement de la mise à jour

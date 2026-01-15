@@ -56,7 +56,7 @@ class Orders extends SellerBaseController
             'subtitle' => 'Suivez les achats de vos produits et votre chiffre d\'affaires.'
         ]);
 
-        return view('seller/orders/index', $data);
+        return view('pages/seller/orders/index', $data);
     }
 
     // Affiche les détails d'une commande
@@ -76,7 +76,7 @@ class Orders extends SellerBaseController
             'items' => $items
         ];
 
-        return view('seller/orders/show', ['order' => $order]);
+        return view('pages/seller/orders/show', ['order' => $order]);
     }
 
     // Change le statut d'une commande

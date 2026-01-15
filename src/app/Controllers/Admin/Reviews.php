@@ -18,7 +18,7 @@ class Reviews extends AdminBaseController
             'criticalCount' => $this->reviewModel->countCriticalReviews(),
         ]);
 
-        return view('admin/reviews/index', $data);
+        return view('pages/admin/reviews/index', $data);
     }
 
     // Change le statut d'un avis (publié ou refusé)

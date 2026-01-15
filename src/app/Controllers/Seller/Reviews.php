@@ -23,6 +23,6 @@ class Reviews extends SellerBaseController
             'subtitle' => 'Découvrez ce que les clients pensent de vos produits.'
         ]);
 
-        return view('seller/reviews/index', $data);
+        return view('pages/seller/reviews/index', $data);
     }
 }
