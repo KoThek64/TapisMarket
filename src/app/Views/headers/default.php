@@ -51,7 +51,7 @@ $activeClass = "font-medium text-accent-light border-b-2 border-accent-light";
                 <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" class="w-6 transition-transform group-hover:scale-110" alt="Panier" />
                  <?php $cartCount = count_cart_items(); ?>
                 <?php if ($cartCount > 0): ?>
-                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-sm">
+                    <span class="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-sm">
                         <?= $cartCount > 99 ? '99+' : $cartCount ?>
                     </span>
                 <?php endif; ?>
