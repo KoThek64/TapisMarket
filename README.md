@@ -15,7 +15,7 @@ cp -R src conteneur/app_php/src
 Ensuite, il faut lancer `podman-compose` (qui se charge d'installer et de lancer les containers) :
 
 ```bash
-podman-compose -f conteneur/compose.prod.yml up -d
+podman-compose -f conteneur/compose.prod.yml --env-file conteneur/prod.env up -d
 ```
 
 Ensuite il faut executer les migration pour mettre en place la base de donnée
