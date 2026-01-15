@@ -40,3 +40,23 @@ Pour customiser les variables d'environnement, on peut éditer `conteneur/app_ph
 - `DB_USER` l'utilisateur de la DB
 - `DB_PASSWORD` le mot de paasse de l'utilisateur de la DB
 - `DB_DATABASE` le nom de la DB que le site va utiliser
+
+# Documentation
+
+La documentation est générée avec Sphinx. Il est recommandé d'utiliser un environnement virtuel Python 3 :
+
+## Prérequis
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install sphinx sphinx_rtd_theme sphinxcontrib-phpdomain
+```
+
+## Générer et ouvrir la documentation
+
+```bash
+rm -rf src/user_guide/ && \
+python3 -m sphinx -b html src/user_guide_src/ src/user_guide/ && \
+(xdg-open src/user_guide/index.html || open src/user_guide/index.html || echo "Lien : src/user_guide/index.html")
+```
