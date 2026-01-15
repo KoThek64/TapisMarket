@@ -30,3 +30,13 @@ Si on veut utiliser des données de test, on peut lancer un `DataSeeder`
 ```bash
 podman-compose -f conteneur/compose.prod.yml exec web-prod php spark db:seed DataSeeder
 ```
+
+## régler les variables d'environnement 
+
+Pour customiser les variables d'environnement, on peut éditer `conteneur/app_php/prod.env`
+
+- `ENVIRONMENT` l'environnement (soit production soit development)
+- `DB_ROOT_PASSWORD` le mot de passe root de la DB
+- `DB_USER` l'utilisateur de la DB
+- `DB_PASSWORD` le mot de paasse de l'utilisateur de la DB
+- `DB_DATABASE` le nom de la DB que le site va utiliser

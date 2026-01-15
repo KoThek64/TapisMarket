@@ -63,6 +63,7 @@ echo "Installation des dépendances php"
 echo ----------------------------
 composer install
 
+rm /var/www/html/.env
 chown -R www-data:www-data /var/www/html
 
 cat <<ENTRY > /var/www/html/entry.sh
