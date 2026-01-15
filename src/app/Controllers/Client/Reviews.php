@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Client;
 
-use App\Models\ProductModel;
 use Exception;
 
 class Reviews extends ClientBaseController

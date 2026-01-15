@@ -15,12 +15,12 @@ trait RatingTrait
 
         $html = '<div class="flex items-center text-base" title="Note : ' . $roundedRating . '/5">';
         for ($i = 1; $i <= 5; $i++) {
-            $html .= ($i <= $finalRating) 
-                ? '<span class="text-orange-400">★</span>' 
+            $html .= ($i <= $finalRating)
+                ? '<span class="text-orange-400">★</span>'
                 : '<span class="text-gray-200">★</span>';
         }
         $html .= '</div>';
-        
+
         return $html;
     }
 

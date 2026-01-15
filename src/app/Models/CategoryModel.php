@@ -7,16 +7,16 @@ use App\Entities\Category;
 
 class CategoryModel extends Model
 {
-    protected $table            = 'categories';
-    protected $primaryKey       = 'id';
-    protected $returnType       = Category::class;
-    
-    protected $allowedFields    = ['name', 'alias', 'description', 'image_url'];
+    protected $table = 'categories';
+    protected $primaryKey = 'id';
+    protected $returnType = Category::class;
 
-    protected $validationRules  = [
-        'name'  => 'required|min_length[3]|max_length[100]|is_unique[categories.name,id,{id}]',
+    protected $allowedFields = ['name', 'alias', 'description', 'image_url'];
+
+    protected $validationRules = [
+        'name' => 'required|min_length[3]|max_length[100]|is_unique[categories.name,id,{id}]',
         'alias' => 'is_unique[categories.alias,id,{id}]',
-        'id'    => 'permit_empty|is_natural_no_zero',
+        'id' => 'permit_empty|is_natural_no_zero',
     ];
 
     protected $beforeInsert = ['generateAlias'];

@@ -3,28 +3,26 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use App\Traits\PriceTrait;   
-use App\Traits\ImageTrait; 
+use App\Traits\PriceTrait;
+use App\Traits\ImageTrait;
 
 class CartItem extends Entity
-{   
+{
     use PriceTrait;
     use ImageTrait;
 
-    
-
     protected $casts = [
-        'item_id'    => 'integer',
-        'cart_id'    => 'integer',
+        'item_id' => 'integer',
+        'cart_id' => 'integer',
         'product_id' => 'integer',
-        'quantity'   => 'integer',
+        'quantity' => 'integer',
     ];
 
     // Calculate subtotal
     public function getSubtotal(): float
     {
         $price = $this->attributes['price'] ?? 0.00;
-        $qty   = $this->quantity ?? 0;
+        $qty = $this->quantity ?? 0;
 
         return $price * $qty;
     }
@@ -36,7 +34,7 @@ class CartItem extends Entity
 
         return $price;
     }
-    
+
     // Formatted display
     public function getFormattedSubtotal(): string
     {
@@ -59,7 +57,7 @@ class CartItem extends Entity
     public function getProductImage(): string
     {
         $img = $this->attributes['image'] ?? $this->attributes['file_name'] ?? null;
-        
+
         return $this->getUrlImage($img);
     }
 

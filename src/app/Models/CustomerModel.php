@@ -8,17 +8,17 @@ use \App\Models\UserModel;
 
 class CustomerModel extends Model
 {
-    protected $table            = 'customers';
-    protected $primaryKey       = 'user_id';
-    protected $returnType       = Customer::class;
+    protected $table = 'customers';
+    protected $primaryKey = 'user_id';
+    protected $returnType = Customer::class;
 
     protected $useAutoIncrement = false;
 
-    protected $allowedFields    = ['user_id', 'phone', 'birth_date'];
+    protected $allowedFields = ['user_id', 'phone', 'birth_date'];
 
     protected $validationRules = [
-        'user_id'    => 'required|integer|is_unique[customers.user_id]',
-        'phone'      => 'permit_empty|min_length[10]|max_length[20]',
+        'user_id' => 'required|integer|is_unique[customers.user_id]',
+        'phone' => 'permit_empty|min_length[10]|max_length[20]',
         'birth_date' => 'permit_empty|valid_date',
     ];
 
@@ -27,7 +27,7 @@ class CustomerModel extends Model
             'min_length' => 'The phone number is too short.'
         ]
     ];
-    
+
     public $lastErrors = [];
 
     // Retrieves the complete profile of a client with user info
@@ -92,8 +92,8 @@ class CustomerModel extends Model
         $this->db->transComplete();
 
         if ($this->db->transStatus() === false) {
-             $this->lastErrors = ['Transaction failed'];
-             return false;
+            $this->lastErrors = ['Transaction failed'];
+            return false;
         }
 
         return true;

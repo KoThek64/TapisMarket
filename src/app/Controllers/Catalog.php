@@ -18,17 +18,17 @@ class Catalog extends BaseController
 
         // Récupération des filtres
         $filters = [
-            'search'     => $this->request->getGet('search'),
+            'search' => $this->request->getGet('search'),
             'categories' => $this->request->getGet('cat'),
-            'materials'  => $this->request->getGet('mat'),
-            'width_min'  => $this->request->getGet('width_min'),
-            'width_max'  => $this->request->getGet('width_max'),
+            'materials' => $this->request->getGet('mat'),
+            'width_min' => $this->request->getGet('width_min'),
+            'width_max' => $this->request->getGet('width_max'),
             'length_min' => $this->request->getGet('length_min'),
             'length_max' => $this->request->getGet('length_max'),
-            'sellers'    => $this->request->getGet('seller'),
-            'price_min'  => $this->request->getGet('price_min'),
-            'price_max'  => $this->request->getGet('price_max'),
-            'sort'       => $this->request->getGet('sort')
+            'sellers' => $this->request->getGet('seller'),
+            'price_min' => $this->request->getGet('price_min'),
+            'price_max' => $this->request->getGet('price_max'),
+            'sort' => $this->request->getGet('sort')
         ];
 
         // Bounds for sliders
@@ -99,7 +99,7 @@ class Catalog extends BaseController
         $photoModel = new ProductPhotoModel();
         $photos = $photoModel->getPhotosByProduct($product->id);
 
-       
+
         $reviewModel = new ReviewModel();
         $reviews = $reviewModel->getReviewsForProduct($product->id);
         $reviewStats = $reviewModel->getProductStats($product->id);
@@ -110,8 +110,8 @@ class Catalog extends BaseController
             'product' => $product,
             'photos' => $photos,
             'similarProducts' => $similarProducts,
-            'reviews' => $reviews,          
-            'reviewStats' => $reviewStats   
+            'reviews' => $reviews,
+            'reviewStats' => $reviewStats
         ];
 
         return view('pages/product_sheet', $data);

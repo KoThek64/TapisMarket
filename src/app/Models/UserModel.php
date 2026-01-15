@@ -7,13 +7,13 @@ use App\Entities\User;
 
 class UserModel extends Model
 {
-    protected $table            = 'users';
-    protected $primaryKey       = 'id';
+    protected $table = 'users';
+    protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
-    protected $returnType       = User::class;
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
+    protected $returnType = User::class;
+    protected $useSoftDeletes = false;
+    protected $protectFields = true;
     protected $allowedFields = [
         'email',
         'password',
@@ -23,15 +23,15 @@ class UserModel extends Model
     ];
 
     protected $useTimestamps = true;
-    protected $createdField  = 'created_at';
-    protected $updatedField  = '';
+    protected $createdField = 'created_at';
+    protected $updatedField = '';
 
     protected $validationRules = [
-        'email'        => 'required|valid_email|is_unique[users.email]',
-        'lastname'     => 'required|min_length[2]',
-        'firstname'    => 'required|min_length[2]',
-        'password'     => 'required|min_length[8]',
-        'role'         => 'in_list[ADMIN,SELLER,CUSTOMER]'
+        'email' => 'required|valid_email|is_unique[users.email]',
+        'lastname' => 'required|min_length[2]',
+        'firstname' => 'required|min_length[2]',
+        'password' => 'required|min_length[8]',
+        'role' => 'in_list[ADMIN,SELLER,CUSTOMER]'
     ];
 
     protected $validationMessages = [
@@ -61,11 +61,11 @@ class UserModel extends Model
     public function getUsersByRole(string $role, int $perPage = 20)
     {
         return $this->where('role', $role)
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate($perPage);
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
     }
 
-     // recupere les utilisateurs avec pagination
+    // recupere les utilisateurs avec pagination
     public function getAdminAllUsersPaginated(int $perPage = 10, ?string $role = null)
     {
         $builder = $this->select('users.*, sellers.status as seller_status')
@@ -89,6 +89,6 @@ class UserModel extends Model
     public function getAdminLatestRegistered(int $limit = 5)
     {
         return $this->orderBy('created_at', 'DESC')
-                    ->findAll($limit);
+            ->findAll($limit);
     }
 }

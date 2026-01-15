@@ -3,7 +3,6 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use CodeIgniter\I18n\Time;
 use App\Traits\RatingTrait;
 
 class Review extends Entity
@@ -11,11 +10,11 @@ class Review extends Entity
     use RatingTrait;
 
     protected $dates = ['published_at'];
-    
+
     protected $casts = [
-        'rating'     => 'integer',
+        'rating' => 'integer',
         'product_id' => 'integer',
-        'customer_id'=> 'integer'
+        'customer_id' => 'integer'
     ];
 
     // Returns an HTML star representation of the rating

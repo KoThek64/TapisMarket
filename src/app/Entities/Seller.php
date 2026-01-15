@@ -10,9 +10,9 @@ class Seller extends Entity
         'created_at',
         'deleted_at'
     ];
-    
+
     // Automatic conversion
-    protected $casts   = [
+    protected $casts = [
         'user_id' => 'integer',
     ];
 
@@ -32,11 +32,11 @@ class Seller extends Entity
     public function getFormattedSiret(): string
     {
         $siret = $this->attributes['siret'] ?? '';
-        
+
         if (strlen($siret) === 14) {
             return substr($siret, 0, 3) . ' ' . substr($siret, 3, 3) . ' ' . substr($siret, 6, 3) . ' ' . substr($siret, 9, 5);
         }
-        
+
         return $siret;
     }
 }

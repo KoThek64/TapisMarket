@@ -346,3 +346,4 @@
 <?= $this->endSection() ?>
 
 <?= view('partials/delete_modal') ?>
+

@@ -14,9 +14,9 @@ class Order extends Entity
     protected $dates = ['order_date'];
 
     protected $casts = [
-        'id'          => 'integer',
+        'id' => 'integer',
         'customer_id' => 'integer',
-        'total_ttc'   => 'float',
+        'total_ttc' => 'float',
         'shipping_fees' => 'float',
     ];
 
@@ -40,13 +40,13 @@ class Order extends Entity
 
     public function getFullDeliveryAddress(): string
     {
-        return $this->delivery_street . ', ' . 
-               $this->delivery_postal_code . ' ' . 
-               $this->delivery_city . ' (' . 
-               strtoupper($this->delivery_country) . ')';
+        return $this->delivery_street . ', ' .
+            $this->delivery_postal_code . ' ' .
+            $this->delivery_city . ' (' .
+            strtoupper($this->delivery_country) . ')';
     }
 
-    public function get(): Int
+    public function get(): int
     {
         return $this->getItemCount($this->id);
     }

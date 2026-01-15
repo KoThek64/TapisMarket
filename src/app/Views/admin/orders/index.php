@@ -4,7 +4,7 @@
 
 <a href="<?= site_url('/') ?>"
     class="text-xs font-bold text-muted hover:text-primary transition uppercase tracking-wide mr-4">Retour au site</a>
-    
+
 <div class="text-left border-l border-border pl-6 pr-3 hidden sm:block">
     <p class="text-[10px] uppercase font-bold text-muted tracking-widest">Revenu Total</p>
     <p class="font-serif text-2xl font-bold text-accent"><?= number_format($globalAmount, 2, '.', ',') ?> €</p>
@@ -149,3 +149,4 @@
 </div>
 
 <?= $this->endSection() ?>
+

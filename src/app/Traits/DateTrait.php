@@ -9,7 +9,8 @@ trait DateTrait
     // Format a date
     protected function formatDate($date, bool $withTime = true): string
     {
-        if (empty($date)) return '-';
+        if (empty($date))
+            return '-';
 
         if (!($date instanceof Time)) {
             $date = Time::parse($date);
@@ -19,10 +20,11 @@ trait DateTrait
         return $date->format($format);
     }
 
-    
+
     protected function formaterDateRelative($date): string
     {
-        if (empty($date)) return '';
+        if (empty($date))
+            return '';
 
         if (!($date instanceof Time)) {
             $date = Time::parse($date);

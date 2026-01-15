@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use App\Traits\DateTrait;  
+use App\Traits\DateTrait;
 use App\Traits\ImageTrait;
 
 class User extends Entity
@@ -15,8 +15,8 @@ class User extends Entity
         'created_at',
         'deleted_at'
     ];
-    
-    
+
+
     public function setCreatedAt(string $date)
     {
         $this->attributes['created_at'] = ($date === '-' || empty($date)) ? null : $date;
@@ -25,7 +25,7 @@ class User extends Entity
     }
     //This function encrypts password
     public function setPassword(string $password)
-    {   
+    {
         //Encrypt password before saving to database
         $this->attributes['password'] = password_hash($password, PASSWORD_DEFAULT);
         return $this;
@@ -48,7 +48,7 @@ class User extends Entity
 
     public function getFormattedRegistrationDate()
     {
-        return $this->formatDate($this->attributes['created_at'] ?? null, false); 
+        return $this->formatDate($this->attributes['created_at'] ?? null, false);
     }
-    
+
 }

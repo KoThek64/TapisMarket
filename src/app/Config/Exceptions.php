@@ -58,12 +58,12 @@ class Exceptions extends BaseConfig
      */
     public array $sensitiveDataInTrace = [
         'password',
-        'mot_de_passe',    
+        'mot_de_passe',
         'mot_de_passe_confirm',
         'token',
         'key',
-        'siret',           
-        'client_secret',   
+        'siret',
+        'client_secret',
         'api_key',
         'authorization'
     ];

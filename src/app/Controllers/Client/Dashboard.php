@@ -2,8 +2,6 @@
 
 namespace App\Controllers\Client;
 
-use App\Controllers\BaseController;
-
 class Dashboard extends ClientBaseController
 {
     public function index()

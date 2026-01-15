@@ -10,14 +10,14 @@ class OrderItem extends Entity
     use PriceTrait;
 
     protected $datamap = [];
-    protected $dates   = [];
-    
-    protected $casts   = [
-        'id'            => 'integer',
-        'order_id'      => 'integer',
-        'product_id'    => 'integer',
-        'quantity'      => 'integer',
-        'unit_price'    => 'float',
+    protected $dates = [];
+
+    protected $casts = [
+        'id' => 'integer',
+        'order_id' => 'integer',
+        'product_id' => 'integer',
+        'quantity' => 'integer',
+        'unit_price' => 'float',
     ];
 
     //Total 

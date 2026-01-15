@@ -44,12 +44,12 @@ class DataSeeder extends Seeder
         foreach ($shops as $idx => $b) {
             $vid = $this->createUser("seller$idx@mail.com", "Name$idx", "Surname$idx", "SELLER");
             $sellerIds[] = $vid;
-            $sellerStatus = (rand(1, 10) > 2) ? 'VALIDATED' : 'PENDING_VALIDATION'; 
+            $sellerStatus = (rand(1, 10) > 2) ? 'VALIDATED' : 'PENDING_VALIDATION';
             $this->db->table('sellers')->insert([
-                'user_id'          => $vid,
-                'shop_name'        => $b['name'],
-                'siret'            => '123456789' . str_pad($idx, 5, '0', STR_PAD_LEFT),
-                'status'           => $sellerStatus,
+                'user_id' => $vid,
+                'shop_name' => $b['name'],
+                'siret' => '123456789' . str_pad($idx, 5, '0', STR_PAD_LEFT),
+                'status' => $sellerStatus,
                 'shop_description' => $b['desc']
             ]);
         }
@@ -61,8 +61,8 @@ class DataSeeder extends Seeder
             $cid = $this->createUser("client$i@mail.com", "ClientName$i", "ClientSurname$i", "CUSTOMER");
             $clientIds[] = $cid;
             $this->db->table('customers')->insert([
-                'user_id'   => $cid,
-                'phone'     => '06' . str_pad($i, 8, '0', STR_PAD_LEFT)
+                'user_id' => $cid,
+                'phone' => '06' . str_pad($i, 8, '0', STR_PAD_LEFT)
             ]);
         }
 
@@ -76,12 +76,12 @@ class DataSeeder extends Seeder
             $nbAddr = rand(1, 2);
             for ($k = 0; $k < $nbAddr; $k++) {
                 $this->db->table('addresses')->insert([
-                    'user_id'       => $cid,
-                    'number'        => rand(1, 150),
-                    'street'        => $streets[array_rand($streets)],
-                    'postal_code'   => str_pad(rand(1000, 95000), 5, '0', STR_PAD_LEFT),
-                    'city'          => $cities[array_rand($cities)],
-                    'country'       => 'France',
+                    'user_id' => $cid,
+                    'number' => rand(1, 150),
+                    'street' => $streets[array_rand($streets)],
+                    'postal_code' => str_pad(rand(1000, 95000), 5, '0', STR_PAD_LEFT),
+                    'city' => $cities[array_rand($cities)],
+                    'country' => 'France',
                     'contact_phone' => '06' . str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT)
                 ]);
             }
@@ -89,12 +89,12 @@ class DataSeeder extends Seeder
         // Quelques adresses pour les vendeurs aussi
         foreach ($sellerIds as $sid) {
             $this->db->table('addresses')->insert([
-                'user_id'       => $sid,
-                'number'        => rand(1, 50),
-                'street'        => 'Zone Industrielle Nord',
-                'postal_code'   => str_pad(rand(1000, 95000), 5, '0', STR_PAD_LEFT),
-                'city'          => $cities[array_rand($cities)],
-                'country'       => 'France',
+                'user_id' => $sid,
+                'number' => rand(1, 50),
+                'street' => 'Zone Industrielle Nord',
+                'postal_code' => str_pad(rand(1000, 95000), 5, '0', STR_PAD_LEFT),
+                'city' => $cities[array_rand($cities)],
+                'country' => 'France',
                 'contact_phone' => '04' . str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT)
             ]);
         }
@@ -151,8 +151,8 @@ class DataSeeder extends Seeder
                 for ($i = 1; $i <= 3; $i++) {
                     $imgUrl = $realImages[array_rand($realImages)];
                     $this->db->table('product_photos')->insert([
-                        'product_id'    => $pid,
-                        'file_name'     => $imgUrl,
+                        'product_id' => $pid,
+                        'file_name' => $imgUrl,
                         'display_order' => $i
                     ]);
                 }
@@ -168,18 +168,19 @@ class DataSeeder extends Seeder
         foreach ($cartClients as $cid) {
             $this->db->table('carts')->insert([
                 'customer_id' => $cid,
-                'created_at'  => date('Y-m-d H:i:s'),
-                'updated_at'  => date('Y-m-d H:i:s'),
-                'total'       => 0 // Sera mis à jour après l'ajout des items
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'total' => 0 // Sera mis à jour après l'ajout des items
             ]);
             $cartId = $this->db->insertID();
 
             $cartTotal = 0;
             $nbItems = rand(1, 4);
-            
+
             // Choix de produits aléatoires
             $randomKeys = array_rand($productIds, $nbItems);
-            if (!is_array($randomKeys)) $randomKeys = [$randomKeys];
+            if (!is_array($randomKeys))
+                $randomKeys = [$randomKeys];
 
             foreach ($randomKeys as $key) {
                 $pId = $productIds[$key];
@@ -190,9 +191,9 @@ class DataSeeder extends Seeder
                 $price = $row->price;
 
                 $this->db->table('cart_items')->insert([
-                    'cart_id'    => $cartId,
+                    'cart_id' => $cartId,
                     'product_id' => $pId,
-                    'quantity'   => $qty
+                    'quantity' => $qty
                 ]);
                 $cartTotal += $price * $qty;
             }
@@ -225,12 +226,18 @@ class DataSeeder extends Seeder
                 $price = $prodQuery->price;
 
                 $randStat = rand(1, 100);
-                if ($randStat < 10) $status = 'PENDING_VALIDATION';
-                elseif ($randStat < 30) $status = 'PAID';
-                elseif ($randStat < 50) $status = 'PREPARING';
-                elseif ($randStat < 70) $status = 'SHIPPED';
-                elseif ($randStat < 95) $status = 'DELIVERED';
-                else $status = 'CANCELLED';
+                if ($randStat < 10)
+                    $status = 'PENDING_VALIDATION';
+                elseif ($randStat < 30)
+                    $status = 'PAID';
+                elseif ($randStat < 50)
+                    $status = 'PREPARING';
+                elseif ($randStat < 70)
+                    $status = 'SHIPPED';
+                elseif ($randStat < 95)
+                    $status = 'DELIVERED';
+                else
+                    $status = 'CANCELLED';
 
                 $daysAgo = ($status === 'DELIVERED') ? rand(10, 100) : rand(0, 10);
                 $dateStr = "-$daysAgo days";
@@ -244,12 +251,12 @@ class DataSeeder extends Seeder
                     $reviewDate = date('Y-m-d H:i:s', strtotime($dateStr . " + " . rand(2, 5) . " days"));
 
                     $this->db->table('reviews')->insert([
-                        'customer_id'       => $cid,
-                        'product_id'        => $pId,
-                        'rating'            => $rating,
-                        'comment'           => $comment,
+                        'customer_id' => $cid,
+                        'product_id' => $pId,
+                        'rating' => $rating,
+                        'comment' => $comment,
                         'moderation_status' => (rand(0, 10) > 1) ? 'PUBLISHED' : 'REFUSED',
-                        'published_at'      => $reviewDate
+                        'published_at' => $reviewDate
                     ]);
                 }
             }
@@ -261,11 +268,11 @@ class DataSeeder extends Seeder
     private function createUser($email, $lastname, $firstname, $role)
     {
         $this->db->table('users')->insert([
-            'email'      => $email,
-            'password'   => password_hash('123456', PASSWORD_DEFAULT),
-            'lastname'   => $lastname,
-            'firstname'  => $firstname,
-            'role'       => $role,
+            'email' => $email,
+            'password' => password_hash('123456', PASSWORD_DEFAULT),
+            'lastname' => $lastname,
+            'firstname' => $firstname,
+            'role' => $role,
             'created_at' => date('Y-m-d H:i:s', strtotime('-' . rand(1, 12) . ' months'))
         ]);
         return $this->db->insertID();
@@ -274,18 +281,18 @@ class DataSeeder extends Seeder
     private function createProduct($seller, $cat, $title, $price, $stock, $status, $mat)
     {
         $data = [
-            'seller_id'         => $seller,
-            'category_id'       => $cat,
-            'title'             => $title,
-            'alias'             => url_title($title, '-', true),
-            'short_description' => "A unique piece: $title.", 
-            'long_description'  => "This $mat rug brings warmth and style to any interior. Hand-selected for its quality and unique pattern.",
-            'price'             => $price,
-            'stock_available'   => $stock,
-            'dimensions'        => rand(150, 300) . 'x' . rand(200, 400),
-            'material'          => $mat,
-            'product_status'    => $status,
-            'created_at'        => date('Y-m-d H:i:s', strtotime('-' . rand(1, 100) . ' days'))
+            'seller_id' => $seller,
+            'category_id' => $cat,
+            'title' => $title,
+            'alias' => url_title($title, '-', true),
+            'short_description' => "A unique piece: $title.",
+            'long_description' => "This $mat rug brings warmth and style to any interior. Hand-selected for its quality and unique pattern.",
+            'price' => $price,
+            'stock_available' => $stock,
+            'dimensions' => rand(150, 300) . 'x' . rand(200, 400),
+            'material' => $mat,
+            'product_status' => $status,
+            'created_at' => date('Y-m-d H:i:s', strtotime('-' . rand(1, 100) . ' days'))
         ];
         $this->db->table('products')->insert($data);
         return $this->db->insertID();
@@ -296,24 +303,24 @@ class DataSeeder extends Seeder
         $dateSQL = date('Y-m-d H:i:s', strtotime($dateStr));
         $total = $qty * $price;
         $this->db->table('orders')->insert([
-            'customer_id'          => $client,
-            'reference'            => 'CMD-' . strtoupper(bin2hex(random_bytes(4))),
-            'order_date'           => $dateSQL,
-            'status'               => $status,
-            'total_ttc'            => $total + 15.00,
-            'shipping_fees'        => 15.00,
-            'delivery_method'      => 'Express Carrier',
-            'delivery_street'      => rand(1, 150) . ' Republic Street',
+            'customer_id' => $client,
+            'reference' => 'CMD-' . strtoupper(bin2hex(random_bytes(4))),
+            'order_date' => $dateSQL,
+            'status' => $status,
+            'total_ttc' => $total + 15.00,
+            'shipping_fees' => 15.00,
+            'delivery_method' => 'Express Carrier',
+            'delivery_street' => rand(1, 150) . ' Republic Street',
             'delivery_postal_code' => str_pad(rand(1000, 95000), 5, '0', STR_PAD_LEFT),
-            'delivery_city'        => 'Paris',
-            'delivery_country'     => 'France'
+            'delivery_city' => 'Paris',
+            'delivery_country' => 'France'
         ]);
         $idCmd = $this->db->insertID();
         $this->db->table('order_items')->insert([
-            'order_id'      => $idCmd,
-            'product_id'    => $prod,
-            'quantity'      => $qty,
-            'unit_price'    => $price
+            'order_id' => $idCmd,
+            'product_id' => $prod,
+            'quantity' => $qty,
+            'unit_price' => $price
         ]);
         return $idCmd;
     }

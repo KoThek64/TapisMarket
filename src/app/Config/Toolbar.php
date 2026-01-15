@@ -38,7 +38,7 @@ class Toolbar extends BaseConfig
         Database::class,
         Logs::class,
         Views::class,
-        // \CodeIgniter\Debug\Toolbar\Collectors\Cache::class,
+            // \CodeIgniter\Debug\Toolbar\Collectors\Cache::class,
         Files::class,
         Routes::class,
         Events::class,
@@ -117,6 +117,12 @@ class Toolbar extends BaseConfig
      * @var list<string>
      */
     public array $watchedExtensions = [
-        'php', 'css', 'js', 'html', 'svg', 'json', 'env',
+        'php',
+        'css',
+        'js',
+        'html',
+        'svg',
+        'json',
+        'env',
     ];
 }

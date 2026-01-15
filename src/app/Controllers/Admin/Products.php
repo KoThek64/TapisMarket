@@ -9,11 +9,11 @@ class Products extends AdminBaseController
     public function index()
     {
         $data = array_merge($this->adminData, [
-            'title'                => 'Modération des Produits',
-            'subtitle'             => 'Validation et Conformité du catalogue',
-            'pendingProducts'      => $this->productModel->getPendingProductsPaginated(5),
-            'allProducts'          => $this->productModel->getAllProductsPaginated(10),
-            'pager'                => $this->productModel->pager,
+            'title' => 'Modération des Produits',
+            'subtitle' => 'Validation et Conformité du catalogue',
+            'pendingProducts' => $this->productModel->getPendingProductsPaginated(5),
+            'allProducts' => $this->productModel->getAllProductsPaginated(10),
+            'pager' => $this->productModel->pager,
         ]);
 
         return view('admin/products/index', $data);

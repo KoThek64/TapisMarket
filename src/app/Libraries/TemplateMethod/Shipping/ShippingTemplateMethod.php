@@ -19,12 +19,12 @@ abstract class ShippingTemplateMethod
     {
         $itemCount = 0;
         $totalCost = $this->shippingCostDefault();
-        
+
         if ($order->id) {
             $orderModel = new OrderModel();
             $itemCount = $orderModel->getItemCount($order->id);
         } elseif (!empty($order->items)) {
-             $itemCount = count($order->items);
+            $itemCount = count($order->items);
         }
 
         if ($itemCount > 1) {
@@ -34,9 +34,9 @@ abstract class ShippingTemplateMethod
         return $totalCost;
     }
 
-    abstract public function shippingCostDefault() : float;
+    abstract public function shippingCostDefault(): float;
 
-    abstract public function additionalCostPerItem() : float;
+    abstract public function additionalCostPerItem(): float;
 
     /**
      * Creates a ShippingStrategy instance based on the requested type.

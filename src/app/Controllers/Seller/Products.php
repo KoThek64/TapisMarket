@@ -52,17 +52,17 @@ class Products extends SellerBaseController
         }
 
         $data = array_merge($this->sellerData, [
-            'myProducts'        => $myProducts,
-            'pager'             => $pager,
+            'myProducts' => $myProducts,
+            'pager' => $pager,
             'isSellerValidated' => $isSellerValidated,
-            'search'            => $search,
-            'status'            => $status,
-            'stats'             => [
-                'total'    => $totalProducts,
+            'search' => $search,
+            'status' => $status,
+            'stats' => [
+                'total' => $totalProducts,
                 'lowStock' => $lowStockCount
             ],
-            'title'             => 'Mes Produits',
-            'subtitle'          => 'Gérez votre catalogue produit'
+            'title' => 'Mes Produits',
+            'subtitle' => 'Gérez votre catalogue produit'
         ]);
 
         return view('seller/products/index', $data);
@@ -86,8 +86,8 @@ class Products extends SellerBaseController
 
         $data = array_merge($this->sellerData, [
             'categories' => $categories,
-            'title'      => 'Nouveau Produit',
-            'subtitle'   => 'Ajoutez un produit à votre catalogue'
+            'title' => 'Nouveau Produit',
+            'subtitle' => 'Ajoutez un produit à votre catalogue'
         ]);
 
         return view('seller/products/create', $data);
@@ -112,7 +112,7 @@ class Products extends SellerBaseController
     // Affiche le formulaire de modification
     public function edit($productId)
     {
-        $product = $this->verifyProductOwnership((int)$productId);
+        $product = $this->verifyProductOwnership((int) $productId);
         if (!$product) {
             return redirect()->to('seller/products')->with('error', 'Produit introuvable ou accès refusé.');
         }
@@ -121,11 +121,11 @@ class Products extends SellerBaseController
         $categories = $this->categoryModel->orderBy('name', 'ASC')->findAll();
 
         $data = array_merge($this->sellerData, [
-            'product'         => $product,
-            'photos'          => $photos,
-            'categories'      => $categories,
-            'title'           => 'Modifier le produit',
-            'subtitle'        => 'Mettez à jour les informations et les photos'
+            'product' => $product,
+            'photos' => $photos,
+            'categories' => $categories,
+            'title' => 'Modifier le produit',
+            'subtitle' => 'Mettez à jour les informations et les photos'
         ]);
 
         return view('seller/products/edit', $data);
@@ -186,7 +186,7 @@ class Products extends SellerBaseController
             return $this->responseOrFail('ID manquant', 404);
         }
 
-        $product = $this->verifyProductOwnership((int)$productId);
+        $product = $this->verifyProductOwnership((int) $productId);
         if (!$product) {
             return redirect()->to('seller/products')->with('error', "Action non autorisée.");
         }

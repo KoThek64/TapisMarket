@@ -29,7 +29,7 @@ class Profile extends ClientBaseController
     public function update()
     {
         $userId = user_id();
-        
+
         $user = $this->userModel->find($userId);
         $customer = $this->customerModel->find($userId);
 
@@ -86,7 +86,7 @@ class Profile extends ClientBaseController
         $userId = user_id();
 
         $user = $this->userModel->find($userId);
-        
+
         $customer = $this->customerModel->find($userId);
 
         $addresses = $this->addressModel->where('user_id', $userId)->findAll();
@@ -119,9 +119,9 @@ class Profile extends ClientBaseController
 
         // Génération du fichier JSON
         $filename = 'export_donnees_tapis_' . date('Y-m-d') . '.json';
-        
+
         return $this->response->download(
-            $filename, 
+            $filename,
             json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
         );
     }

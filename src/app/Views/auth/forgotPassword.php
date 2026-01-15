@@ -3,10 +3,12 @@
 <?= $this->section("content") ?>
 
 <section class="min-h-screen flex items-center justify-center bg-body p-4">
-    <div class="w-full max-w-md bg-white p-8 rounded-custom shadow-md-custom border border-border-custom transform -translate-y-8">
+    <div
+        class="w-full max-w-md bg-white p-8 rounded-custom shadow-md-custom border border-border-custom transform -translate-y-8">
         <div class="text-center mb-6">
             <h1 class="font-serif text-2xl text-primary mb-2">Réinitialiser le mot de passe</h1>
-            <p class="font-sans text-muted text-sm">Entrez votre adresse email pour recevoir le lien de réinitialisation</p>
+            <p class="font-sans text-muted text-sm">Entrez votre adresse email pour recevoir le lien de réinitialisation
+            </p>
         </div>
 
         <?php if (isset($success) && $success): ?>
@@ -25,8 +27,11 @@
             </div>
 
             <div class="flex gap-3">
-                <button type="submit" class="flex-1 bg-accent text-white font-semibold py-3 rounded-xl text-center flex items-center justify-center">Envoyer le lien</button>
-                <a href="<?= base_url('/auth/login') ?>" class="flex-1 border border-border-custom py-3 rounded-xl text-center flex items-center justify-center">Annuler</a>
+                <button type="submit"
+                    class="flex-1 bg-accent text-white font-semibold py-3 rounded-xl text-center flex items-center justify-center">Envoyer
+                    le lien</button>
+                <a href="<?= base_url('/auth/login') ?>"
+                    class="flex-1 border border-border-custom py-3 rounded-xl text-center flex items-center justify-center">Annuler</a>
             </div>
         </form>
 

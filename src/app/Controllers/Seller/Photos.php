@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controllers\Seller;
 
 use Exception;
@@ -18,7 +17,7 @@ class Photos extends SellerBaseController
 
     public function create($productId)
     {
-        $productId = (int)$productId;
+        $productId = (int) $productId;
         $files = $this->request->getFiles()['photos'] ?? [];
 
         $result = $this->processUploads($productId, $files);
@@ -32,7 +31,7 @@ class Photos extends SellerBaseController
 
     public function update($productId, $photoId)
     {
-        $productId = (int)$productId;
+        $productId = (int) $productId;
         $setAsMain = $this->request->getPost('set_as_main') === '1';
 
         $photo = $this->photoModel->find($photoId);
@@ -49,7 +48,7 @@ class Photos extends SellerBaseController
 
     public function delete($productId, $photoId)
     {
-        $productId = (int)$productId;
+        $productId = (int) $productId;
 
         $photo = $this->photoModel->find($photoId);
         if (!$photo || $photo->product_id != $productId) {
@@ -60,11 +59,13 @@ class Photos extends SellerBaseController
             return $this->response->setStatusCode(404)->setJSON(['error' => 'Vous devez avoir au moins une photo.']);
         }
 
-        if ($this->deletePhoto([
-            'id'         => $photo->id,
-            'product_id' => $photo->product_id,
-            'file_name'  => $photo->file_name
-        ])) {
+        if (
+            $this->deletePhoto([
+                'id' => $photo->id,
+                'product_id' => $photo->product_id,
+                'file_name' => $photo->file_name
+            ])
+        ) {
             return $this->response->setStatusCode(200)->setJSON(['message' => 'Photo supprimée avec succès.']);
         } else {
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Échec de la suppression de la photo.']);
@@ -90,7 +91,8 @@ class Photos extends SellerBaseController
         $currentCount = $this->countPhotos($productId);
         $validFileCount = 0;
         foreach ($files as $f) {
-            if ($f->isValid() && !$f->hasMoved()) $validFileCount++;
+            if ($f->isValid() && !$f->hasMoved())
+                $validFileCount++;
         }
 
         if (($currentCount + $validFileCount) > 5) {
@@ -146,8 +148,8 @@ class Photos extends SellerBaseController
                 $displayOrder = $this->photoModel->getNextDisplayOrder($productId);
 
                 $photoId = $this->photoModel->insert([
-                    'product_id'    => $productId,
-                    'file_name'     => $newName,
+                    'product_id' => $productId,
+                    'file_name' => $newName,
                     'display_order' => $displayOrder
                 ]);
 
@@ -157,9 +159,9 @@ class Photos extends SellerBaseController
 
                 // On ajoute les infos de la photo uploadée à la liste
                 $uploadedData[] = [
-                    'id'   => $photoId,
+                    'id' => $photoId,
                     'name' => $newName,
-                    'url'  => base_url('uploads/products/' . $productId . '/' . $newName)
+                    'url' => base_url('uploads/products/' . $productId . '/' . $newName)
                 ];
 
             } catch (Exception $e) {
@@ -194,7 +196,8 @@ class Photos extends SellerBaseController
         $productDir = PATH_PRODUCTS . $productId . '/';
 
         foreach ($dbPhotos as $photo) {
-            if (empty($photo['file_name'])) continue;
+            if (empty($photo['file_name']))
+                continue;
             if (!file_exists($productDir . $photo['file_name'])) {
                 $this->photoModel->delete($photo['id']);
             }

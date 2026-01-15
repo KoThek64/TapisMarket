@@ -1,11 +1,13 @@
 <header
     class="h-24 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-20">
-    
+
     <div class="flex items-center gap-4">
         <div class="lg:hidden">
-            <button onclick="toggleSidebar()" class="p-2 bg-white border border-border rounded-lg shadow-sm text-primary hover:bg-gray-50">
+            <button onclick="toggleSidebar()"
+                class="p-2 bg-white border border-border rounded-lg shadow-sm text-primary hover:bg-gray-50">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
                 </svg>
             </button>
         </div>

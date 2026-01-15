@@ -31,17 +31,17 @@ defined('PATH_PRODUCTS') || define('PATH_PRODUCTS', FCPATH . 'uploads/products/'
 // les contraintes pour les images uploadées
 defined('MAX_UPLOAD_SIZE') || define('MAX_UPLOAD_SIZE', 5 * 1024); // 5 MB 
 defined('ALLOWED_IMAGE_TYPES') || define('ALLOWED_IMAGE_TYPES', 'image/jpg,image/jpeg,image/png,image/webp'); // les types autorisés
-defined('MAX_IMAGE_DIMENSION') || define('MAX_IMAGE_DIMENSION', 2048); 
+defined('MAX_IMAGE_DIMENSION') || define('MAX_IMAGE_DIMENSION', 2048);
 
 //role user
-defined('ROLE_ADMIN')   || define('ROLE_ADMIN', 'ADMIN');
-defined('ROLE_SELLER')  || define('ROLE_SELLER', 'SELLER');
-defined('ROLE_CUSTOMER')|| define('ROLE_CUSTOMER', 'CUSTOMER');
+defined('ROLE_ADMIN') || define('ROLE_ADMIN', 'ADMIN');
+defined('ROLE_SELLER') || define('ROLE_SELLER', 'SELLER');
+defined('ROLE_CUSTOMER') || define('ROLE_CUSTOMER', 'CUSTOMER');
 
 //statu général
-defined('STATUS_PENDING')  || define('STATUS_PENDING', 'PENDING_VALIDATION');
+defined('STATUS_PENDING') || define('STATUS_PENDING', 'PENDING_VALIDATION');
 defined('STATUS_APPROVED') || define('STATUS_APPROVED', 'APPROVED');
-defined('STATUS_REFUSED')  || define('STATUS_REFUSED', 'REFUSED');
+defined('STATUS_REFUSED') || define('STATUS_REFUSED', 'REFUSED');
 
 //status vendeur
 defined('SELLER_PENDING') || define('SELLER_PENDING', 'PENDING_VALIDATION');
@@ -50,16 +50,16 @@ defined('SELLER_REFUSED') || define('SELLER_REFUSED', 'REFUSED');
 defined('SELLER_SUSPENDED') || define('SELLER_SUSPENDED', 'SUSPENDED');
 
 //status commande
-defined('ORDER_PENDING')   || define('ORDER_PENDING', 'PENDING_VALIDATION');
+defined('ORDER_PENDING') || define('ORDER_PENDING', 'PENDING_VALIDATION');
 defined('ORDER_PREPARING') || define('ORDER_PREPARING', 'PREPARING');
 defined('ORDER_CANCELLED') || define('ORDER_CANCELLED', 'CANCELLED');
-defined('ORDER_PAID')      || define('ORDER_PAID', 'PAID');
-defined('ORDER_SHIPPED')   || define('ORDER_SHIPPED', 'SHIPPED');
+defined('ORDER_PAID') || define('ORDER_PAID', 'PAID');
+defined('ORDER_SHIPPED') || define('ORDER_SHIPPED', 'SHIPPED');
 defined('ORDER_DELIVERED') || define('ORDER_DELIVERED', 'DELIVERED');
 
 //status avis
 defined('REVIEW_PUBLISHED') || define('REVIEW_PUBLISHED', 'PUBLISHED');
-defined('REVIEW_REFUSED')   || define('REVIEW_REFUSED', 'REFUSED');
+defined('REVIEW_REFUSED') || define('REVIEW_REFUSED', 'REFUSED');
 
 //image par defaut
 defined('DEFAULT_PRODUCT_IMAGE') || define('DEFAULT_PRODUCT_IMAGE', 'https://placehold.co/600x400/EEE/31343C?font=montserrat&text=No+Image');
@@ -74,11 +74,11 @@ defined('DEFAULT_PRODUCT_IMAGE') || define('DEFAULT_PRODUCT_IMAGE', 'https://pla
  */
 defined('SECOND') || define('SECOND', 1);
 defined('MINUTE') || define('MINUTE', 60);
-defined('HOUR')   || define('HOUR', 3600);
-defined('DAY')    || define('DAY', 86400);
-defined('WEEK')   || define('WEEK', 604800);
-defined('MONTH')  || define('MONTH', 2_592_000);
-defined('YEAR')   || define('YEAR', 31_536_000);
+defined('HOUR') || define('HOUR', 3600);
+defined('DAY') || define('DAY', 86400);
+defined('WEEK') || define('WEEK', 604800);
+defined('MONTH') || define('MONTH', 2_592_000);
+defined('YEAR') || define('YEAR', 31_536_000);
 defined('DECADE') || define('DECADE', 315_360_000);
 
 /*
@@ -106,23 +106,24 @@ defined('DECADE') || define('DECADE', 315_360_000);
  |       http://tldp.org/LDP/abs/html/exitcodes.html
  |
  */
-defined('EXIT_SUCCESS')        || define('EXIT_SUCCESS', 0);        // no errors
-defined('EXIT_ERROR')          || define('EXIT_ERROR', 1);          // generic error
-defined('EXIT_CONFIG')         || define('EXIT_CONFIG', 3);         // configuration error
-defined('EXIT_UNKNOWN_FILE')   || define('EXIT_UNKNOWN_FILE', 4);   // file not found
-defined('EXIT_UNKNOWN_CLASS')  || define('EXIT_UNKNOWN_CLASS', 5);  // unknown class
+defined('EXIT_SUCCESS') || define('EXIT_SUCCESS', 0);        // no errors
+defined('EXIT_ERROR') || define('EXIT_ERROR', 1);          // generic error
+defined('EXIT_CONFIG') || define('EXIT_CONFIG', 3);         // configuration error
+defined('EXIT_UNKNOWN_FILE') || define('EXIT_UNKNOWN_FILE', 4);   // file not found
+defined('EXIT_UNKNOWN_CLASS') || define('EXIT_UNKNOWN_CLASS', 5);  // unknown class
 defined('EXIT_UNKNOWN_METHOD') || define('EXIT_UNKNOWN_METHOD', 6); // unknown class member
-defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7);     // invalid user input
-defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database error
-defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
-defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
+defined('EXIT_USER_INPUT') || define('EXIT_USER_INPUT', 7);     // invalid user input
+defined('EXIT_DATABASE') || define('EXIT_DATABASE', 8);       // database error
+defined('EXIT__AUTO_MIN') || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
+defined('EXIT__AUTO_MAX') || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
 
-defined('FREE_SHIPPING_COST_DEFAULT')           || define('FREE_SHIPPING_COST_DEFAULT', 0.00);           // Free
-defined('STANDARD_SHIPPING_COST_DEFAULT')       || define('STANDARD_SHIPPING_COST_DEFAULT', 14.99);      // Default cost
-defined('EXPRESS_SHIPPING_COST_DEFAULT')        || define('EXPRESS_SHIPPING_COST_DEFAULT', 24.99);       // More expensive express delivery
-defined('INTERNATIONAL_SHIPPING_COST_DEFAULT')  || define('INTERNATIONAL_SHIPPING_COST_DEFAULT', 39.99); // Higher shipping costs for international
+defined('FREE_SHIPPING_COST_DEFAULT') || define('FREE_SHIPPING_COST_DEFAULT', 0.00);           // Free
+defined('STANDARD_SHIPPING_COST_DEFAULT') || define('STANDARD_SHIPPING_COST_DEFAULT', 14.99);      // Default cost
+defined('EXPRESS_SHIPPING_COST_DEFAULT') || define('EXPRESS_SHIPPING_COST_DEFAULT', 24.99);       // More expensive express delivery
+defined('INTERNATIONAL_SHIPPING_COST_DEFAULT') || define('INTERNATIONAL_SHIPPING_COST_DEFAULT', 39.99); // Higher shipping costs for international
 
-defined('FREE_ADDITIONAL_COST_PER_ITEM')           || define('FREE_ADDITIONAL_COST_PER_ITEM', 0.00);          // Free
-defined('STANDARD_ADDITIONAL_COST_PER_ITEM')       || define('STANDARD_ADDITIONAL_COST_PER_ITEM', 0.00);      // Free
-defined('EXPRESS_ADDITIONAL_COST_PER_ITEM')        || define('EXPRESS_ADDITIONAL_COST_PER_ITEM', 2.00);       // More expensive cost per item for express delivery
-defined('INTERNATIONAL_ADDITIONAL_COST_PER_ITEM')  || define('INTERNATIONAL_ADDITIONAL_COST_PER_ITEM', 2.50); // Higher cost per item for international delivery
+defined('FREE_ADDITIONAL_COST_PER_ITEM') || define('FREE_ADDITIONAL_COST_PER_ITEM', 0.00);          // Free
+defined('STANDARD_ADDITIONAL_COST_PER_ITEM') || define('STANDARD_ADDITIONAL_COST_PER_ITEM', 0.00);      // Free
+defined('EXPRESS_ADDITIONAL_COST_PER_ITEM') || define('EXPRESS_ADDITIONAL_COST_PER_ITEM', 2.00);       // More expensive cost per item for express delivery
+defined('INTERNATIONAL_ADDITIONAL_COST_PER_ITEM') || define('INTERNATIONAL_ADDITIONAL_COST_PER_ITEM', 2.50); // Higher cost per item for international delivery
+

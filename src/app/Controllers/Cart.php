@@ -17,12 +17,12 @@ class Cart extends BaseController
     {
         $this->cartModel = new CartModel();
         $this->cartItemModel = new CartItemModel();
-        
+
         helper('auth');
         $this->userId = user_id(); // Récupère l'ID depuis la session
     }
 
-    private function getCartUserId() 
+    private function getCartUserId()
     {
         // Deprecated: logic handled inline
         return $this->userId;
@@ -53,7 +53,7 @@ class Cart extends BaseController
 
             if (!empty($guestCart)) {
                 $ids = array_keys($guestCart);
-                
+
                 // On récupère les infos produits
                 $dbItems = $this->cartModel->builder('products')
                     ->select('products.id as product_id, products.price, products.title, products.alias, products.stock_available, products.short_description, categories.name as category_name, product_photos.file_name as image')
@@ -66,7 +66,7 @@ class Cart extends BaseController
                 foreach ($dbItems as $row) {
                     $pid = $row['product_id'];
                     $qty = $guestCart[$pid];
-                    
+
                     $row['quantity'] = $qty;
                     // Hydrate CartItem entity
                     $itemEntity = new \App\Entities\CartItem($row);
@@ -80,12 +80,12 @@ class Cart extends BaseController
             // Fake Cart entity
             $cart = new \App\Entities\Cart();
             $cart->total = $total;
-            $cart->id = 0; 
+            $cart->id = 0;
         }
 
         return view('pages/cart', [
-            'cart'       => $cart,
-            'items'      => $items,
+            'cart' => $cart,
+            'items' => $items,
             'totalItems' => $totalItems
         ]);
     }
@@ -94,8 +94,9 @@ class Cart extends BaseController
     {
         $productId = $this->request->getPost('product_id');
         $quantity = (int) $this->request->getPost('quantity');
-        
-        if (!$productId) return redirect()->back();
+
+        if (!$productId)
+            return redirect()->back();
 
         // Si qté <= 0 on considère que c'est suppression
         if ($quantity <= 0) {
@@ -106,7 +107,7 @@ class Cart extends BaseController
 
         if ($this->userId) {
             $cart = $this->cartModel->getActiveCart($this->userId);
-            
+
             // Vérification du stock via le modèle
             if ($productModel->hasSufficientStock($productId, $quantity)) {
                 $this->cartItemModel->updateQuantity($cart->id, $productId, $quantity);
@@ -123,8 +124,8 @@ class Cart extends BaseController
                 $cart[$productId] = $quantity;
                 $session->set('guest_cart', $cart);
             } else {
-                 set_error("Stock insuffisant pour ce produit.");
-                 return redirect()->back()->withInput();
+                set_error("Stock insuffisant pour ce produit.");
+                return redirect()->back()->withInput();
             }
         }
 
@@ -135,7 +136,7 @@ class Cart extends BaseController
     {
         if ($this->userId) {
             $cart = $this->cartModel->getActiveCart($this->userId);
-            
+
             $this->cartItemModel->removeItem($cart->id, $productId);
             $this->cartModel->updateTotal($cart->id);
         } else {
@@ -161,18 +162,19 @@ class Cart extends BaseController
         $productId = $this->request->getPost('product_id');
         $quantity = (int) ($this->request->getPost('quantity') ?? 1);
 
-        if (!$productId) return redirect()->back();
+        if (!$productId)
+            return redirect()->back();
 
         $productModel = new ProductModel();
 
         if ($this->userId) {
             $cart = $this->cartModel->getActiveCart($this->userId);
-            
+
             // On regarde combien on en a déjà dans le panier
             $existingItem = $this->cartItemModel->where('cart_id', $cart->id)
-                                                ->where('product_id', $productId)
-                                                ->first();
-            
+                ->where('product_id', $productId)
+                ->first();
+
             $currentQty = $existingItem ? $existingItem->quantity : 0;
             $newTotalQty = $currentQty + $quantity;
 
@@ -191,17 +193,17 @@ class Cart extends BaseController
             // Guest Add
             $session = session();
             $cart = $session->get('guest_cart') ?? [];
-            
+
             $currentQty = $cart[$productId] ?? 0;
             $newTotalQty = $currentQty + $quantity;
-            
-             if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
-                 $cart[$productId] = $newTotalQty;
-                 $session->set('guest_cart', $cart);
-             } else {
+
+            if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
+                $cart[$productId] = $newTotalQty;
+                $session->set('guest_cart', $cart);
+            } else {
                 set_error("Stock insuffisant (Max disponible dépassé).");
                 return redirect()->back()->withInput();
-             }
+            }
         }
 
         return redirect()->to('cart');
@@ -215,7 +217,7 @@ class Cart extends BaseController
         } else {
             session()->remove('guest_cart');
         }
-        
+
         return redirect()->to('cart');
     }
 }

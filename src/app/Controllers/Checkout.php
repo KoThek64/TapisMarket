@@ -59,37 +59,37 @@ class Checkout extends BaseController
         }
 
         $rules = [
-            'address'     => [
-                'rules'  => 'required|min_length[5]',
+            'address' => [
+                'rules' => 'required|min_length[5]',
                 'errors' => ['required' => 'L\'adresse est requise.', 'min_length' => 'L\'adresse est trop courte.']
             ],
-            'city'        => [
-                'rules'  => 'required|min_length[2]',
+            'city' => [
+                'rules' => 'required|min_length[2]',
                 'errors' => ['required' => 'La ville est requise.']
             ],
-            'zip'         => [
-                'rules'  => 'required|numeric|min_length[4]',
+            'zip' => [
+                'rules' => 'required|numeric|min_length[4]',
                 'errors' => ['numeric' => 'Le code postal doit être numérique.']
             ],
             'card_number' => [
-                'rules'  => 'required|regex_match[/^[0-9\s]{16,23}$/]',
+                'rules' => 'required|regex_match[/^[0-9\s]{16,23}$/]',
                 'errors' => ['regex_match' => 'Le numéro de carte doit contenir 16 chiffres.']
             ],
             'card_expiry' => [
-                'rules'  => 'required|regex_match[/^(0[1-9]|1[0-2])\/[0-9]{2}$/]',
+                'rules' => 'required|regex_match[/^(0[1-9]|1[0-2])\/[0-9]{2}$/]',
                 'errors' => ['regex_match' => 'La date d\'expiration doit être au format MM/YY (ex: 12/25).']
             ],
-            'card_cvc'    => [
-                'rules'  => 'required|numeric|min_length[3]|max_length[4]',
+            'card_cvc' => [
+                'rules' => 'required|numeric|min_length[3]|max_length[4]',
                 'errors' => ['numeric' => 'Le CVC est invalide.']
             ],
             'shipping_method' => [
-                'rules'  => 'required|in_list[standard,express,international,free]',
+                'rules' => 'required|in_list[standard,express,international,free]',
                 'errors' => ['required' => 'Veuillez choisir un mode de livraison.', 'in_list' => 'Mode de livraison invalide.']
             ],
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             // Récupération des adresses pour réaffichage
             $cartData['addresses'] = $this->addressModel->where('user_id', $this->userId)->findAll();
 
@@ -101,14 +101,14 @@ class Checkout extends BaseController
         // Préparation des données pour le modèle
         $shippingDetails = [
             'address' => $this->request->getPost('address'),
-            'city'    => $this->request->getPost('city'),
-            'zip'     => $this->request->getPost('zip'),
-            'method'  => $this->request->getPost('shipping_method'),
+            'city' => $this->request->getPost('city'),
+            'zip' => $this->request->getPost('zip'),
+            'method' => $this->request->getPost('shipping_method'),
         ];
 
         // Sauvegarde de la nouvelle adresse si demandé
         if ($this->request->getPost('save_address')) {
-            
+
             $rawAddress = $shippingDetails['address'];
             $number = null;
             $street = $rawAddress;
@@ -120,12 +120,12 @@ class Checkout extends BaseController
             }
 
             $this->addressModel->insert([
-                'user_id'     => $this->userId,
-                'number'      => $number,
-                'street'      => $street,
+                'user_id' => $this->userId,
+                'number' => $number,
+                'street' => $street,
                 'postal_code' => $shippingDetails['zip'],
-                'city'        => $shippingDetails['city'],
-                'country'     => 'France'
+                'city' => $shippingDetails['city'],
+                'country' => 'France'
             ]);
         }
 
@@ -173,8 +173,8 @@ class Checkout extends BaseController
 
         $orderData = [
             'customer_id' => $userId,
-            'status'      => defined('ORDER_PAID') ? ORDER_PAID : 'PAID',
-            'total_ttc'   => $cart->total,
+            'status' => defined('ORDER_PAID') ? ORDER_PAID : 'PAID',
+            'total_ttc' => $cart->total,
             'shipping_fees' => 0, // Will be calculated in model
             'delivery_method' => ucfirst($shippingDetails['method'] ?? 'Standard'),
             'delivery_street' => $shippingDetails['address'],

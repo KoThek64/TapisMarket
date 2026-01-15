@@ -18,7 +18,7 @@ trait ImageTrait
         if (strpos($filename, 'http') === 0) {
             return $filename;
         }
-        
+
         return base_url('uploads/products/' . $this->id . '/' . $filename);
     }
 

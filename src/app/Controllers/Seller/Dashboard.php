@@ -19,7 +19,8 @@ class Dashboard extends SellerBaseController
         $countRating = $ratingData['count'];
 
         $recentSales = $this->orderItemModel->getSellerSales($userId, 5);
-        if (!$recentSales) $recentSales = [];
+        if (!$recentSales)
+            $recentSales = [];
 
         $user = $this->sellerModel->find($userId);
 

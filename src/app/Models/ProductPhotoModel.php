@@ -7,16 +7,16 @@ use App\Entities\ProductPhoto;
 
 class ProductPhotoModel extends Model
 {
-    protected $table            = 'product_photos';
-    protected $primaryKey       = 'id';
-    protected $returnType       = ProductPhoto::class;
+    protected $table = 'product_photos';
+    protected $primaryKey = 'id';
+    protected $returnType = ProductPhoto::class;
 
-    protected $allowedFields    = ['product_id', 'file_name', 'display_order'];
+    protected $allowedFields = ['product_id', 'file_name', 'display_order'];
 
     // Règles de validation (pour les champs BDD)
     protected $validationRules = [
-        'product_id'    => 'required|integer',
-        'file_name'     => 'required|max_length[255]',
+        'product_id' => 'required|integer',
+        'file_name' => 'required|max_length[255]',
         'display_order' => 'integer'
     ];
 
@@ -38,31 +38,31 @@ class ProductPhotoModel extends Model
     public function getGallery(int $productId)
     {
         return $this->where('product_id', $productId)
-                    ->orderBy('display_order', 'ASC')
-                    ->findAll();
+            ->orderBy('display_order', 'ASC')
+            ->findAll();
     }
 
-    
+
     // recupere l'image de couverture
     public function getMainImage(int $productId)
     {
         return $this->where('product_id', $productId)
-                    ->orderBy('display_order', 'ASC') 
-                    ->first();
+            ->orderBy('display_order', 'ASC')
+            ->first();
     }
 
-    
+
     // definit une image principale
     public function setMain(int $photoId, int $productId)
     {
-        
+
         $this->where('product_id', $productId)
-             ->set(['display_order' => 2])
-             ->update();
+            ->set(['display_order' => 2])
+            ->update();
 
         return $this->update($photoId, ['display_order' => 1]);
     }
-    
+
     // supprime toutes les photos d'un produit
     public function deleteAll(int $productId)
     {
@@ -73,13 +73,14 @@ class ProductPhotoModel extends Model
     public function getNextDisplayOrder(int $productId): int
     {
         $hasCover = $this->where('product_id', $productId)
-                         ->where('display_order', 1)
-                         ->countAllResults() > 0;
-        if (!$hasCover) return 1;
-        
+            ->where('display_order', 1)
+            ->countAllResults() > 0;
+        if (!$hasCover)
+            return 1;
+
         $maxOrder = $this->where('product_id', $productId)
-                         ->selectMax('display_order')
-                         ->first();
+            ->selectMax('display_order')
+            ->first();
         return ($maxOrder->display_order ?? 0) + 1;
     }
 
@@ -87,7 +88,7 @@ class ProductPhotoModel extends Model
     public function getPhotosByProduct(int $productId)
     {
         return $this->where('product_id', $productId)
-                    ->orderBy('display_order', 'ASC')
-                    ->findAll();
+            ->orderBy('display_order', 'ASC')
+            ->findAll();
     }
 }

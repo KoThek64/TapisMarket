@@ -6,12 +6,12 @@ use CodeIgniter\Entity\Entity;
 use App\Traits\ImageTrait;
 
 class Category extends Entity
-{   
+{
     use ImageTrait;
 
     protected $datamap = [];
-    protected $dates   = [];
-    protected $casts   = [
+    protected $dates = [];
+    protected $casts = [
         'id' => 'integer',
     ];
 
@@ -27,8 +27,8 @@ class Category extends Entity
         if (!empty($this->attributes['alias'])) {
             return base_url('category/' . $this->attributes['alias']);
         }
-        
+
         return base_url('category/' . $this->attributes['id']);
     }
-    
+
 }

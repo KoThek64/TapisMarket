@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use App\Traits\PriceTrait; 
+use App\Traits\PriceTrait;
 use App\Traits\ImageTrait;
 use App\Traits\RatingTrait;
 
@@ -14,25 +14,25 @@ class Product extends Entity
     use RatingTrait;
 
     protected $dates = [
-        'created_at', 
+        'created_at',
         'updated_at',
         'deleted_at'
     ];
 
     protected $casts = [
-        'id'               => 'integer',
-        'price'            => 'float',
-        'stock_available'  => 'integer',
-        'seller_id'        => 'integer',
-        'category_id'      => 'integer',
-        'average_rating'   => 'float',
+        'id' => 'integer',
+        'price' => 'float',
+        'stock_available' => 'integer',
+        'seller_id' => 'integer',
+        'category_id' => 'integer',
+        'average_rating' => 'float',
     ];
 
     //Check if product is available
     public function isAvailable(): bool
     {
         return (
-            $this->attributes['product_status'] === STATUS_APPROVED && 
+            $this->attributes['product_status'] === STATUS_APPROVED &&
             $this->attributes['stock_available'] > 0
         );
     }
@@ -66,7 +66,7 @@ class Product extends Entity
     public function getImage(): string
     {
         $img = $this->attributes['image'] ?? $this->attributes['file_name'] ?? null;
-        
+
         return $this->getUrlImage($img);
     }
 

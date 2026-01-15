@@ -10,8 +10,8 @@ class Home extends BaseController
     {
         $productModel = new ProductModel();
 
-        $data['products'] = $productModel->getAllWithImage(6); 
-        
+        $data['products'] = $productModel->getAllWithImage(6);
+
         return view('home', $data);
     }
 
@@ -22,7 +22,7 @@ class Home extends BaseController
 
     public function confidentiality()
     {
-        
+
         return view('pages/confidentiality');
     }
 
@@ -36,7 +36,8 @@ class Home extends BaseController
         return view('pages/faq');
     }
 
-    public function sellerValidationError() {
+    public function sellerValidationError()
+    {
         return view('pages/seller-validation-error');
     }
 }

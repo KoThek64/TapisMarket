@@ -11,6 +11,7 @@ $inactiveClasses = 'text-muted hover:bg-cream hover:text-accent font-medium';
     <?= icon($item['icon_name']) ?>
     <?= $item['name'] ?>
     <?php if (!empty($item['number'])): ?>
-        <span class="ml-auto bg-orange-100 text-orange-700 py-0.5 px-2 rounded-full text-xs font-bold"><?= $item['number'] ?></span>
+        <span
+            class="ml-auto bg-orange-100 text-orange-700 py-0.5 px-2 rounded-full text-xs font-bold"><?= $item['number'] ?></span>
     <?php endif; ?>
 </a>

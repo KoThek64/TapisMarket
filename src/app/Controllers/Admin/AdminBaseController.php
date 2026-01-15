@@ -27,7 +27,7 @@ class AdminBaseController extends BaseController
 
         $this->adminData = [
             'pendingProductsCount' => $this->productModel->countPendingProducts(),
-            'pendingSellersCount'  => $this->sellerModel->countSellersPendingValidation(),
+            'pendingSellersCount' => $this->sellerModel->countSellersPendingValidation(),
         ];
     }
 
@@ -39,11 +39,11 @@ class AdminBaseController extends BaseController
         }
 
         $modelMap = [
-            'productModel'  => ProductModel::class,
-            'sellerModel'   => SellerModel::class,
-            'userModel'     => UserModel::class,
-            'orderModel'    => OrderModel::class,
-            'reviewModel'   => ReviewModel::class,
+            'productModel' => ProductModel::class,
+            'sellerModel' => SellerModel::class,
+            'userModel' => UserModel::class,
+            'orderModel' => OrderModel::class,
+            'reviewModel' => ReviewModel::class,
             'categoryModel' => CategoryModel::class,
         ];
 

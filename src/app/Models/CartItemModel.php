@@ -7,31 +7,31 @@ use App\Entities\CartItem;
 
 class CartItemModel extends Model
 {
-    protected $table            = 'cart_items';
-    protected $primaryKey       = 'item_id'; 
-    protected $useAutoIncrement = true;       
-    protected $returnType       = CartItem::class;
+    protected $table = 'cart_items';
+    protected $primaryKey = 'item_id';
+    protected $useAutoIncrement = true;
+    protected $returnType = CartItem::class;
 
-    protected $allowedFields    = ['item_id', 'cart_id', 'product_id', 'quantity'];
+    protected $allowedFields = ['item_id', 'cart_id', 'product_id', 'quantity'];
 
-    protected $validationRules  = [
+    protected $validationRules = [
         'quantity' => 'required|integer|greater_than[0]',
     ];
 
     public function addItem($cartId, $productId, $quantity)
     {
         $item = $this->where('cart_id', $cartId)
-                      ->where('product_id', $productId)
-                      ->first();
+            ->where('product_id', $productId)
+            ->first();
 
         if ($item) {
             $item->quantity += $quantity;
-            return $this->save($item); 
+            return $this->save($item);
         } else {
             return $this->insert([
-                'cart_id'    => $cartId,
+                'cart_id' => $cartId,
                 'product_id' => $productId,
-                'quantity'   => $quantity
+                'quantity' => $quantity
             ]);
         }
     }
@@ -44,25 +44,25 @@ class CartItemModel extends Model
         }
 
         return $this->where('cart_id', $cartId)
-                    ->where('product_id', $productId)
-                    ->set(['quantity' => $newQuantity])
-                    ->update();
+            ->where('product_id', $productId)
+            ->set(['quantity' => $newQuantity])
+            ->update();
     }
 
     // Removes a product from the cart
     public function removeItem($cartId, $productId)
     {
         return $this->where('cart_id', $cartId)
-                    ->where('product_id', $productId)
-                    ->delete();
+            ->where('product_id', $productId)
+            ->delete();
     }
 
     // Returns the total number of items for the header
     public function getTotalItemsCount($cartId): int
     {
         $result = $this->selectSum('quantity')
-                       ->where('cart_id', $cartId)
-                       ->first();
+            ->where('cart_id', $cartId)
+            ->first();
 
         return (int) ($result->quantity ?? 0);
     }

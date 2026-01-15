@@ -31,10 +31,10 @@ $activeClass = "font-medium text-accent-light border-b-2 border-accent-light";
                 use \App\Enums\UserRole;
                 $dashboardUrl = base_url('/auth/login');
                 if ($role = user_role()) {
-                    $dashboardUrl = match($role) {
+                    $dashboardUrl = match ($role) {
                         UserRole::CLIENT => base_url('/client'),
                         UserRole::SELLER => base_url('/seller'),
-                        UserRole::ADMIN  => base_url('/admin'),
+                        UserRole::ADMIN => base_url('/admin'),
                     };
                 }
                 ?>
@@ -46,23 +46,27 @@ $activeClass = "font-medium text-accent-light border-b-2 border-accent-light";
             </ul>
         </nav>
 
-    <div class="flex items-center gap-6">
+        <div class="flex items-center gap-6">
             <a href="<?= base_url('/cart') ?>" class="relative group" aria-label="Panier">
-                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" class="w-6 transition-transform group-hover:scale-110" alt="Panier" />
-                 <?php $cartCount = count_cart_items(); ?>
+                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                    class="w-6 transition-transform group-hover:scale-110" alt="Panier" />
+                <?php $cartCount = count_cart_items(); ?>
                 <?php if ($cartCount > 0): ?>
-                    <span class="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-sm">
+                    <span
+                        class="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-sm">
                         <?= $cartCount > 99 ? '99+' : $cartCount ?>
                     </span>
                 <?php endif; ?>
             </a>
-            
+
             <?php if (user_id()): ?>
-                <a href="<?= base_url('/auth/logout') ?>" class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
+                <a href="<?= base_url('/auth/logout') ?>"
+                    class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
                     <span>Déconnexion</span>
                 </a>
             <?php else: ?>
-                <a href="<?= base_url('/auth/login') ?>" class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
+                <a href="<?= base_url('/auth/login') ?>"
+                    class="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold rounded transition-all duration-300 hover:bg-accent hover:-translate-y-1 hover:shadow-lg px-5 py-2.5 text-sm font-semibold hover:bg-opacity-90 shadow-none hover:shadow-md">
                     <span>Connexion</span>
                 </a>
             <?php endif; ?>

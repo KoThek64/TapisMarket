@@ -10,10 +10,10 @@ class Reviews extends AdminBaseController
         $filter = $this->request->getGet('filter');
 
         $data = array_merge($this->adminData, [
-            'title'         => 'Gestion des Avis',
+            'title' => 'Gestion des Avis',
             'subtitle' => 'Modération des commentaires publiés',
-            'reviews'       => $this->reviewModel->getReviewsByFilter($filter, 10),
-            'pager'         => $this->reviewModel->pager,
+            'reviews' => $this->reviewModel->getReviewsByFilter($filter, 10),
+            'pager' => $this->reviewModel->pager,
             'currentFilter' => $filter,
             'criticalCount' => $this->reviewModel->countCriticalReviews(),
         ]);
@@ -39,7 +39,7 @@ class Reviews extends AdminBaseController
             $this->reviewModel->delete($id);
             return redirect()->back()->with('success', 'Avis supprimé définitivement.');
         }
-        
+
         return redirect()->back()->with('error', 'Avis introuvable.');
     }
 }

@@ -8,16 +8,16 @@ use App\Models\UserModel;
 
 class SellerModel extends Model
 {
-    protected $table            = 'sellers';
-    protected $primaryKey       = 'user_id';
-    protected $returnType       = Seller::class;
+    protected $table = 'sellers';
+    protected $primaryKey = 'user_id';
+    protected $returnType = Seller::class;
 
     protected $useAutoIncrement = false;
 
-    protected $useSoftDeletes   = true;
-    protected $deletedField     = 'deleted_at';
+    protected $useSoftDeletes = true;
+    protected $deletedField = 'deleted_at';
 
-    protected $allowedFields    = [
+    protected $allowedFields = [
         'user_id',
         'shop_name',
         'shop_description',
@@ -30,8 +30,8 @@ class SellerModel extends Model
     protected $validationRules = [
         'user_id' => 'required',
         'shop_name' => 'required|min_length[3]',
-        'siret'     => 'required|exact_length[14]|is_unique[sellers.siret,user_id,{user_id}]',
-        'status'    => 'in_list[' . SELLER_PENDING . ',' . SELLER_VALIDATED . ',' . SELLER_REFUSED . ',' . SELLER_SUSPENDED . ']',
+        'siret' => 'required|exact_length[14]|is_unique[sellers.siret,user_id,{user_id}]',
+        'status' => 'in_list[' . SELLER_PENDING . ',' . SELLER_VALIDATED . ',' . SELLER_REFUSED . ',' . SELLER_SUSPENDED . ']',
     ];
 
     protected $validationMessages = [
@@ -39,7 +39,7 @@ class SellerModel extends Model
             'is_unique' => 'This SIRET number is already registered on the platform.'
         ]
     ];
-    
+
     public $lastErrors = [];
 
     // Retrieves the complete profile of a seller with user info
@@ -128,8 +128,8 @@ class SellerModel extends Model
         $this->db->transComplete();
 
         if ($this->db->transStatus() === false) {
-             $this->lastErrors = ['Transaction failed'];
-             return false;
+            $this->lastErrors = ['Transaction failed'];
+            return false;
         }
 
         return true;

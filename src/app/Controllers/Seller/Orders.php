@@ -2,9 +2,6 @@
 
 namespace App\Controllers\Seller;
 
-use App\Controllers\BaseController;
-use App\Models\OrderItemModel;
-
 class Orders extends SellerBaseController
 {
     // Modèle pour les items de commande
@@ -14,49 +11,49 @@ class Orders extends SellerBaseController
         $statusFilter = $this->request->getGet('status');
 
         $totalTurnover = $this->orderItemModel->getSellerTurnover($userId);
-        $totalOrders   = $this->orderItemModel->getSellerTotalOrders($userId);
+        $totalOrders = $this->orderItemModel->getSellerTotalOrders($userId);
         $statusCounts = $this->orderItemModel->countOrdersByStatus($userId);
 
         $pagedOrders = $this->orderItemModel->getSellerOrders($userId, 10, $statusFilter);
-        $pager       = $this->orderItemModel->pager;
+        $pager = $this->orderItemModel->pager;
 
         $orderIds = [];
-        foreach($pagedOrders as $po) {
+        foreach ($pagedOrders as $po) {
             $orderIds[] = $po->id;
         }
 
         $orders = [];
 
         if (!empty($orderIds)) {
-            
+
             $sales = $this->orderItemModel->getItemsForOrders($userId, $orderIds);
 
             foreach ($sales as $sale) {
                 $orderId = $sale->order_id;
-                
+
 
                 if (!isset($orders[$orderId])) {
                     $orders[$orderId] = [
-                        'info'  => $sale, 
-                        'items' => []    
+                        'info' => $sale,
+                        'items' => []
                     ];
                 }
-                
+
                 $orders[$orderId]['items'][] = $sale;
             }
         }
 
         $data = array_merge($this->sellerData, [
-            'orders'        => $orders,
-            'pager'         => $pager,
+            'orders' => $orders,
+            'pager' => $pager,
             'currentStatus' => $statusFilter,
             'statusCounts' => $statusCounts,
-            'stats'         => [
+            'stats' => [
                 'turnover' => $totalTurnover,
-                'count'    => $totalOrders
+                'count' => $totalOrders
             ],
-            'title'         => 'Mes Commandes',
-            'subtitle'      => 'Suivez les achats de vos produits et votre chiffre d\'affaires.'
+            'title' => 'Mes Commandes',
+            'subtitle' => 'Suivez les achats de vos produits et votre chiffre d\'affaires.'
         ]);
 
         return view('seller/orders/index', $data);
@@ -75,7 +72,7 @@ class Orders extends SellerBaseController
         }
 
         $order = [
-            'info'  => $items[0],
+            'info' => $items[0],
             'items' => $items
         ];
 
@@ -90,29 +87,29 @@ class Orders extends SellerBaseController
 
         $allowedStatuses = [
             'PREPARING' => 'En préparation',
-            'SHIPPED'   => 'Expédiée',
+            'SHIPPED' => 'Expédiée',
             'DELIVERED' => 'Livrée'
         ];
 
         if (!array_key_exists($newStatus, $allowedStatuses)) {
             return redirect()->back()->with('error', 'Statut invalide.');
         }
-        
+
         $items = $this->orderItemModel->getItemsForOrders($userId, [$id]);
-        
+
         if (empty($items)) {
             return redirect()->back()->with('error', 'Action non autorisée.');
         }
-        
+
         // Utilisation du modèle via lazy loading
         $currentOrder = $this->orderModel->find($id);
-        
+
         if (in_array($currentOrder->status, ['CANCELLED', 'REFUNDED'])) {
-             return redirect()->back()->with('error', 'Impossible de modifier une commande annulée.');
+            return redirect()->back()->with('error', 'Impossible de modifier une commande annulée.');
         }
 
         $this->orderModel->update($id, ['status' => $newStatus]);
-        
+
         return redirect()->back()->with('message', "Statut mis à jour : " . $allowedStatuses[$newStatus]);
     }
 

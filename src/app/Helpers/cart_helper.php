@@ -13,7 +13,9 @@ function count_cart_items(): int
     $user_role = user_role();
 
     if ($userId) {
-        if ($user_role != UserRole::CLIENT) { return 0; }
+        if ($user_role != UserRole::CLIENT) {
+            return 0;
+        }
         $cartModel = new CartModel();
 
         $cart = $cartModel->getActiveCart($userId);

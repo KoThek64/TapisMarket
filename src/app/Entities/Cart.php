@@ -11,10 +11,10 @@ class Cart extends Entity
     use PriceTrait;
 
     protected $dates = ['created_at', 'updated_at'];
-    
+
     protected $casts = [
         'customer_id' => 'integer',
-        'total'       => 'float', 
+        'total' => 'float',
     ];
 
     // For display 

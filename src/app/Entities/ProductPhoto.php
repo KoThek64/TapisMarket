@@ -3,16 +3,16 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use App\Traits\ImageTrait; 
+use App\Traits\ImageTrait;
 
 class ProductPhoto extends Entity
 {
     use ImageTrait;
 
     protected $casts = [
-        'product_id'    => 'integer',
-        'photo_id'      => 'integer',
-        'display_order' => 'integer', 
+        'product_id' => 'integer',
+        'photo_id' => 'integer',
+        'display_order' => 'integer',
     ];
 
     // Returns the image URL

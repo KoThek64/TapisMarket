@@ -79,3 +79,4 @@
 <?= $this->section('modals') ?>
 <?= view('partials/delete_modal') ?>
 <?= $this->endSection() ?>
+

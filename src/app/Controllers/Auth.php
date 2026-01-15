@@ -29,8 +29,8 @@ class Auth extends BaseController
     {
         parent::initController($request, $response, $logger);
 
-        $this->customerModel      = new CustomerModel();
-        $this->sellerModel        = new SellerModel();
+        $this->customerModel = new CustomerModel();
+        $this->sellerModel = new SellerModel();
         $this->administratorModel = new AdministratorModel();
         $this->cartModel = new CartModel();
         $this->cartItemModel = new CartItemModel();
@@ -48,9 +48,9 @@ class Auth extends BaseController
     public function attemptLogin()
     {
 
-        $email    = $this->request->getPost('email');
+        $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
-        $roleRaw  = $this->request->getPost('role');
+        $roleRaw = $this->request->getPost('role');
 
         $role = UserRole::tryFrom($roleRaw);
 
@@ -73,19 +73,19 @@ class Auth extends BaseController
         }
 
         if ($user && password_verify($password, $user->password)) {
-            
+
             // create session
             login_user($user->user_id, $role);
-            
+
             // Merge guest cart
             if ($role === UserRole::ADMIN || $role === UserRole::SELLER) {
                 set_error("Vous n'êtes pas client, votre panier n'a pas été sauvgardé");
-            }else {
+            } else {
                 $this->mergeGuestCart($user->user_id);
             }
 
             set_success("Connexion réussie. Bienvenue " . ($user->firstname ?? ''));
-            
+
             return redirect()->to('/');
         }
 
@@ -110,7 +110,7 @@ class Auth extends BaseController
             'password_confirm' => 'required|matches[password]',
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             set_error("La confirmation de mot de passe n'est pas la même que le mot de passe.");
             return redirect()->back()->withInput();
         }
@@ -118,11 +118,11 @@ class Auth extends BaseController
         $role = $this->request->getPost('role');
         $roleValue = ($role === 'vendeur') ? 'SELLER' : 'CUSTOMER';
         $data = [
-            'lastname'  => $this->request->getPost('lastname'),
+            'lastname' => $this->request->getPost('lastname'),
             'firstname' => $this->request->getPost('firstname'),
-            'email'     => $this->request->getPost('email'),
-            'password'  => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'role'      => $roleValue
+            'email' => $this->request->getPost('email'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'role' => $roleValue
         ];
 
         if ($roleValue === 'SELLER') {
@@ -142,10 +142,12 @@ class Auth extends BaseController
                 return redirect()->to('auth/login');
             } else {
                 $errors = $this->sellerModel->lastErrors;
-                if (empty($errors)) $errors = $this->sellerModel->errors();
-                
+                if (empty($errors))
+                    $errors = $this->sellerModel->errors();
+
                 // Si aucune erreur précise n'est trouvée
-                if (empty($errors)) $errors = ["Erreur inconnue lors de la création du vendeur. Vérifiez les logs."];
+                if (empty($errors))
+                    $errors = ["Erreur inconnue lors de la création du vendeur. Vérifiez les logs."];
 
                 set_error(implode('<br>', $errors));
                 return redirect()->to('auth/register')->withInput();
@@ -160,7 +162,8 @@ class Auth extends BaseController
                 return redirect()->to('auth/login');
             } else {
                 $errors = $this->customerModel->lastErrors;
-                if (empty($errors)) $errors = $this->customerModel->errors();
+                if (empty($errors))
+                    $errors = $this->customerModel->errors();
 
                 // Si aucune erreur précise n'est trouvée
                 if (empty($errors)) {
@@ -201,22 +204,22 @@ class Auth extends BaseController
             foreach ($guestCart as $productId => $quantity) {
                 // Check if item exists in user cart
                 $existingItem = $this->cartItemModel->where('cart_id', $cart->id)
-                                              ->where('product_id', $productId)
-                                              ->first();
-                                              
+                    ->where('product_id', $productId)
+                    ->first();
+
                 $currentQty = $existingItem ? $existingItem->quantity : 0;
                 $newTotalQty = $currentQty + $quantity;
 
                 // Validate merged stock
                 if ($this->productModel->hasSufficientStock($productId, $newTotalQty)) {
                     if ($existingItem) {
-                         $this->cartItemModel->updateQuantity($cart->id, $productId, $newTotalQty);
+                        $this->cartItemModel->updateQuantity($cart->id, $productId, $newTotalQty);
                     } else {
-                         $this->cartItemModel->addItem($cart->id, $productId, $quantity);
+                        $this->cartItemModel->addItem($cart->id, $productId, $quantity);
                     }
-                } 
+                }
             }
-            
+
             $this->cartModel->updateTotal($cart->id);
             $session->remove('guest_cart');
         }

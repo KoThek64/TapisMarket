@@ -13,8 +13,7 @@ use App\Models\ProductModel;
 use App\Models\ProductPhotoModel;
 use App\Models\ReviewModel;
 use App\Models\SellerModel;
-use App\Models\OrderModel; 
-
+use App\Models\OrderModel;
 
 class SellerBaseController extends BaseController
 {
@@ -36,13 +35,13 @@ class SellerBaseController extends BaseController
         }
 
         $modelMap = [
-            'productModel'   => ProductModel::class,
+            'productModel' => ProductModel::class,
             'orderItemModel' => OrderItemModel::class,
-            'reviewModel'    => ReviewModel::class,
-            'photoModel'     => ProductPhotoModel::class,
-            'categoryModel'  => CategoryModel::class,
-            'sellerModel'    => SellerModel::class,
-            'orderModel'     => OrderModel::class, 
+            'reviewModel' => ReviewModel::class,
+            'photoModel' => ProductPhotoModel::class,
+            'categoryModel' => CategoryModel::class,
+            'sellerModel' => SellerModel::class,
+            'orderModel' => OrderModel::class,
         ];
 
         if (array_key_exists($name, $modelMap)) {
@@ -57,18 +56,18 @@ class SellerBaseController extends BaseController
     // Récupère l'ID du vendeur actuellement connecté
     protected function getSellerId(): int
     {
-        return (int)session()->get('user_id');
+        return (int) session()->get('user_id');
     }
- 
+
     // Réponse d'erreur adaptée au contexte (AJAX ou redirection)
     protected function responseOrFail($message, $code = 400, $isValidation = false)
     {
-         if ($this->request->isAJAX()) {
-             $data = $isValidation ? ['errors' => $message] : ['error' => $message];
-             return $this->response->setJSON($data)->setStatusCode($code);
-         }
-         
-         $msgString = is_array($message) ? implode(', ', $message) : $message;
-         return redirect()->back()->with('error', $msgString);
+        if ($this->request->isAJAX()) {
+            $data = $isValidation ? ['errors' => $message] : ['error' => $message];
+            return $this->response->setJSON($data)->setStatusCode($code);
+        }
+
+        $msgString = is_array($message) ? implode(', ', $message) : $message;
+        return redirect()->back()->with('error', $msgString);
     }
 }
