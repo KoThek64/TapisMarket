@@ -1,6 +1,5 @@
 services:
-  mysql-prod:
-    container_name: mysql
+  mysql:
     image: docker.io/mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
