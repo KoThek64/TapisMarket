@@ -14,7 +14,7 @@ class Users extends AdminBaseController
             'title' => 'Gestion des Utilisateurs',
             'subtitle' => 'Gestion des comptes clients et vendeurs',
             'pendingSellers' => $this->sellerModel->getSellersPendingValidation(5),
-            'allUsers' => $this->userModel->getAllUsersPaginated(10, $roleFilter),
+            'allUsers' => $this->userModel->getAdminAllUsersPaginated(10, $roleFilter),
             'pagerSellers' => $this->sellerModel->pager,
             'pagerUsers' => $this->userModel->pager,
             'currentRole' => $roleFilter,
@@ -29,7 +29,7 @@ class Users extends AdminBaseController
         try {
             $this->sellerModel->validateSeller($id);
             return redirect()->to('admin/users')->with('success', 'Compte vendeur validé.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->to('admin/users')->with('error', 'Erreur lors de la validation.');
         }
     }

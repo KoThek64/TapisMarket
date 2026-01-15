@@ -15,7 +15,7 @@ class Dashboard extends AdminBaseController
             $moderationLink = site_url('admin/users');
         }
 
-        $latestUsers  = $this->userModel->asObject('stdClass')->getLatestRegistered(5);
+        $latestUsers  = $this->userModel->asObject('stdClass')->getAdminLatestRegistered(5);
         $latestOrders = $this->orderModel->asObject('stdClass')->getRecentOrders(5);
 
         $data = array_merge($this->adminData, [

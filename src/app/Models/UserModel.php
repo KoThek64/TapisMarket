@@ -11,7 +11,7 @@ class UserModel extends Model
     protected $primaryKey       = 'id';
 
     protected $useAutoIncrement = true;
-    protected $returnType       = User::class; 
+    protected $returnType       = User::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields = [
@@ -23,17 +23,17 @@ class UserModel extends Model
     ];
 
     protected $useTimestamps = true;
-    protected $createdField  = 'created_at'; 
+    protected $createdField  = 'created_at';
     protected $updatedField  = '';
 
     protected $validationRules = [
         'email'        => 'required|valid_email|is_unique[users.email]',
         'lastname'     => 'required|min_length[2]',
         'firstname'    => 'required|min_length[2]',
-        'password'     => 'required|min_length[8]', 
+        'password'     => 'required|min_length[8]',
         'role'         => 'in_list[ADMIN,SELLER,CUSTOMER]'
     ];
-    
+
     protected $validationMessages = [
         'email' => [
             'is_unique' => 'This email is already used.'
@@ -65,13 +65,15 @@ class UserModel extends Model
                     ->paginate($perPage);
     }
 
-    // Get all users paginated
-    public function getAllUsersPaginated(int $perPage = 10, ?string $role = null)
+     // recupere les utilisateurs avec pagination
+    public function getAdminAllUsersPaginated(int $perPage = 10, ?string $role = null)
     {
-        $builder = $this->orderBy('created_at', 'DESC');
+        $builder = $this->select('users.*, sellers.status as seller_status')
+            ->join('sellers', 'sellers.user_id = users.id', 'left')
+            ->orderBy('users.created_at', 'DESC');
 
         if ($role && in_array($role, ['SELLER', 'CUSTOMER'])) {
-            $builder->where('role', $role);
+            $builder->where('users.role', $role);
         }
 
         return $builder->paginate($perPage, 'users');
@@ -84,7 +86,7 @@ class UserModel extends Model
     }
 
     // Get latest registered users
-    public function getLatestRegistered(int $limit = 5)
+    public function getAdminLatestRegistered(int $limit = 5)
     {
         return $this->orderBy('created_at', 'DESC')
                     ->findAll($limit);
