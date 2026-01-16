@@ -6,6 +6,7 @@
         'success' => ['bg' => 'bg-green-50', 'text' => 'text-green-800', 'border' => 'border-green-100', 'icon' => 'check_circle'],
         'message' => ['bg' => 'bg-green-50', 'text' => 'text-green-800', 'border' => 'border-green-100', 'icon' => 'check_circle'],
         'info' => ['bg' => 'bg-blue-50', 'text' => 'text-blue-800', 'border' => 'border-blue-100', 'icon' => 'info'],
+        'warning' => ['bg' => 'bg-orange-50', 'text' => 'text-orange-800', 'border' => 'border-orange-100', 'icon' => 'warning'],
     ];
 
     foreach ($alerts as $type => $style):
