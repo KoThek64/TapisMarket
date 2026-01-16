@@ -14,7 +14,7 @@ class Photos extends SellerBaseController
     {
         parent::initController($request, $response, $logger);
         
-        $this->photoModel = model(ProductPhotoModel::class);
+        $this->photoModel = new ProductPhotoModel();
     }
 
     public function create($productId)
