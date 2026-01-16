@@ -237,7 +237,7 @@ class Photos extends SellerBaseController
             $path = $dir . DIRECTORY_SEPARATOR . $item;
 
             // Si c'est un dossier, on rappelle la fonction ou sinon on supprime le fichier
-            is_dir($path) ? remove_directory($path) : unlink($path);
+            is_dir($path) ? $this->remove_directory($path) : unlink($path);
         }
         // Une fois vide, on supprime le dossier parent
         return rmdir($dir);
