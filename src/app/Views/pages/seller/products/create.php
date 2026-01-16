@@ -29,7 +29,7 @@
                                 class="text-red-500">*</span></label>
                         <input type="text" name="title" value="<?= old('title') ?>"
                             class="w-full rounded-lg border-border focus:ring-accent focus:border-accent text-sm py-2.5 px-3 bg-gray-50/50"
-                            required placeholder="Ex: Chaise Vintage Scandinave">
+                            required placeholder="Ex: Tapis Vintage Scandinave">
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
@@ -66,7 +66,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Matériaux</label>
                             <input type="text" name="material" value="<?= old('material') ?>"
                                 class="w-full rounded-lg border-border focus:ring-accent focus:border-accent text-sm py-2.5 px-3 bg-gray-50/50"
-                                placeholder="Ex: Bois, Métal...">
+                                placeholder="Ex: Laine, Coton, Soie...">
                         </div>
                     </div>
 
