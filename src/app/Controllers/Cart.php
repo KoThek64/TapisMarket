@@ -6,6 +6,7 @@ use App\Models\CartModel;
 use App\Models\CartItemModel;
 use App\Models\ProductModel;
 use App\Enums\UserRole;
+use App\Entities\CartItem;
 
 class Cart extends BaseController
 {
@@ -69,7 +70,7 @@ class Cart extends BaseController
 
                     $row['quantity'] = $qty;
                     // Hydrate CartItem entity
-                    $itemEntity = new \App\Entities\CartItem($row);
+                    $itemEntity = new CartItem($row);
                     $items[] = $itemEntity;
 
                     $total += $row['price'] * $qty;

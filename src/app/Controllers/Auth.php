@@ -79,7 +79,9 @@ class Auth extends BaseController
 
             // Merge guest cart
             if ($role === UserRole::ADMIN || $role === UserRole::SELLER) {
-                set_error("Vous n'êtes pas client, votre panier n'a pas été sauvgardé");
+                if (!empty(session()->get('guest_cart'))) {
+                    set_error("Vous n'êtes pas client, votre panier n'a pas été sauvgardé");
+                }
             } else {
                 $this->mergeGuestCart($user->user_id);
             }
