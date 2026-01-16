@@ -1,1 +1,1 @@
-Pour consulter la documentation générale du projet, voir le [README principal](https://gitlab.univ-nantes.fr/pub/but/but2/sae/groupe4/eq_4_02_aignelot-youenn_bernard-adam_filmont-felix_lachaise-mattys_plu-niels/-/blob/main/README.md).
+Pour consulter la documentation générale, voir le [README principal](../../README.md).
