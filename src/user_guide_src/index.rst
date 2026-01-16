@@ -1,14 +1,13 @@
 #######################
-Marketplace Tapis
+Tapis Market
 #######################
 
-Bienvenue sur la documentation technique du projet Marketplace Tapis.
+Bienvenue sur la documentation technique du projet Tapis Market.
 
 .. toctree::
     :maxdepth: 3
 
     general/installation
-    general/deploy
     general/user_manual
     general/architecture
     general/security

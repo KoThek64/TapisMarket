@@ -1,102 +1,72 @@
-################################
+########################
 Installation & Démarrage
-################################
+########################
 
-Ce guide explique comment installer le projet en local pour le développement.
+Cette page détaille les différentes méthodes pour lancer le projet, que ce soit en production (avec Podman) ou en développement local.
 
-******************************
-Pré-requis Techniques
-******************************
+***********************************
+1. Production (Podman & Conteneurs)
+***********************************
 
-Assurez-vous d'avoir les outils suivants installés sur votre machine :
+Le projet utilise ``podman`` et ``podman-compose``.
 
-* **PHP 8.1** ou supérieur (extensions ``intl``, ``mbstring``, ``mysqli`` requises).
-* **Composer** (Gestionnaire de dépendances PHP).
-* **MySQL** ou **MariaDB** (Base de données).
-* **Git** (Gestion de version).
+Lancer le projet
+================
 
-******************************
-Installation
-******************************
-
-1. **Cloner le projet**
+1. **Copier les sources**
+   
+   Il faut dans un premier temps copier le dossier ``src`` dans le conteneur :
 
    .. code-block:: bash
 
-      git clone https://gitlab.univ-nantes.fr/pub/but/but2/sae/groupe4/eq_4_02_aignelot-youenn_bernard-adam_filmont-felix_lachaise-mattys_plu-niels.git
-      cd marketplace-tapis
+      cp -R src conteneur/app_php/src
 
-2. **Installer les dépendances**
+2. **Démarrer les conteneurs**
 
-   .. code-block:: bash
-
-      composer install
-
-3. **Configuration de l'environnement**
-
-   Copiez le fichier d'exemple et configurez votre base de données :
+   Lancez ``podman-compose`` en spécifiant le fichier d'environnement :
 
    .. code-block:: bash
 
-      cp env .env
+      podman-compose -f conteneur/compose.prod.yml --env-file conteneur/prod.env up -d
 
-   Ouvrez ``.env`` et modifiez ces lignes :
+3. **Migrations et Données**
 
-   .. code-block:: ini
-
-      CI_ENVIRONMENT = development
-      database.default.hostname = localhost
-      database.default.database = tp
-      database.default.username = root
-      database.default.password = root
-
-4. **Migration de la Base de Données**
-
-   Créez les tables automatiquement :
+   Une fois les conteneurs lancés, exécutez les migrations :
 
    .. code-block:: bash
 
-      php spark migrate
+      podman-compose -f conteneur/compose.prod.yml exec web-prod php spark migrate
 
-******************************
-Peupler la Base de Données
-******************************
+   (Optionnel) Pour peupler la base avec des données de test :
 
-Le projet inclut des jeux de données (Seeders) pour ne pas démarrer avec une boutique vide.
+   .. code-block:: bash
 
-**Lancer le remplissage :**
+      podman-compose -f conteneur/compose.prod.yml exec web-prod php spark db:seed DataSeeder
 
-.. code-block:: bash
+Configuration (Variables d'environnement)
+=========================================
 
-    # Créer les comptes Admin, Vendeurs et Clients de test
-    php spark db:seed DataSeeder
+Pour customiser l'instance, éditez le fichier ``conteneur/app_php/prod.env`` :
 
-    # (Optionnel) Générer beaucoup de produits pour tester la pagination
-    php spark db:seed BigDataSeeder
+* ``ENVIRONMENT`` : L'environnement (soit ``production`` soit ``development``).
+* ``DB_ROOT_PASSWORD`` : Le mot de passe root de la DB.
+* ``DB_USER`` : L'utilisateur de la DB.
+* ``DB_PASSWORD`` : Le mot de passe de l'utilisateur de la DB.
+* ``DB_DATABASE`` : Le nom de la DB que le site va utiliser.
 
-**Comptes de Test (Mots de passe)**
+**Comptes de Test**
 
 Voici les identifiants créés par défaut.
-⚠️ **Le mot de passe est identique pour tous les comptes :** ``123456``
+**Le mot de passe est identique pour tous les comptes :** ``123456``
 
 +-----------+---------------------+--------------+
 | Rôle      | Email               | Mot de passe |
 +===========+=====================+==============+
-| Admin     | admin@tapis.fr      | ``123456``   |
+| Admin     | admin@tapis.com     | ``123456``   |
 +-----------+---------------------+--------------+
-| Vendeur   | vendeur@tapis.fr    | ``123456``   |
+| Vendeur   | seller0@mail.com    | ``123456``   |
 +-----------+---------------------+--------------+
-| Client    | client@tapis.fr     | ``123456``   |
+| Client    | client0@mail.com    | ``123456``   |
 +-----------+---------------------+--------------+
-
-******************************
-Lancer le Serveur
-******************************
-
-Pour démarrer le serveur de développement local :
-
-.. code-block:: bash
-
-   php spark serve
 
 Le site sera accessible sur : http://localhost:8080
