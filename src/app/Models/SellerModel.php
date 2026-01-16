@@ -47,7 +47,6 @@ class SellerModel extends Model
     {
         return $this->select('sellers.*, users.email, users.password, users.lastname, users.firstname, users.created_at')
             ->join('users', 'users.id = sellers.user_id')
-            ->where('status', SELLER_VALIDATED)
             ->where('users.email', $email)
             ->first();
     }
