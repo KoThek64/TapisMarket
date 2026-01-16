@@ -36,32 +36,29 @@ cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 # cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 echo ----------------------------
-echo "Installation des extensions PHP :"
+echo "Installation des dépendances système pour les extensions"
 echo ----------------------------
-PHP_VERSION_MINEUR=${PHP_VERSION%.*}
-echo "---- common"
-apt install -y -q php${PHP_VERSION_MINEUR}-common
-echo "---- CI4 base : intl, mbstring, json (fourni de base)"
-apt install -y -q php${PHP_VERSION_MINEUR}-intl
-sed -i 's/;extension=intl/extension=intl/g' /usr/local/etc/php/php.ini
-apt install -y -q php${PHP_VERSION_MINEUR}-mbstring
-sed -i 's/;extension=mbstring/extension=mbstring/g' /usr/local/etc/php/php.ini
-echo "---- CI4 Optionnelles : MySQLi,curl, gd"
-apt install -y -q php${PHP_VERSION_MINEUR}-pdo-mysql
-sed -i 's/;extension=pdo_mysql/extension=pdo_mysql/g' /usr/local/etc/php/php.ini
-apt install -y -q php${PHP_VERSION_MINEUR}-mysql
-sed -i 's/;extension=mysqli/extension=mysqli/g' /usr/local/etc/php/php.ini
-apt install -y -q php${PHP_VERSION_MINEUR}-curl
-sed -i 's/;extension=curl/extension=curl/g' /usr/local/etc/php/php.ini
-apt install -y -q php${PHP_VERSION_MINEUR}-gd
-sed -i 's/;extension=gd/extension=gd/g' /usr/local/etc/php/php.ini
-#recopie des .so
-cp /usr/lib/php/20240924/*.so /usr/local/lib/php/extensions/no-debug-non-zts-20240924
+apt-get update && apt-get install -y \
+    libicu-dev \
+    libonig-dev \
+    libpng-dev \
+    libcurl4-openssl-dev \
+    unzip
+
+echo ----------------------------
+echo "Installation des extensions PHP (Voie officielle Docker)"
+echo ----------------------------
+docker-php-ext-install -j$(nproc) \
+    intl \
+    mbstring \
+    mysqli \
+    pdo_mysql \
+    gd
 
 echo ----------------------------
 echo "Installation des dépendances php"
 echo ----------------------------
-composer install
+composer install --no-interaction --optimize-autoloader
 
 rm /var/www/html/.env
 chown -R www-data:www-data /var/www/html
