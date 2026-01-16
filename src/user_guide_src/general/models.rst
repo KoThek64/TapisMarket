@@ -31,11 +31,15 @@ UserModel
 
     .. php:method:: getUsersByRole($role, $perPage = 20)
 
-        Récupère une liste paginée d'utilisateurs selon leur rôle (ADMIN, SELLER, CUSTOMER).
+        Récupère une liste paginée d'utilisateurs selon leur rôle.
 
     .. php:method:: getAdminAllUsersPaginated($perPage = 10, $role = null)
 
-        Récupère tous les utilisateurs avec leurs statuts (vendeurs inclus) pour le dashboard admin.
+        Récupère tous les utilisateurs avec leurs statuts (vendeurs inclus) pour l'admin.
+
+    .. php:method:: countAllUsers()
+
+        Compte le nombre total d'utilisateurs inscrits.
 
     .. php:method:: getAdminLatestRegistered($limit = 5)
 
@@ -48,21 +52,21 @@ CustomerModel
 
     Extension du profil pour les clients (table ``customers``).
 
+    .. php:method:: getByEmail($email)
+
+        Récupère le profil complet du client via l'email utilisateur.
+
     .. php:method:: getFullProfile($id)
 
         Récupère les infos utilisateur jointes aux infos client.
 
-    .. php:method:: getByEmail($email)
+    .. php:method:: getLatestRegistered($limit = 5)
 
-        Récupère le profil complet via l'email.
+        Retourne les derniers clients inscrits pour le dashboard.
 
     .. php:method:: createCustomer($userData, $customerData = [])
 
         Crée un nouveau client et son compte utilisateur associé dans une transaction.
-
-    .. php:method:: getLatestRegistered($limit = 5)
-
-        Retourne les derniers clients inscrits pour le dashboard.
 
 SellerModel
 ===========
@@ -71,25 +75,33 @@ SellerModel
 
     Gère les vendeurs et leurs boutiques (table ``sellers``).
 
+    .. php:method:: getByEmail($email)
+
+        Récupère le profil complet du vendeur via l'email.
+
     .. php:method:: getFullProfile($userId)
 
-        Récupère le profil complet du vendeur.
+        Récupère le profil complet du vendeur via son ID.
 
-    .. php:method:: createSeller($userData, $sellerData = null)
+    .. php:method:: countSellersPendingValidation()
 
-        Crée un compte vendeur (et utilisateur) avec gestion des erreurs et transaction.
+        Compte le nombre de vendeurs en attente de validation.
 
     .. php:method:: getSellersPendingValidation($perPage = 20)
 
-        Récupère la liste des vendeurs en attente de validation par l'admin.
+        Récupère la liste des vendeurs en attente de validation.
 
     .. php:method:: validateSeller($sellerId)
 
-        Valide un compte vendeur (passe le statut à ``SELLER_VALIDATED``).
+        Valide un compte vendeur (statut ``SELLER_VALIDATED``).
 
     .. php:method:: rejectSeller($sellerId, $reason)
 
-        Refuse un vendeur avec un motif (passe le statut à ``SELLER_REFUSED``).
+        Refuse un vendeur avec un motif (statut ``SELLER_REFUSED``).
+
+    .. php:method:: createSeller($userData, $sellerData = null)
+
+        Crée un compte vendeur (et utilisateur) avec gestion des erreurs.
 
 AdministratorModel
 ==================
@@ -98,16 +110,20 @@ AdministratorModel
 
     Gère les administrateurs.
 
+    .. php:method:: getByEmail($email)
+
+        Récupère le profil complet d'un admin via l'email.
+
     .. php:method:: getAdminProfile($id)
 
-        Récupère le profil complet d'un admin.
+        Récupère le profil complet d'un admin via son ID.
 
 AddressModel
 ============
 
 .. php:class:: AddressModel
 
-    Gère les adresses de livraison des utilisateurs.
+    Gère les adresses de livraison.
 
     .. php:method:: getUserAddresses($userId)
 
@@ -115,7 +131,7 @@ AddressModel
 
     .. php:method:: deleteAddress($addressId, $userId)
 
-        Supprime une adresse spécifique d'un utilisateur.
+        Supprime une adresse spécifique.
 
 ********************
 Catalogue & Produits
@@ -128,45 +144,105 @@ ProductModel
 
     Gère le catalogue produit.
 
-    .. php:method:: getByAlias($alias)
-
-        Récupère la fiche détaillée d'un produit via son slug URL.
-
-    .. php:method:: filterProducts($filters, $perPage)
-
-        Moteur de recherche avancé (filtres par prix, dimensions, matières, catégories, vendeur).
-
-    .. php:method:: getSellerProducts($sellerId, $perPage = 10, $search = null, $status = null)
-
-        Récupère les produits d'un vendeur spécifique avec filtres optionnels.
-
     .. php:method:: hasSufficientStock($productId, $quantity)
 
-        Vérifie si la quantité demandée est disponible en stock.
-
-    .. php:method:: decrementStock($productId, $quantity)
-
-        Réduit le stock d'un produit après une commande.
+        Vérifie si la quantité demandée est disponible.
 
     .. php:method:: getPendingProductsPaginated($perPage = 5)
 
-        Récupère les produits en attente de validation pour l'admin.
+        Récupère les produits en attente de validation (pour admin).
+
+    .. php:method:: getAllProductsPaginated($perPage = 10)
+
+        Récupère tous les produits (admin).
+
+    .. php:method:: countPendingProducts()
+
+        Compte les produits en attente.
 
     .. php:method:: validateProduct($id)
 
-        Approuve un produit pour la mise en vente.
+        Approuve un produit.
 
     .. php:method:: rejectProduct($id, $reason)
 
-        Refuse un produit avec un motif explicatif.
+        Refuse un produit avec motif.
 
-    .. php:method:: getSimilarProducts($categoryId, $excludeId, $limit = 4)
+    .. php:method:: getByAlias($alias)
 
-        Suggère des produits similaires de la même catégorie.
+        Récupère un produit via son slug URL.
+
+    .. php:method:: getByCategory($categoryId, $sort = 'recent', $perPage = 12)
+
+        Liste les produits d'une catégorie.
+
+    .. php:method:: search($term, $perPage = 12)
+
+        Recherche par titre ou description.
+
+    .. php:method:: getSellerProducts($sellerId, $perPage = 10, $search = null, $status = null)
+
+        Récupère les produits d'un vendeur (filtres possibles).
+
+    .. php:method:: decrementStock($productId, $quantity)
+
+        Décrémente le stock.
+
+    .. php:method:: incrementStock($productId, $quantity)
+
+        Incrémente le stock.
+
+    .. php:method:: checkSufficientStock($productId, $requestedQuantity)
+
+        Vérifie la disponibilité du stock (alias).
+
+    .. php:method:: getProductsPendingValidation()
+
+        Liste simple des produits en attente.
+
+    .. php:method:: getAllWithImage($limit = 6)
+
+        Récupère les produits avec leur image principale.
+
+    .. php:method:: getAllWithSeller($perPage = 15)
+
+        Récupère les produits avec le nom de la boutique.
+
+    .. php:method:: countSellerLowStock($sellerId, $threshold)
+
+        Compte les produits en stock critique pour un vendeur.
+
+    .. php:method:: countProductsPendingValidation()
+
+        Compte global des produits à valider.
+
+    .. php:method:: countSellerPendingProducts($sellerId)
+
+        Compte les produits à valider pour un vendeur spécifique.
 
     .. php:method:: getDimensionBounds()
 
-        Calcule les dimensions min/max du catalogue pour les filtres.
+        Calcule les min/max dimensions du catalogue.
+
+    .. php:method:: filterProducts($filters, $perPage = 12)
+
+        Moteur de filtre avancé (prix, taille, matière, vendeur...).
+
+    .. php:method:: getUniqueMaterials()
+
+        Liste les matières existantes.
+
+    .. php:method:: getActiveSellers()
+
+        Liste les vendeurs ayant des produits actifs.
+
+    .. php:method:: getSimilarProducts($categoryId, $excludeId, $limit = 4)
+
+        Suggère des produits similaires.
+
+    .. php:method:: countSellerProducts($sellerId)
+
+        Compte tous les produits d'un vendeur.
 
 CategoryModel
 =============
@@ -175,14 +251,18 @@ CategoryModel
 
     .. php:method:: getAllCategoriesPaginated($perPage = 10)
 
-        Liste toutes les catégories par ordre alphabétique.
+        Liste toutes les catégories triées.
 
 ProductPhotoModel
 =================
 
 .. php:class:: ProductPhotoModel
 
-    Gère la galerie d'images des produits.
+    Gère la galerie d'images.
+
+    .. php:method:: getUploadRules()
+
+        Retourne les règles de validation pour l'upload d'images.
 
     .. php:method:: getGallery($productId)
 
@@ -190,34 +270,98 @@ ProductPhotoModel
 
     .. php:method:: getMainImage($productId)
 
-        Récupère l'image de couverture (display_order = 1).
+        Récupère la photo de couverture.
 
     .. php:method:: setMain($photoId, $productId)
 
-        Définit une nouvelle image comme photo principale.
+        Définit l'image principale.
+
+    .. php:method:: deleteAll($productId)
+
+        Supprime toutes les photos d'un produit.
+
+    .. php:method:: getNextDisplayOrder($productId)
+
+        Calcule la position de la prochaine photo.
+
+    .. php:method:: getPhotosByProduct($productId)
+
+        Alias de getGallery.
 
 ReviewModel
 ===========
 
 .. php:class:: ReviewModel
 
-    Système d'avis et de notation.
-
-    .. php:method:: getReviewsForProduct($productId)
-
-        Récupère les avis publiés pour la fiche produit.
+    Système d'avis.
 
     .. php:method:: getSellerGlobalStats($sellerId)
 
-        Calcule le nombre d'avis et la note moyenne d'un vendeur.
+        Stats globales (moyenne, total) pour un vendeur.
+
+    .. php:method:: getSellerReviews($sellerId, $perPage = 10, $sort = 'date_desc')
+
+        Récupère les avis d'un vendeur (triable).
+
+    .. php:method:: getReviewsForProduct($productId)
+
+        Avis publiés d'un produit.
+
+    .. php:method:: getSellerAverageRating($sellerId)
+
+        Moyenne des notes d'un vendeur.
+
+    .. php:method:: getProductStats($productId)
+
+        Moyenne des notes d'un produit.
+
+    .. php:method:: countPublishedReviewsForUser($userId)
+
+        Nombre d'avis publiés par un utilisateur.
+
+    .. php:method:: hasAlreadyRated($productId, $customerId)
+
+        Vérifie si le client a déjà noté ce produit.
+
+    .. php:method:: moderateReview($reviewId, $status)
+
+        Change le statut de modération.
 
     .. php:method:: hasBoughtAndReceived($customerId, $productId)
 
-        Vérifie si un client a acheté et reçu un produit (condition pour poster un avis).
+        Vérifie l'achat et la livraison.
+
+    .. php:method:: countCriticalReviews()
+
+        Compte les avis négatifs (<= 2 étoiles).
+
+    .. php:method:: getAllReviews($perPage = 10)
+
+        Tous les avis (admin).
 
     .. php:method:: getCriticalReviews($perPage = 10)
 
-        Récupère les avis avec une note inférieure ou égale à 2 (pour modération).
+        Avis critiques (admin).
+
+    .. php:method:: getRejectedReviews($perPage = 10)
+
+        Avis refusés (admin).
+
+    .. php:method:: getPublishedReviews($perPage = 10)
+
+        Avis publiés (admin).
+
+    .. php:method:: getReviewsByFilter($filter, $perPage = 10)
+
+        Filtre dynamique des avis.
+
+    .. php:method:: getPaginatedReviewsForUser($userId, $perPage = 8)
+
+        Mes avis (côté client).
+
+    .. php:method:: getReviewForProductByUser($userId, $productId)
+
+        Récupère l'avis spécifique d'un utilisateur sur un produit.
 
 ********************
 Commandes & Panier
@@ -228,85 +372,153 @@ CartModel
 
 .. php:class:: CartModel
 
-    Gère le panier global (entête).
-
     .. php:method:: getActiveCart($customerId)
 
-        Récupère ou crée le panier actif d'un client.
+        Récupère ou crée le panier actif.
 
     .. php:method:: getCartItems($cartId)
 
-        Récupère le contenu détaillé du panier (avec infos produits).
+        Récupère les items du panier avec détails produits.
 
     .. php:method:: updateTotal($cartId)
 
-        Recalcule le montant total du panier.
+        Recalcule le total.
 
     .. php:method:: emptyCart($cartId)
 
-        Vide le contenu du panier.
+        Vide le panier.
+
+    .. php:method:: deleteOldCarts($days = 30)
+
+        Nettoyage des vieux paniers abandonnés.
 
 CartItemModel
 =============
 
 .. php:class:: CartItemModel
 
-    Gère les lignes individuelles du panier.
-
     .. php:method:: addItem($cartId, $productId, $quantity)
 
-        Ajoute un produit ou augmente sa quantité s'il existe déjà.
+        Ajoute ou met à jour un item.
 
     .. php:method:: updateQuantity($cartId, $productId, $newQuantity)
 
-        Met à jour la quantité d'un produit (supprime si <= 0).
+        Modifie la quantité.
+
+    .. php:method:: removeItem($cartId, $productId)
+
+        Supprime un item.
+
+    .. php:method:: getTotalItemsCount($cartId)
+
+        Compte le nombre total d'articles dans le panier.
 
 OrderModel
 ==========
 
 .. php:class:: OrderModel
 
-    Gère les commandes globales.
+    .. php:method:: getUserOrders($userId, $perPage = 10)
+
+        Commandes d'un utilisateur.
+
+    .. php:method:: countUserOrders($userId)
+
+        Compte les commandes d'un utilisateur.
 
     .. php:method:: createOrderFromCart($customerId, $orderData, $cart, $items)
 
-        Transforme un panier en commande, décrémente les stocks et calcule les frais de port.
-
-    .. php:method:: getUserOrders($userId, $perPage = 10)
-
-        Historique des commandes d'un client.
-
-    .. php:method:: getByReference($reference)
-
-        Trouve une commande via sa référence unique (ex: CMD-2024...).
+        Transforme panier en commande (complexe : stock, shipping, transaction).
 
     .. php:method:: getAllOrdersWithClient($perPage = 15, $status = null)
 
-        Liste complète des commandes pour l'administration.
+        Toutes les commandes (admin).
+
+    .. php:method:: getGlobalTotalAmount()
+
+        Montant total des commandes.
+
+    .. php:method:: getOrderStatuses()
+
+        Retourne la liste des statuts possibles.
+
+    .. php:method:: getCustomerHistory($customerId)
+
+        Historique complet d'un client.
+
+    .. php:method:: getByReference($reference)
+
+        Recherche par référence (CMD-XXX).
+
+    .. php:method:: getOrderWithIdentity($orderId)
+
+        Commande avec détails client complets.
+
+    .. php:method:: getPendingOrders()
+
+        Compte les commandes en attente.
+
+    .. php:method:: countValidOrders()
+
+        Compte les commandes valides (non annulées).
 
     .. php:method:: getTotalSales()
 
-        Calcule le chiffre d'affaires total de la plateforme.
+        Total des ventes (chiffre d'affaires plateforme).
+
+    .. php:method:: getRecentOrders($limit = 5)
+
+        Dernières commandes passées.
+
+    .. php:method:: getPaginatedOrdersForClient($clientId, $perPage = 10)
+
+        Commandes paginées pour un client.
+
+    .. php:method:: getItemCount($orderId)
+
+        Nombre d'articles dans une commande.
 
 OrderItemModel
 ==============
 
 .. php:class:: OrderItemModel
 
-    Gère les lignes de commande (détails vendus par produit).
-
     .. php:method:: getSellerOrders($sellerId, $perPage = 5, $status = null)
 
-        Récupère les commandes contenant des produits d'un vendeur spécifique.
+        Commandes contenant des produits d'un vendeur.
+
+    .. php:method:: getItemsForOrders($sellerId, $orderIds)
+
+        Détails des articles pour une liste de commandes.
+
+    .. php:method:: getSellerSales($sellerId, $perPage = 10)
+
+        Liste détaillée des ventes vendeur.
+
+    .. php:method:: countSellerSales($sellerId)
+
+        Nombre de ventes vendeur.
 
     .. php:method:: getSellerTurnover($sellerId)
 
-        Calcule le chiffre d'affaires d'un vendeur spécifique.
+        Chiffre d'affaires vendeur.
+
+    .. php:method:: getSellerTotalOrders($sellerId)
+
+        Nombre de commandes concernées vendeur.
 
     .. php:method:: getSellerBestSellers($sellerId, $limit = 3)
 
-        Récupère les produits les plus vendus d'un vendeur.
+        Meilleures ventes vendeur.
+
+    .. php:method:: getPaginatedOrderItems($orderId, $perPage = 10)
+
+        Détails commande paginés.
 
     .. php:method:: hasUserPurchasedProduct($userId, $productId)
 
-        Vérifie si un utilisateur a déjà acheté ce produit (utile pour les droits d'avis).
+        Vérifie achat pour autorisation avis.
+
+    .. php:method:: countOrdersByStatus($sellerId)
+
+        Stats des commandes par statut pour un vendeur.
