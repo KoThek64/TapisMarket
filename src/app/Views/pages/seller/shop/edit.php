@@ -31,9 +31,9 @@
                     </div>
 
                     <div>
-                        <label for="siret" class="block text-sm font-medium text-gray-700 mb-1">Numéro SIRET</label>
+                        <label for="siret" class="block text-sm font-medium text-gray-700 mb-1">Numéro SIRET (Non modifiable)</label>
                         <input type="text" name="siret" id="siret" value="<?= old('siret', $shop->siret ?? '') ?>"
-                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-accent focus:ring focus:ring-accent/20 transition font-mono">
+                            class="w-full rounded-xl border-gray-300 shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed font-mono" readonly>
                     </div>
                 </div>
             </div>
