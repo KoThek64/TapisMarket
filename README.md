@@ -43,9 +43,11 @@ Pour customiser les variables d'environnement, on peut éditer `conteneur/app_ph
 
 # Documentation
 
-La documentation est générée avec Sphinx. Il est recommandé d'utiliser un environnement virtuel Python 3 :
+La documentation technique est générée avec **Sphinx**. Il est recommandé d'utiliser un environnement virtuel Python 3 pour isoler les dépendances.
 
 ## Prérequis
+
+Exécutez ces commandes pour préparer votre environnement :
 
 ```bash
 python3 -m venv venv
@@ -53,7 +55,9 @@ source venv/bin/activate
 pip install sphinx sphinx_rtd_theme sphinxcontrib-phpdomain
 ```
 
-## Générer et ouvrir la documentation
+## Pour ouvrir la documentation
+
+Pour compiler la documentation et l'ouvrir automatiquement dans votre navigateur :
 
 ```bash
 rm -rf src/user_guide/ && \
