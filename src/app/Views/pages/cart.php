@@ -30,34 +30,41 @@
                     <?php foreach ($items as $item): ?>
                         <article
                             class="group relative flex gap-6 p-6 bg-white border border-gray-100 rounded-2xl transition-all duration-300 hover:shadow-lg hover:border-accent/20">
-                            <!-- Image -->
+
                             <div class="flex-shrink-0 w-32 h-32 bg-gray-100 rounded-xl overflow-hidden relative">
-                                <img src="<?= $item->getProductImage() ?>" alt="<?= esc($item->getProductName()) ?>"
-                                    class="w-full h-full object-cover mix-blend-multiply transition-transform duration-500 group-hover:scale-105">
+                                <?php
+                                $imageName = $item->image ?? 'default.jpg';
+
+                                if (strpos($imageName, 'http') === 0) {
+                                    $imgSrc = $imageName;
+                                } else {
+                                    $pId = $item->product_id ?? $item->id ?? 0;
+                                    $imgSrc = base_url('uploads/products/' . $pId . '/' . $imageName);
+                                }
+                                ?> 
+                                <img src="<?= esc($imgSrc) ?>"
+                                    alt="<?= esc($item->getProductName()) ?>"
+                                    class="w-full h-full object-cover mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+                                    onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3144/3144456.png';">
                             </div>
 
-                            <!-- Content -->
                             <div class="flex-1 flex flex-col min-w-0">
                                 <div class="mb-auto">
-                                    <!-- Category -->
                                     <span class="text-[10px] font-bold tracking-widest text-accent uppercase mb-1 block">
                                         <?= esc($item->category_name ?? 'Collection') ?>
                                     </span>
 
-                                    <!-- Title -->
                                     <h3 class="font-serif text-xl font-bold text-primary truncate mb-2">
                                         <a href="<?= $item->getProductLink() ?>" class="hover:text-accent transition-colors">
                                             <?= esc($item->getProductName()) ?>
                                         </a>
                                     </h3>
 
-                                    <!-- Short Description -->
                                     <p class="text-sm text-muted line-clamp-2 leading-relaxed hidden sm:block">
                                         <?= esc($item->short_description ?? '') ?>
                                     </p>
                                 </div>
 
-                                <!-- Footer Actions -->
                                 <div class="flex items-center gap-4 mt-3">
                                     <a href="<?= base_url('cart/remove/' . $item->product_id) ?>"
                                         class="text-sm text-red-500 hover:text-red-700 font-medium hover:underline underline-offset-2 flex items-center gap-1 transition-colors">
@@ -71,7 +78,6 @@
                                 </div>
                             </div>
 
-                            <!-- Price & Quantity -->
                             <div class="flex flex-col items-end justify-between border-l border-gray-100 pl-6 min-w-[120px]">
                                 <div class="text-xl font-bold text-primary font-sans whitespace-nowrap">
                                     <?= $item->getFormattedUnitPrice() ?>
@@ -87,7 +93,7 @@
                                             $maxQty = ($item->stock_available < 10) ? $item->stock_available : 10;
                                             $maxQty = max(1, $maxQty);
                                             for ($i = 1; $i <= $maxQty; $i++):
-                                                ?>
+                                            ?>
                                                 <option value="<?= $i ?>" <?= ($item->quantity == $i) ? 'selected' : '' ?>><?= $i ?>
                                                 </option>
                                             <?php endfor; ?>
@@ -113,7 +119,6 @@
                     class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 sticky top-28">
                     <h3 class="font-serif text-2xl text-gray-900 mb-8">Récapitulatif</h3>
 
-                    <!-- Detail des articles -->
                     <div class="space-y-3 mb-6">
                         <?php foreach ($items as $item): ?>
                             <div class="flex justify-between text-sm">
@@ -144,7 +149,7 @@
                     ]) ?>
 
                     <p class="text-center mt-5 text-xs text-gray-400 flex items-center justify-center gap-1.5 font-medium">
-                        🔒 Paiement 100% sécurisé
+                        Paiement sécurisé
                     </p>
                 </div>
             </div>
