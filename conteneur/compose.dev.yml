@@ -5,6 +5,7 @@ services:
     build:
       context: app_php
       target: builder
+      dockerfile: Dockerfile.dev
     environment:
       CI_ENVIRONMENT: ${ENVIRONMENT}
       "databse.default.hostname": "mysql"

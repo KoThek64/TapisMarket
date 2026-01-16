@@ -117,7 +117,7 @@ $statusColor = match ($status) {
                         <?= esc($user->firstname . ' ' . $user->lastname) ?></p>
                     <?php if (!empty($order->delivery_street)): ?>
                         <p><?= esc($order->delivery_street) ?></p>
-                        <p><?= esc($order->delivery_postal_code) ?>     <?= esc($order->delivery_city) ?></p>
+                        <p><?= esc($order->delivery_postal_code) ?> <?= esc($order->delivery_city) ?></p>
                         <p class="uppercase text-xs font-bold text-muted mt-1"><?= esc($order->delivery_country) ?></p>
                     <?php else: ?>
                         <p class="text-muted italic">Adresse non renseignée</p>
@@ -196,4 +196,3 @@ $statusColor = match ($status) {
 </div>
 
 <?= $this->endSection() ?>
-

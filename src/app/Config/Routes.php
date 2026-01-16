@@ -58,7 +58,7 @@ $routes->group('auth', function ($routes) {
 
 $routes->get('seller-validation-error', 'Home::sellerValidationError');
 
-$routes->get('shop/(:segment)', 'Seller::profile/$1');
+$routes->get('shop/(:segment)', 'ShopProfil::index/$1');
 
 // Admin
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin'], function ($routes) {

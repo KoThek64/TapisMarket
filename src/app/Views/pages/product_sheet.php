@@ -123,7 +123,7 @@
                     <div class="flex border-b border-dashed border-gray-200 pb-2">
                         <span class="w-32 text-muted">Vendeur</span>
                         <span class="font-medium">
-                            <?php if(!empty($product->shop_name)): ?>
+                            <?php if (!empty($product->shop_name)): ?>
                                 <a href="<?= base_url('shop/' . urlencode($product->shop_name)) ?>" class="text-accent hover:underline font-bold">
                                     <?= esc($product->shop_name) ?>
                                 </a>
@@ -162,7 +162,9 @@
                     </div>
 
                     <?php
+
                     use \App\Enums\UserRole;
+
                     $role = function_exists('user_role') ? user_role() : null;
                     $isAdminOrSeller = ($role === UserRole::ADMIN || $role === UserRole::SELLER);
                     ?>
@@ -255,4 +257,3 @@
 
 </div>
 <?= $this->endSection() ?>
-

@@ -5,14 +5,14 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\SellerModel;
 use App\Models\ProductModel;
-use App\Models\ReviewModel;
+use \CodeIgniter\Exceptions\PageNotFoundException;
 
-class Seller extends BaseController
+class ShopProfil extends BaseController
 {
     /**
      * Public Seller Profile View
      */
-    public function profile($shopName)
+    public function index($shopName)
     {
         // Decode shop name from URL (slug handling)
         $shopName = urldecode($shopName);
@@ -24,7 +24,7 @@ class Seller extends BaseController
                               ->first();
                               
         if (!$seller) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Vendeur introuvable : " . $shopName);
+            throw PageNotFoundException::forPageNotFound("Vendeur introuvable : " . $shopName);
         }
 
         // Get seller's products
