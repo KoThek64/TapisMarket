@@ -73,7 +73,7 @@ class DataSeeder extends Seeder
         foreach ($shops as $idx => $b) {
             $vid = $this->createUser("seller$idx@mail.com", "Name$idx", "Surname$idx", "SELLER");
             $sellerIds[] = $vid;
-            $sellerStatus = (rand(1, 10) > 5) ? 'VALIDATED' : 'PENDING_VALIDATION';
+            $sellerStatus = (rand(1, 10) > 5 || $idx == 0) ? 'VALIDATED' : 'PENDING_VALIDATION';
             $this->db->table('sellers')->insert([
                 'user_id' => $vid,
                 'shop_name' => $b['name'],
