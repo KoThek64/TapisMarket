@@ -36,7 +36,10 @@ class Reviews extends ClientBaseController
             return redirect()->to('client/orders')->with('error', 'Vous devez avoir acheté et reçu ce produit pour laisser un avis.');
         }
 
-        $product = $this->productModel->find($productId);
+        $product = $this->productModel
+            ->select('products.*, product_photos.file_name as image')
+            ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
+            ->find($productId);
 
         if (!$product) {
             return redirect()->to('client/orders')->with('error', 'Produit introuvable.');
