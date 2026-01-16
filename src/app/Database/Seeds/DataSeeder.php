@@ -150,7 +150,7 @@ class DataSeeder extends Seeder
         $productIds = [];
         $rug_prefixes = ['Royal', 'Antique', 'Minimalist', 'Boho', 'Abstract', 'Classic', 'Imperial', 'Ethnic'];
         $rug_suffixes = ['Tapestry', 'Wool Rug', 'Hand-woven', 'Silk Piece', 'Carpet', 'Flatweave'];
-        $materials = ['Cotton', 'Wool', 'Polyester', 'Polypropylene', 'Jute', 'Wool and cotton', 'Viscose'];
+        $materials = ['Coton', 'Laine', 'Polyester', 'Polypropylène', 'Jute', 'Laine et coton', 'Viscose'];
 
         foreach ($sellerIds as $vid) {
             for ($p = 0; $p < 8; $p++) {
@@ -251,9 +251,7 @@ class DataSeeder extends Seeder
 
                 // Statuts aléatoires
                 $randStat = rand(1, 100);
-                if ($randStat < 10)
-                    $status = 'PENDING_VALIDATION';
-                elseif ($randStat < 30)
+                if ($randStat < 30)
                     $status = 'PAID';
                 elseif ($randStat < 50)
                     $status = 'PREPARING';
@@ -368,8 +366,8 @@ class DataSeeder extends Seeder
             'category_id'       => $cat,
             'title'             => $title, 
             'alias'             => url_title($title, '-', true),
-            'short_description' => "A unique piece: $title.", 
-            'long_description'  => "This $mat rug brings warmth and style to any interior. Hand-selected for its quality and unique pattern.",
+            'short_description' => "Une pièce unique: $title.", 
+            'long_description'  => "Ce tapis fait en $mat apporte chaleur et style à tous les intérieurs. Sélectionné à la main pour sa qualité et son motif unique.",
             'price'             => $price, 
             'stock_available'   => $stock,
             'dimensions'        => rand(150, 300) . 'x' . rand(200, 400), 
