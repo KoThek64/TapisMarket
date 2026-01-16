@@ -33,7 +33,7 @@
             <div
                 class="w-16 h-16 bg-white rounded-lg border border-border flex items-center justify-center overflow-hidden shrink-0">
                 <?php if (!empty($product->image)): ?>
-                    <img src="<?= base_url('uploads/products/' . $product->image) ?>" class="w-full h-full object-cover">
+                    <img src="<?= $product->getImage() ?>" class="w-full h-full object-cover">
                 <?php else: ?>
                     <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

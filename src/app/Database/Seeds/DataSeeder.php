@@ -51,12 +51,9 @@ class DataSeeder extends Seeder
 
         // --- Création des Utilisateurs ---
         echo "Creating Admins...\n";
-        $adminIds = [];
-        $adminIds[] = $this->createUser('admin@tapis.com', 'System', 'Admin', 'ADMIN');
-        $adminIds[] = $this->createUser('staff@tapis.com', 'Moderator', 'Marc', 'ADMIN');
-        foreach ($adminIds as $id) {
-            $this->db->table('administrators')->insert(['user_id' => $id]);
-        }
+        $adminId = $this->createUser('admin@tapis.com', 'System', 'Admin', 'ADMIN');
+        $this->db->table('administrators')->insert(['user_id' => $adminId]);
+        
 
         echo "Creating Sellers...\n";
         $sellerIds = [];
@@ -66,12 +63,17 @@ class DataSeeder extends Seeder
             ['name' => 'Modern Rugs Co', 'desc' => 'Contemporary designs.'],
             ['name' => 'Luxury & Tradition', 'desc' => 'Rare collection rugs.'],
             ['name' => 'Eco-Rugs', 'desc' => 'Recycled and natural materials.'],
+            ['name' => 'Oriental Rugs For bro', 'desc' => 'Silk and wool specialist.'],
+            ['name' => 'Félix carpet', 'desc' => 'Direct import from Morocco.'],
+            ['name' => 'Luxury Rugs', 'desc' => 'Contemporary designs.'],
+            ['name' => 'Oriental & Tradition', 'desc' => 'Rare collection rugs.'],
+            ['name' => 'Neo-Rugs', 'desc' => 'Recycled and natural materials.'],
         ];
 
         foreach ($shops as $idx => $b) {
             $vid = $this->createUser("seller$idx@mail.com", "Name$idx", "Surname$idx", "SELLER");
             $sellerIds[] = $vid;
-            $sellerStatus = (rand(1, 10) > 2) ? 'VALIDATED' : 'PENDING_VALIDATION';
+            $sellerStatus = (rand(1, 10) > 5 || $idx == 0) ? 'VALIDATED' : 'PENDING_VALIDATION';
             $this->db->table('sellers')->insert([
                 'user_id' => $vid,
                 'shop_name' => $b['name'],
@@ -238,7 +240,7 @@ class DataSeeder extends Seeder
         $existingReviews = [];
 
         foreach ($clientIds as $cid) {
-            $nbOrders = rand(1, 5);
+            $nbOrders = rand(1, 20);
             for ($c = 0; $c < $nbOrders; $c++) {
                 $pId = $productIds[array_rand($productIds)];
                 $qty = rand(1, 2);
@@ -268,7 +270,7 @@ class DataSeeder extends Seeder
                 // Création commande
                 $this->createOrder($cid, $pId, $qty, $price, $dateStr, $status);
 
-                if ($status === 'DELIVERED' && rand(1, 10) <= 8) {
+                if ($status === 'DELIVERED') {
                     $uniqueKey = $cid . '-' . $pId;
 
                     // Vérifie qu'on a pas déjà noté ce produit pour ce client
