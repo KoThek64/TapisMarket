@@ -156,8 +156,9 @@ class OrderItemModel extends Model
     // Pour la page détail commande
     public function getPaginatedOrderItems(int $orderId, int $perPage = 10)
     {
-        return $this->select('order_items.*, products.title, products.alias, product_photos.file_name as image')
+        return $this->select('order_items.*, products.title, products.alias, product_photos.file_name as image, sellers.shop_name')
             ->join('products', 'products.id = order_items.product_id')
+            ->join('sellers', 'sellers.user_id = products.seller_id', 'left')
             ->join('product_photos', 'product_photos.product_id = products.id AND product_photos.display_order = 1', 'left')
             ->where('order_id', $orderId)
             ->paginate($perPage);

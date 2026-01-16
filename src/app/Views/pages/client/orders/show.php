@@ -68,6 +68,7 @@ $statusColor = match ($status) {
                                 <h4 class="font-bold text-primary text-lg mb-1 leading-tight">
                                     <?= esc($item->title ?? 'Produit #' . $item->product_id) ?></h4>
                                 <p class="text-xs text-muted">Ref: <?= esc($item->alias ?? 'N/A') ?></p>
+                                <p class="text-xs text-accent mt-1">Vendu par : <?= esc($item->shop_name ?? 'Inconnu') ?></p>
                                 <div class="mt-2 text-sm">
                                     <span class="text-muted">Quantité :</span> <span
                                         class="font-bold text-primary"><?= $item->quantity ?></span>
@@ -116,7 +117,7 @@ $statusColor = match ($status) {
                         <?= esc($user->firstname . ' ' . $user->lastname) ?></p>
                     <?php if (!empty($order->delivery_street)): ?>
                         <p><?= esc($order->delivery_street) ?></p>
-                        <p><?= esc($order->delivery_postal_code) ?>     <?= esc($order->delivery_city) ?></p>
+                        <p><?= esc($order->delivery_postal_code) ?> <?= esc($order->delivery_city) ?></p>
                         <p class="uppercase text-xs font-bold text-muted mt-1"><?= esc($order->delivery_country) ?></p>
                     <?php else: ?>
                         <p class="text-muted italic">Adresse non renseignée</p>
@@ -195,4 +196,3 @@ $statusColor = match ($status) {
 </div>
 
 <?= $this->endSection() ?>
-

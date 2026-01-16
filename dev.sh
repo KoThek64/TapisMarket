@@ -6,7 +6,7 @@ echo "----------------------------------"
 echo "|     Building podman images     |"
 echo "----------------------------------"
 podman-compose -f compose.dev.yml down
-podman-compose -f compose.dev.yml up -d
+podman-compose -f compose.dev.yml --env-file dev.env up -d
 
 if [ ! -d ../src/vendor ]; then
 
