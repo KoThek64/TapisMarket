@@ -4,7 +4,7 @@ import os
 import sys
 import sphinx_rtd_theme
 
-project = 'Marketplace Tapis'
+project = 'Tapis Market'
 copyright = '2025, Équipe 4.02'
 author = 'Aignelot, Bernard, Filmont, Lachaise, Plu'
 version = '1.0'

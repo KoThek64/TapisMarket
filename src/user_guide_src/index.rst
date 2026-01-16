@@ -8,7 +8,6 @@ Bienvenue sur la documentation technique du projet Marketplace Tapis.
     :maxdepth: 3
 
     general/installation
-    general/deploy
     general/user_manual
     general/architecture
     general/security
