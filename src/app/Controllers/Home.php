@@ -10,7 +10,7 @@ class Home extends BaseController
     {
         $productModel = new ProductModel();
 
-        $data['products'] = $productModel->getAllWithImage(6);
+        $data['products'] = $productModel->getAllWithImage(8);
 
         return view('pages/home', $data);
     }
