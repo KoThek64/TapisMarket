@@ -8,7 +8,7 @@ Cette page détaille les différentes méthodes pour lancer le projet, que ce so
 1. Production (Podman & Conteneurs)
 ***********************************
 
-C'est la méthode recommandée pour le déploiement en production. Le projet utilise ``podman`` et ``podman-compose``.
+Le projet utilise ``podman`` et ``podman-compose``.
 
 Lancer le projet
 ================

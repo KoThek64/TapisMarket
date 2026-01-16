@@ -1,8 +1,8 @@
 #######################
-Marketplace Tapis
+Tapis Market
 #######################
 
-Bienvenue sur la documentation technique du projet Marketplace Tapis.
+Bienvenue sur la documentation technique du projet Marketplace de Tapis.
 
 .. toctree::
     :maxdepth: 3
