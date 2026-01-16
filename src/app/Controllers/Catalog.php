@@ -11,10 +11,24 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Catalog extends BaseController
 {
+
+    protected $productModel;
+    protected $categoryModel;
+    protected $photoModel;
+    protected $reviewModel;
+
+    public function initController($request, $response, $logger)
+    {
+        parent::initController($request, $response, $logger);
+        
+        $this->productModel = new ProductModel();
+        $this->categoryModel = new CategoryModel();
+        $this->photoModel = new ProductPhotoModel();
+        $this->reviewModel = new ReviewModel();
+    }
+
     public function index()
     {
-        $productModel = new ProductModel();
-        $categoryModel = new CategoryModel();
 
         // Récupération des filtres
         $filters = [
@@ -32,14 +46,14 @@ class Catalog extends BaseController
         ];
 
         // Bounds for sliders
-        $dimBounds = $productModel->getDimensionBounds();
+        $dimBounds = $this->productModel->getDimensionBounds();
 
         $data = [
-            'products' => $productModel->filterProducts($filters, 12),
-            'pager' => $productModel->pager,
-            'categories' => $categoryModel->findAll(),
-            'materials' => $productModel->getUniqueMaterials(),
-            'sellers' => $productModel->getActiveSellers(),
+            'products' => $this->productModel->filterProducts($filters, 12),
+            'pager' => $this->productModel->pager,
+            'categories' => $this->categoryModel->findAll(),
+            'materials' => $this->productModel->getUniqueMaterials(),
+            'sellers' => $this->productModel->getActiveSellers(),
             'searchTerm' => $filters['search'],
             'activeSection' => $this->request->getGet('active_section'),
 
@@ -70,11 +84,10 @@ class Catalog extends BaseController
     public function search()
     {
         $term = $this->request->getGet('q');
-        $productModel = new ProductModel();
 
         $data = [
-            'products' => $productModel->search($term ?? '', 12),
-            'pager' => $productModel->pager,
+            'products' => $this->productModel->search($term ?? '', 12),
+            'pager' => $this->productModel->pager,
             'searchTerm' => $term
         ];
 
@@ -87,24 +100,19 @@ class Catalog extends BaseController
             return redirect()->to('pages/catalog');
         }
 
-        $productModel = new ProductModel();
-
-        $product = $productModel->getByAlias($alias);
+        $product = $this->productModel->getByAlias($alias);
 
         if (!$product) {
             throw PageNotFoundException::forPageNotFound('Produit introuvable');
         }
 
         // Récupérer toutes les photos
-        $photoModel = new ProductPhotoModel();
-        $photos = $photoModel->getPhotosByProduct($product->id);
+        $photos = $this->photoModel->getPhotosByProduct($product->id);
 
+        $reviews = $this->reviewModel->getReviewsForProduct($product->id);
+        $reviewStats = $this->reviewModel->getProductStats($product->id);
 
-        $reviewModel = new ReviewModel();
-        $reviews = $reviewModel->getReviewsForProduct($product->id);
-        $reviewStats = $reviewModel->getProductStats($product->id);
-
-        $similarProducts = $productModel->getSimilarProducts($product->category_id, $product->id);
+        $similarProducts = $this->productModel->getSimilarProducts($product->category_id, $product->id);
 
         $data = [
             'product' => $product,

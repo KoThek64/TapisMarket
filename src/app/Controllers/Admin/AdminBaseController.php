@@ -21,7 +21,7 @@ class AdminBaseController extends BaseController
     private array $loadedModels = [];
 
     // Initialisation des modèles communs et des données admin
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    public function initController($request, $response, $logger)
     {
         parent::initController($request, $response, $logger);
 

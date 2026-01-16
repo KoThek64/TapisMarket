@@ -22,7 +22,7 @@ class ClientBaseController extends BaseController
     private array $loadedModels = [];
 
     // Initialisation des modèles communs et des données client
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    public function initController($request, $response, $logger)
     {
         parent::initController($request, $response, $logger);
         $this->clientData['user'] = $this->getCurrentUser();

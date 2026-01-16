@@ -10,8 +10,10 @@ class Photos extends SellerBaseController
 {
     protected $photoModel;
 
-    public function __construct()
+    public function initController($request, $response, $logger)
     {
+        parent::initController($request, $response, $logger);
+        
         $this->photoModel = model(ProductPhotoModel::class);
     }
 

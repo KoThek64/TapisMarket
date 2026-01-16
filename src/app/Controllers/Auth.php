@@ -25,7 +25,7 @@ class Auth extends BaseController
     protected $cartItemModel;
     protected $productModel;
 
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    public function initController($request, $response, $logger)
     {
         parent::initController($request, $response, $logger);
 

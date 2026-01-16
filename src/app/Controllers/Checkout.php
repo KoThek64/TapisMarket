@@ -14,10 +14,11 @@ class Checkout extends BaseController
     protected $db;
     protected $addressModel;
 
-    public function __construct()
+    public function initController($request, $response, $logger)
     {
+        parent::initController($request, $response, $logger);
+
         $this->db = \Config\Database::connect();
-        helper('auth');
         $this->userId = user_id();
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();

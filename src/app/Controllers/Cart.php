@@ -13,14 +13,17 @@ class Cart extends BaseController
     protected $cartModel;
     protected $cartItemModel;
     protected $userId;
+    protected $productModel;
 
-    public function __construct()
+    public function initController($request, $response, $logger)
     {
+        parent::initController($request, $response, $logger);
+        
         $this->cartModel = new CartModel();
         $this->cartItemModel = new CartItemModel();
+        $this->productModel = new ProductModel();
 
-        helper('auth');
-        $this->userId = user_id(); // Récupère l'ID depuis la session
+        $this->userId = user_id();
     }
 
     private function getCartUserId()
@@ -166,7 +169,6 @@ class Cart extends BaseController
         if (!$productId)
             return redirect()->back();
 
-        $productModel = new ProductModel();
 
         if ($this->userId) {
             $cart = $this->cartModel->getActiveCart($this->userId);
@@ -179,7 +181,7 @@ class Cart extends BaseController
             $currentQty = $existingItem ? $existingItem->quantity : 0;
             $newTotalQty = $currentQty + $quantity;
 
-            if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
+            if ($this->productModel->hasSufficientStock($productId, $newTotalQty)) {
                 if ($existingItem) {
                     $this->cartItemModel->updateQuantity($cart->id, $productId, $newTotalQty);
                 } else {
@@ -198,7 +200,7 @@ class Cart extends BaseController
             $currentQty = $cart[$productId] ?? 0;
             $newTotalQty = $currentQty + $quantity;
 
-            if ($productModel->hasSufficientStock($productId, $newTotalQty)) {
+            if ($this->productModel->hasSufficientStock($productId, $newTotalQty)) {
                 $cart[$productId] = $newTotalQty;
                 $session->set('guest_cart', $cart);
             } else {
