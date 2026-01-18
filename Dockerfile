@@ -66,6 +66,14 @@ composer install --no-interaction --optimize-autoloader
 rm -f /var/www/html/.env
 chown -R www-data:www-data /var/www/html
 
+echo ----------------------------
+echo "Configuration Apache MPM"
+echo ----------------------------
+# Désactiver TOUS les MPM d'abord, puis activer seulement prefork
+rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
+ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
+ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
+
 cat <<ENTRY > /var/www/html/entry.sh
 #!/bin/sh
 set -e
@@ -74,18 +82,14 @@ chown -R www-data:www-data /var/www/html/writable
 # Run migrations automatiquement au démarrage
 php /var/www/html/spark migrate --all || true
 
-apache2-foreground
+exec apache2-foreground
 ENTRY
 
 chmod +x /var/www/html/entry.sh
 
 echo ----------------------------
-echo "Configuration Apache"
+echo "Configuration Apache Sites"
 echo ----------------------------
-# Désactiver les MPM en conflit - garder seulement prefork
-a2dismod mpm_event mpm_worker || true
-a2enmod mpm_prefork || true
-
 a2dissite 000-default || true
 a2enmod rewrite
 

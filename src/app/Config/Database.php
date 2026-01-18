@@ -51,6 +51,20 @@ class Database extends Config
         ],
     ];
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Override with environment variables (for Railway deployment)
+        if (getenv('MYSQLHOST')) {
+            $this->default['hostname'] = getenv('MYSQLHOST');
+            $this->default['username'] = getenv('MYSQLUSER');
+            $this->default['password'] = getenv('MYSQLPASSWORD');
+            $this->default['database'] = getenv('MYSQLDATABASE');
+            $this->default['port'] = (int) getenv('MYSQLPORT') ?: 3306;
+        }
+    }
+
     /**
      * This database connection is used when running PHPUnit database tests.
      *
