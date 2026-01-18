@@ -31,6 +31,19 @@ class App extends BaseConfig
      */
     public array $allowedHostnames = [];
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Auto-detect baseURL for Railway or other deployments
+        if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] !== 'localhost:8080') {
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+                        (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+                        ? 'https' : 'http';
+            $this->baseURL = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/';
+        }
+    }
+
     /**
      * --------------------------------------------------------------------------
      * Index File
