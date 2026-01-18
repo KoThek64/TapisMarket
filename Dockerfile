@@ -108,6 +108,13 @@ VHOST
 # Run migrations automatiquement au démarrage
 php /var/www/html/spark migrate --all || true
 
+# Run seeder only once (check if marker file exists)
+if [ ! -f /var/www/html/writable/.seeded ]; then
+    echo "Running DataSeeder for the first time..."
+    php /var/www/html/spark db:seed DataSeeder || true
+    touch /var/www/html/writable/.seeded
+fi
+
 exec apache2-foreground
 ENTRY
 
