@@ -74,7 +74,7 @@ rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
 ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
 ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
 
-cat <<ENTRY > /var/www/html/entry.sh
+cat <<'ENTRY' > /var/www/html/entry.sh
 #!/bin/bash
 set -e
 chown -R www-data:www-data /var/www/html/writable
@@ -84,23 +84,13 @@ rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
 ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
 ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
 
-# Run migrations automatiquement au démarrage
-php /var/www/html/spark migrate --all || true
+# Configure port at runtime (Railway provides PORT env var)
+PORT=${PORT:-8080}
+echo "Listen ${PORT}" > /etc/apache2/ports.conf
 
-exec apache2-foreground
-ENTRY
-
-chmod +x /var/www/html/entry.sh
-
-echo ----------------------------
-echo "Configuration Apache Sites"
-echo ----------------------------
-a2dissite 000-default || true
-a2enmod rewrite
-
-# Créer le virtual host pour CodeIgniter
-cat <<VHOST > /etc/apache2/sites-available/ci.conf
-<VirtualHost *:\${PORT:-8080}>
+# Configure VirtualHost at runtime
+cat > /etc/apache2/sites-enabled/000-default.conf <<VHOST
+<VirtualHost *:${PORT}>
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/html/public
 
@@ -115,11 +105,19 @@ cat <<VHOST > /etc/apache2/sites-available/ci.conf
 </VirtualHost>
 VHOST
 
-a2ensite ci.conf
+# Run migrations automatiquement au démarrage
+php /var/www/html/spark migrate --all || true
 
-# Configurer le port dynamique pour Railway
-sed -i "s/Listen 80/Listen \${PORT:-8080}/g" /etc/apache2/ports.conf
-sed -i "s/Listen 8080/Listen \${PORT:-8080}/g" /etc/apache2/ports.conf
+exec apache2-foreground
+ENTRY
+
+chmod +x /var/www/html/entry.sh
+
+echo ----------------------------
+echo "Configuration Apache Sites"
+echo ----------------------------
+a2dissite 000-default || true
+a2enmod rewrite
 
 EOF
 
