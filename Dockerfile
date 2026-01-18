@@ -82,6 +82,10 @@ chmod +x /var/www/html/entry.sh
 echo ----------------------------
 echo "Configuration Apache"
 echo ----------------------------
+# Désactiver les MPM en conflit - garder seulement prefork
+a2dismod mpm_event mpm_worker || true
+a2enmod mpm_prefork || true
+
 a2dissite 000-default || true
 a2enmod rewrite
 
