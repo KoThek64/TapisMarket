@@ -75,9 +75,14 @@ ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
 ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
 
 cat <<ENTRY > /var/www/html/entry.sh
-#!/bin/sh
+#!/bin/bash
 set -e
 chown -R www-data:www-data /var/www/html/writable
+
+# Fix MPM at runtime - ensure only one MPM is loaded
+rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
+ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
+ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
 
 # Run migrations automatiquement au démarrage
 php /var/www/html/spark migrate --all || true
