@@ -13,7 +13,6 @@
   <img src="https://img.shields.io/badge/CodeIgniter-4-EF4223?logo=codeigniter&logoColor=white" alt="CodeIgniter 4">
   <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white" alt="MySQL 8.0">
   <img src="https://img.shields.io/badge/Hosted_on-Railway-0B0D0E?logo=railway&logoColor=white" alt="Railway">
-  <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License">
 </p>
 
 ---
@@ -141,12 +140,6 @@ podman-compose -f conteneur/compose.prod.yml exec web-prod php spark db:seed Dat
 ```
 
 Ouvrir [http://localhost:8080](http://localhost:8080)
-
----
-
-## 📄 Licence
-
-Ce projet est sous licence **MIT**. Voir le fichier [LICENSE](src/LICENSE) pour plus de détails.
 
 ---
 
