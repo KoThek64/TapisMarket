@@ -95,12 +95,12 @@ cat > /etc/apache2/sites-enabled/000-default.conf <<VHOST
     DocumentRoot /var/www/html/public
 
     # Pass environment variables to PHP
-    PassEnv CI_ENVIRONMENT
-    PassEnv MYSQLDATABASE
-    PassEnv MYSQLHOST
-    PassEnv MYSQLPASSWORD
-    PassEnv MYSQLPORT
-    PassEnv MYSQLUSER
+    SetEnv CI_ENVIRONMENT "${CI_ENVIRONMENT:-production}"
+    SetEnv MYSQLDATABASE "${MYSQLDATABASE}"
+    SetEnv MYSQLHOST "${MYSQLHOST}"
+    SetEnv MYSQLPASSWORD "${MYSQLPASSWORD}"
+    SetEnv MYSQLPORT "${MYSQLPORT}"
+    SetEnv MYSQLUSER "${MYSQLUSER}"
 
     <Directory /var/www/html/public>
         Options Indexes FollowSymLinks
