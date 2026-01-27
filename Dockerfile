@@ -79,6 +79,18 @@ cat <<'ENTRY' > /var/www/html/entry.sh
 set -e
 chown -R www-data:www-data /var/www/html/writable
 
+# Create .env file at runtime with Railway environment variables
+cat > /var/www/html/.env <<ENVFILE
+CI_ENVIRONMENT = ${CI_ENVIRONMENT:-production}
+database.default.hostname = ${MYSQLHOST:-localhost}
+database.default.database = ${MYSQLDATABASE:-railway}
+database.default.username = ${MYSQLUSER:-root}
+database.default.password = ${MYSQLPASSWORD:-}
+database.default.DBDriver = MySQLi
+database.default.port = ${MYSQLPORT:-3306}
+ENVFILE
+chown www-data:www-data /var/www/html/.env
+
 # Fix MPM at runtime - ensure only one MPM is loaded
 rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
 ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
