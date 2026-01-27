@@ -133,6 +133,7 @@ echo "Configuration Apache Sites"
 echo ----------------------------
 a2dissite 000-default || true
 a2enmod rewrite
+a2enmod env
 
 EOF
 
