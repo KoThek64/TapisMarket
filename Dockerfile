@@ -94,6 +94,14 @@ cat > /etc/apache2/sites-enabled/000-default.conf <<VHOST
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/html/public
 
+    # Pass environment variables to PHP
+    PassEnv CI_ENVIRONMENT
+    PassEnv MYSQLDATABASE
+    PassEnv MYSQLHOST
+    PassEnv MYSQLPASSWORD
+    PassEnv MYSQLPORT
+    PassEnv MYSQLUSER
+
     <Directory /var/www/html/public>
         Options Indexes FollowSymLinks
         AllowOverride All
