@@ -1,6 +1,5 @@
-# 🏪 TapisMarket
-
-> Marketplace en ligne spécialisée dans la vente de tapis artisanaux et modernes.
+<h1 align="center">🏪 TapisMarket</h1>
+<p align="center"><em>Marketplace en ligne spécialisée dans la vente de tapis artisanaux et modernes.</em></p>
 
 <p align="center">
   <a href="https://tapismarket.up.railway.app">
